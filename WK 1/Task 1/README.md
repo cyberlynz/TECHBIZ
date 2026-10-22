@@ -1,9 +1,9 @@
 # Week 1, Task 1 — Cybersecurity and Ethical Hacking: Introduction
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Week-01-0F172A?style=flat-square" alt="Week 1" />
-  <img src="https://img.shields.io/badge/Task-01-6366F1?style=flat-square" alt="Task 1" />
-  <img src="https://img.shields.io/badge/Topic-Cybersecurity-14B8A6?style=flat-square" alt="Cybersecurity" />
+  <img src="https://img.shields.io/badge/Task-01-404040?style=flat-square&labelColor=6366F1" alt="Task 1" />
+  <img src="https://img.shields.io/badge/Skill-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity" />
+  <img src="https://img.shields.io/badge/Focus-Ethical%20Hacking-E87500?style=flat-square&labelColor=000000&logo=kalilinux&logoColor=white" alt="Ethical hacking" />
 </p>
 
 **Internship:** Ethical Hacking Internship, TechBiz Academy  

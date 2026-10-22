@@ -1,10 +1,9 @@
 # Week 1, Task 3 — Building a Hacking Lab: VirtualBox and Kali Linux
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Week-01-0A1F44?style=flat-square" alt="Week 1" />
-  <img src="https://img.shields.io/badge/Task-03-2563EB?style=flat-square" alt="Task 3" />
-  <img src="https://img.shields.io/badge/Virtualization-VirtualBox-183A61?style=flat-square&logo=virtualbox&logoColor=white" alt="VirtualBox" />
-  <img src="https://img.shields.io/badge/OS-Kali%20Linux-557C94?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux" />
+  <img src="https://img.shields.io/badge/Week-01-0F172A?style=flat-square" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Task-03-6366F1?style=flat-square" alt="Task 3" />
+  <img src="https://img.shields.io/badge/Lab-Kali%20Linux%20%2B%20VirtualBox-14B8A6?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux and VirtualBox lab" />
 </p>
 
 **Internship:** Ethical Hacking, TechBiz Academy  

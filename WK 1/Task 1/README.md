@@ -1,110 +1,96 @@
-# WK 1 — Task 1: Cybersecurity & Ethical Hacking — Introduction
+# Week 1, Task 1 — Cybersecurity and Ethical Hacking: Introduction
 
-[← Back to Week 1](../README.md) · [Task 2 →](../Task%202/README.md) · [Task 3 →](../Task%203/README.md)
+**Internship:** Ethical Hacking Internship, TechBiz Academy  
+**Author:** Collins Okike
 
-This task covers the foundational concepts in the Week 1 report. The notes below follow the submitted report and distinguish concepts studied from practical work.
+## 1. Introduction
 
----
+In my first week of the internship, I learned the basics of cybersecurity and how ethical hacking helps identify security weaknesses.
 
-# 🛡️ Task 1 — Cybersecurity and Ethical Hacking
+Cybersecurity means protecting computers, networks, applications and data from people who should not have access to them. Ethical hacking is one part of cybersecurity. It involves testing a system with the owner's permission to find weaknesses before attackers can exploit them.
 
-## Objective
+## 2. The CIA Triad
 
-Understand the basic purpose of cybersecurity, the CIA Triad, different hacker types, the five phases of ethical hacking, and the distinction between vulnerability assessment and penetration testing.
+The CIA Triad explains three important parts of keeping information secure: Confidentiality, Integrity and Availability.
 
-## 1. The CIA Triad
+![CIA Triad diagram](evidence/01-cia-triad.jpg)
 
-The **CIA Triad** is a simple model for thinking about what security is meant to protect: confidentiality, integrity, and availability.
+- **Confidentiality:** Only people who are allowed to see information should be able to access it. In a hospital, for example, only the staff treating a patient should be able to open that patient's records. Passwords, access controls and encryption help protect confidentiality.
+- **Integrity:** Information should remain correct and should not be changed without permission. If someone changed the amount in a bank transfer, the bank's records could no longer be trusted. Hashing and digital signatures can help detect changes.
+- **Availability:** Systems and data should be available when people need them. Backups and extra servers can help keep services running. DDoS attacks and ransomware can affect availability.
 
-| Principle | Meaning | Real-world example | Security relevance |
-|---|---|---|---|
-| **Confidentiality** | Information is only accessible to people who are authorized to see it. | In a hospital, only staff with the appropriate access should be able to view a patient's records. | Access controls, strong authentication, and encryption help protect sensitive information. |
-| **Integrity** | Information remains accurate and is not changed without authorization. | A bank transfer record must not be altered by an unauthorized person. | Hashes and digital signatures can help detect unauthorized changes. |
-| **Availability** | Systems and information are accessible when authorized users need them. | Customers should be able to access an online banking service when it is needed. | Backups, resilient infrastructure, and recovery planning help maintain availability. |
+### Real example: WannaCry
 
-### A real-world example: WannaCry
+In 2017, the WannaCry ransomware locked files on computers around the world. Hospitals in the UK had to cancel appointments because they could not use their systems. This mainly affected availability and showed me that cyberattacks can affect real people, not just computers.
 
-The WannaCry ransomware outbreak in 2017 disrupted computer systems around the world, including healthcare services in the United Kingdom. Some hospitals had to cancel appointments because systems and information were unavailable. This illustrates how a cyber incident can affect people and services, not just computers.
+## 3. Types of hackers
 
-**My takeaway:** A system can have a security problem even if information has not been stolen. Unauthorized changes affect integrity, while an outage can affect availability.
+Hackers are often grouped by the colour of their hat. The main differences are permission and intention.
 
-## 2. White, Black, and Grey Hat Hackers
-
-The main differences are **authorization, intention, and conduct**.
-
-| Type | Authorization | Typical intention | Example |
-|---|---|---|---|
-| **White hat** | Has permission and works within an agreed scope. | Identify weaknesses and help improve security. | A penetration tester hired to test a company's website. |
-| **Black hat** | Acts without authorization. | May steal information, make money illegally, disrupt services, or cause harm. | A criminal who deploys ransomware or steals payment details. |
-| **Grey hat** | May find or test a weakness without permission, even if the intention is not malicious. | Often claims to expose a weakness or alert its owner. | Someone tests a website without being asked and then reports a discovered issue. |
-
-A claimed good intention does not replace permission. Ethical testing requires authorization, an agreed scope, and responsible reporting.
-
-## 3. Five Phases of Ethical Hacking
-
-The five phases describe a common sequence used to explain how a security test or attack may progress.
-
-```mermaid
-flowchart LR
-    A["1. Reconnaissance"] --> B["2. Scanning"]
-    B --> C["3. Gaining Access"]
-    C --> D["4. Maintaining Access"]
-    D --> E["5. Covering Tracks"]
-```
-
-| Phase | What it means | Example of the activity |
-|---|---|---|
-| **1. Reconnaissance** | Gather information about the target to understand its systems and possible exposure. | Reviewing public domain information and other permitted sources. |
-| **2. Scanning** | Identify live systems, open ports, running services, and possible weaknesses. | Using Nmap or an authorized vulnerability scanner. |
-| **3. Gaining Access** | Test whether a weakness can be used to access a system or application. | Validating a finding within the approved scope. |
-| **4. Maintaining Access** | Assess whether access could persist after an initial compromise. | In a specifically authorized test, checking persistence risk and then removing test artifacts. |
-| **5. Covering Tracks** | Understand how real attackers may attempt to conceal activity. | Defenders may look for deleted logs or other evidence of tampering. |
-
-**Important ethical distinction:** Covering tracks describes attacker behaviour in the traditional five-phase model. During an authorized assessment, I should document my actions and preserve evidence rather than conceal my activity or delete logs.
-
-## 4. Penetration Testing vs Vulnerability Assessment
-
-These activities are related, but they answer different questions.
-
-| Comparison | Vulnerability assessment | Penetration test |
-|---|---|---|
-| **Main goal** | Find and prioritize a broad range of weaknesses. | Test selected weaknesses to understand their real-world impact. |
-| **Typical approach** | Often relies heavily on automated scanning and analysis. | Uses targeted manual testing and tools; automation may also be used. |
-| **Exploitation** | Generally identifies weaknesses without attempting to exploit them. | May safely exploit weaknesses within the agreed scope. |
-| **Output** | A prioritized list of findings and remediation guidance. | Evidence, validated attack paths, impact, and remediation advice. |
-| **Useful question** | “What weaknesses may exist?” | “What could an attacker achieve through these weaknesses?” |
-
-Both approaches are useful. An assessment provides visibility into possible weaknesses, while a penetration test helps validate the impact of selected findings. The testing scope and permission must be agreed before work begins.
-
-Penetration tests may also be described as **black box** (the tester begins with little or no internal information), **grey box** (some information is supplied), or **white box** (substantial internal information is supplied).
-
-## 5. Cybersecurity Career Paths
-
-During this task, I explored several roles and how they contribute to security.
-
-| Career path | Main responsibility |
+| Type | What I learned |
 |---|---|
-| **Penetration Tester / Red Teamer** | Tests security with permission to identify weaknesses; red teams may simulate attacker behaviour across a broader engagement. |
-| **SOC / Security Analyst** | Monitors alerts and logs, investigates suspicious activity, and escalates or reports incidents. |
-| **Security Engineer** | Implements and maintains security controls, secure configurations, and protective technologies. |
-| **Incident Responder** | Helps contain incidents, investigate what happened, and support recovery. |
-| **Digital Forensics Examiner** | Collects and examines digital evidence from systems and logs. |
-| **Malware Analyst** | Studies malicious software to understand its behaviour and how it can be detected. |
-| **GRC Analyst** | Supports governance, risk management, policies, compliance activities, and audits. |
+| **White hat** | Works with permission to improve security. Ethical hackers and penetration testers fall into this group. |
+| **Black hat** | Attacks systems without permission to steal data, make money or cause damage. |
+| **Grey hat** | May find and report a weakness without being asked, but still acts without permission and can break the law. |
 
-This overview helped me understand that cybersecurity includes both offensive testing and defensive work. The roles may overlap, but each has a different primary responsibility.
+What stood out to me is that ethical hackers and criminals may have similar technical skills. Permission, an agreed scope and proper reporting make a major difference.
 
-## 6. Learning Resources and Takeaways
+## 4. The five phases of ethical hacking
 
-I completed the following TryHackMe learning activities for this task:
+The five phases I studied were:
 
-- **[Pentesting Fundamentals](https://tryhackme.com/)** — introductory penetration-testing concepts.
-- **[Intro to Offensive Security](https://tryhackme.com/)** — an introduction to offensive security.
-- **Cybersecurity Careers** — an overview of different career paths.
+1. **Reconnaissance:** Gathering information about a target, such as domain names, IP addresses, technology and publicly available information.
+2. **Scanning:** Checking for live systems, open ports, services and known weaknesses. Tools such as Nmap and vulnerability scanners can be used for this stage.
+3. **Gaining access:** Using a discovered weakness to access a system or application, only where it is allowed by the agreed scope.
+4. **Maintaining access:** Checking whether access could be retained after the initial entry. In an authorized test, this must be controlled and documented.
+5. **Covering tracks:** Real attackers may try to hide activity by deleting logs. In an ethical test, I should document what I do rather than hide it.
 
-The report also references beginner videos about ethical hacking and the CIA Triad.
+These phases also help defenders understand possible attacker behaviour. For example, repeated port scans in firewall logs may indicate scanning activity, while cleared security logs can be a sign of attempted concealment.
 
-**What I learned:** Cybersecurity is about protecting information and systems. Ethical hacking uses testing techniques with authorization to help identify weaknesses. The most important distinction is not simply which tools someone uses, but whether the work is authorized, scoped, documented, and reported responsibly.
+## 5. Penetration testing vs. vulnerability assessment
 
----
+A vulnerability assessment identifies weaknesses and ranks them by severity. It often uses automated tools and does not exploit the weaknesses. A penetration test goes further by attempting to exploit selected weaknesses, within the agreed scope, to understand their potential impact.
 
+| Area | Vulnerability assessment | Penetration test |
+|---|---|---|
+| Goal | Find and rank weaknesses | Show the real impact of selected weaknesses |
+| Method | Often uses automated tools | Targeted testing, often with manual work |
+| Exploitation | Identifies weaknesses without exploiting them | May exploit weaknesses within the approved scope |
+| Result | Prioritized list of findings | Evidence, attack path and recommendations |
+
+I learned that both approaches are useful: an assessment gives a wider view of weaknesses, while a penetration test demonstrates how some of them could be used. I also learned the terms black-box, grey-box and white-box testing, which describe how much information a tester receives before starting.
+
+## 6. Ethics and rules of penetration testing
+
+In the Pentesting Fundamentals room, I learned that penetration testing also involves legal responsibilities. Before a test begins, the tester and client agree on written permission, scope and rules. Going outside that scope can be illegal. I also came across testing methodologies such as OSSTMM and OWASP.
+
+## 7. Cybersecurity career fields
+
+I read about both offensive and defensive security work and some of the roles in cybersecurity.
+
+| Role | Main responsibility |
+|---|---|
+| Penetration tester / red teamer | Tests systems with permission to find weaknesses and simulate attacker behaviour |
+| Security Operations Centre (SOC) analyst | Monitors alerts and logs, investigates suspicious activity and reports incidents |
+| Security engineer | Builds and maintains protections such as firewalls, access controls and secure configurations |
+| Incident responder | Helps contain and recover from attacks and investigates what happened |
+| Digital forensics examiner | Collects and studies evidence from devices and logs |
+| Malware analyst | Studies malicious software to understand how it works and how to detect it |
+| GRC analyst | Works on governance, risk, compliance, policies and audits |
+
+## 8. Practical work — TryHackMe
+
+I completed these three free TryHackMe rooms for this task.
+
+### Pentesting Fundamentals
+![Pentesting Fundamentals completed](evidence/02-pentesting-fundamentals-completed.jpg)
+
+### Offensive Security Intro
+![Offensive Security Intro completed](evidence/03-offensive-security-intro-completed.jpg)
+
+### Careers in Cybersecurity
+![Careers in Cybersecurity completed](evidence/04-careers-in-cybersecurity-completed.jpg)
+
+## 9. Conclusion
+
+This task taught me the basic concepts I need for the rest of the internship. The CIA Triad helped me understand what security protects, the different types of hackers helped me understand the importance of permission, and the five phases showed me how an ethical hacking engagement can progress. I also learned the difference between identifying vulnerabilities and testing their impact. I want to keep practising these concepts in future labs.

@@ -1,162 +1,130 @@
-# WK 1 — Task 2: Networking Basics — IP, Ports, Protocols & OSI Model
+# Week 1, Task 2 — Networking Basics: IP, Ports, Protocols & OSI Model
 
-[← Back to Week 1](../README.md) · [Task 1](../Task%201/README.md) · [Task 3 →](../Task%203/README.md)
+**Internship:** Ethical Hacking, TechBiz Academy  
+**Author:** Collins Okike
 
-This task records the networking concepts and checks covered in the Week 1 report.
+## 1. Introduction
 
----
+For this task I learned the basics of networking, which is important for ethical hacking. Before I can test or protect a network, I need to understand how devices find each other and send data. I covered IP addresses, MAC addresses, the OSI model, common ports, and the differences between TCP and UDP.
 
-# 🌐 Task 2 — Networking Basics
+I completed the TryHackMe rooms **What is Networking?**, **Networking Concepts** and **Intro to LAN**. I used Networking Concepts and Intro to LAN as free alternatives for the premium OSI Model and Packets & Frames rooms. I also watched videos about the OSI model and IP addresses and ports, and checked my Windows computer's private IP from the command line.
 
-## Objective
+## 2. IP addresses and MAC addresses
 
-Learn the networking concepts needed to understand how devices communicate and how security tools identify hosts, services, and network traffic.
+### IPv4 vs. IPv6
 
-## 1. IP and MAC Addresses
+An IP address identifies a device on a network and helps route data to it. IPv4 is 32 bits long and is written as four numbers separated by dots. IPv6 is 128 bits long and uses hexadecimal groups separated by colons. IPv6 was introduced partly because IPv4 addresses were running out; groups of zeros can also be shortened using `::`.
 
-### What is an IP address?
-
-An **Internet Protocol (IP) address** identifies a network interface for communication across an IP network. It helps traffic reach the intended destination.
-
-- **IPv4** uses 32-bit addresses, commonly written as four decimal numbers separated by dots, such as `192.0.2.10`.
-- **IPv6** uses 128-bit addresses, written in hexadecimal groups separated by colons, such as `2001:db8:85a3::8a2e:370:7334`.
-- **Private IPv4 addresses** are used inside private networks and are not directly routed across the public internet.
-- **Public IP addresses** are used for internet-facing communication, subject to the network's routing and configuration.
-
-The three private IPv4 ranges are:
-
-| Range | Common context |
-|---|---|
-| `10.0.0.0/8` | Large private networks |
-| `172.16.0.0/12` | Private networks using the 172.16–172.31 range |
-| `192.168.0.0/16` | Common home and small-office networks |
-
-### What is a MAC address?
-
-A **Media Access Control (MAC) address** identifies a network interface at the data-link layer. A typical Ethernet MAC address is 48 bits and is written as six hexadecimal pairs, for example `00:1A:2B:3C:4D:5E`.
-
-A MAC address is useful for communication on a local network. It should not be treated as strong proof of a device's identity because addresses can sometimes be changed or spoofed.
-
-### IP address vs MAC address
-
-| Feature | IP address | MAC address |
+| Feature | IPv4 | IPv6 |
 |---|---|---|
-| OSI association | Layer 3 — Network | Layer 2 — Data Link |
-| Main purpose | Logical addressing and routing between networks | Local-network frame delivery |
-| Format | IPv4 dotted decimal or IPv6 hexadecimal | Usually hexadecimal pairs |
-| Can change? | Yes, depending on network configuration | Can be changed or spoofed in software on some interfaces |
+| Size | 32 bits | 128 bits |
+| Format | Four decimal numbers separated by dots | Hexadecimal groups separated by colons |
+| Example | `192.0.2.10` | `2001:0db8:85a3::8a2e:0370:7334` |
 
-A simple way to remember the difference: the IP address helps route traffic to a network destination, while the MAC address helps deliver a frame on the local network.
+### Private and public IP addresses
 
-## 2. The Seven OSI Layers
+A private IP address is used inside a local network, while a public IP address is used for communication across the internet. The private IPv4 ranges I studied are:
 
-The **Open Systems Interconnection (OSI) model** divides network communication into seven layers. It provides a structured way to discuss protocols, network behaviour, and troubleshooting.
+- `10.0.0.0 – 10.255.255.255`
+- `172.16.0.0 – 172.31.255.255`
+- `192.168.0.0 – 192.168.255.255`
 
-```mermaid
-flowchart TB
-    L7["7 — Application | HTTP, DNS"]
-    L6["6 — Presentation | TLS, JPEG"]
-    L5["5 — Session | RPC, NetBIOS"]
-    L4["4 — Transport | TCP, UDP"]
-    L3["3 — Network | IP, routers"]
-    L2["2 — Data Link | Ethernet, switches"]
-    L1["1 — Physical | Cables, radio signals"]
-    L7 --> L6 --> L5 --> L4 --> L3 --> L2 --> L1
-```
+### Finding my Windows IP address
 
-| Layer | Name | Purpose | Example |
+I opened Command Prompt and ran `ipconfig`, then used `ipconfig /all` to see more details. My recorded results included:
+
+| Field | Result | What I understood |
+|---|---|---|
+| IPv4 address | `10.0.0.4` | A private address in the `10.0.0.0/8` range |
+| Subnet mask | `255.255.255.0` | Identifies the network and host parts of the address |
+| Default gateway | `10.0.0.1` | The gateway used to reach networks outside the local subnet |
+| Link-local IPv6 | `fe80::d51b:f84c:5e4a:2268` | An IPv6 address for local-link communication |
+| Physical address (MAC) | `08-00-27-F4-0F-34` | The MAC address recorded for my Ethernet adapter |
+| DHCP server | `10.0.0.2` | The server that automatically assigned the address |
+
+![Windows ipconfig output](evidence/01-windows-ipconfig-output.jpg)
+
+A MAC address identifies a network interface at the data-link layer. It is typically shown as six pairs of hexadecimal characters. I learned that MAC addresses can be spoofed, so they should not be treated as complete proof of a device's identity.
+
+I think of the IP address like a street address used to reach a destination, while the MAC address helps deliver traffic between devices on the same local network. ARP helps find the MAC address associated with an IPv4 address on a local network.
+
+## 3. The OSI model — seven layers
+
+The OSI model breaks network communication into seven layers. It helps me understand where a problem may be happening and which kind of tool or log could be useful when investigating it. I used the phrase **“All People Seem To Need Data Processing”** to remember the order from Application down to Physical.
+
+![OSI model: seven layers](evidence/02-osi-model-seven-layers.jpg)
+
+| Layer | Name | Example |
+|---:|---|---|
+| 7 | Application | HTTP, DNS |
+| 6 | Presentation | TLS/SSL, JPEG |
+| 5 | Session | NetBIOS, RPC |
+| 4 | Transport | TCP, UDP |
+| 3 | Network | IP, router |
+| 2 | Data Link | Ethernet, switch |
+| 1 | Physical | Cables, Wi-Fi signal |
+
+When data is sent, it moves down the layers and receives additional information at each stage. This is called encapsulation. At the receiving end, the process reverses as the data moves back up the layers.
+
+The model also helped me connect network layers to security examples. A cable issue is related to Layer 1, a MAC-spoofing or ARP issue to Layer 2, an IP or routing issue to Layer 3, port scanning to Layer 4, and a problem such as SQL injection to the application layer.
+
+## 4. Common ports and services
+
+A port is a number used to direct network traffic to the correct service or application on a device. The ports I reviewed for this task are:
+
+| Port | Service | Common use | Security note |
 |---:|---|---|---|
-| **7** | Application | Provides network services used by applications. | HTTP, DNS |
-| **6** | Presentation | Handles data representation, encoding, compression, and encryption-related functions. | TLS-related presentation functions, JPEG |
-| **5** | Session | Manages conversations or sessions between communicating systems. | RPC, NetBIOS session services |
-| **4** | Transport | Supports communication between applications and uses port numbers. | TCP, UDP |
-| **3** | Network | Handles logical addressing and routing. | IP, routers |
-| **2** | Data Link | Moves frames across a local link using link-layer addressing. | Ethernet, switches |
-| **1** | Physical | Carries raw bits as electrical, optical, or radio signals. | Cables, radio signals |
+| 20 | FTP data | File transfer data | Not encrypted by default |
+| 21 | FTP control | FTP commands and login | Credentials can be exposed without encryption |
+| 22 | SSH | Secure remote login and file transfer | Encrypted, but can be targeted by brute-force attempts |
+| 23 | Telnet | Remote login | Not encrypted by default |
+| 25 | SMTP | Sending email between mail servers | Can be abused if poorly configured |
+| 53 | DNS | Resolves domain names to IP addresses | Can be abused for tunnelling or spoofing |
+| 80 | HTTP | Websites | Not encrypted by default |
+| 443 | HTTPS | Websites using TLS | Encrypts traffic, but can also carry malicious traffic |
+| 110 | POP3 | Downloading email | Not encrypted unless protected with TLS |
+| 3389 | RDP | Windows Remote Desktop | Often targeted when exposed to the internet |
 
-**Memory aid:** All People Seem To Need Data Processing — Application, Presentation, Session, Transport, Network, Data Link, Physical.
+I noticed that some services have safer alternatives. SSH is safer than Telnet for remote access, and HTTPS protects web traffic with TLS while HTTP does not. DNS can use both UDP and TCP. Open ports are useful to know about because attackers look for exposed services, while defenders monitor unexpected connections.
 
-When data is sent, it moves down the conceptual layers at the sender and back up the layers at the receiver. Each layer contributes information needed for delivery. This process is commonly described as **encapsulation** and **decapsulation**.
+## 5. TCP vs. UDP
 
-### Why the OSI model matters for security
-
-The model helps organize investigations. For example, an analyst may examine physical connectivity at Layer 1, local-network behaviour at Layer 2, IP routing at Layer 3, transport connections and ports at Layer 4, or web application activity at Layer 7. The model is a troubleshooting aid rather than a claim that every attack belongs to only one layer.
-
-## 3. Common Ports and Services
-
-A **port** helps a host direct network traffic to the relevant service or application. Port numbers range from 0 to 65535.
-
-| Port | Service | Transport | Common use | Security consideration |
-|---:|---|---|---|---|
-| **20** | FTP data | TCP | FTP data transfer in traditional active FTP | Traditional FTP does not encrypt traffic by default. |
-| **21** | FTP control | TCP | FTP commands and session control | Credentials and data may be exposed without additional protection. |
-| **22** | SSH | TCP | Secure remote login and administration | Protect credentials and keys; monitor suspicious login attempts. |
-| **23** | Telnet | TCP | Traditional remote terminal access | Usually unencrypted; SSH is generally preferred. |
-| **25** | SMTP | TCP | Mail transfer between mail servers | Misconfiguration can contribute to spam or mail abuse. |
-| **53** | DNS | UDP and TCP | Resolves domain names and supports DNS queries | Monitor for unusual queries, tunnelling, or configuration issues. |
-| **80** | HTTP | TCP | Web traffic without TLS | Traffic is not encrypted by HTTP alone. |
-| **443** | HTTPS | TCP | Web traffic protected with TLS | Encryption does not make a website or service inherently trustworthy. |
-| **110** | POP3 | TCP | Email retrieval | Use secure configurations; traditional POP3 is unencrypted without TLS. |
-| **3389** | RDP | TCP (commonly) | Windows Remote Desktop | Restrict exposure and protect remote access with strong controls. |
-
-Port numbers indicate common service conventions, not certainty. A service can run on a non-standard port, and seeing a port open does not by itself prove that a system is vulnerable.
-
-### What I noticed
-
-- SSH (22) is generally preferred over Telnet (23) because SSH provides encrypted remote administration.
-- HTTPS (443) protects traffic in transit with TLS, while HTTP (80) does not provide that protection by itself.
-- DNS can use both UDP and TCP.
-- Unexpected exposure of remote administration services, including RDP, deserves investigation.
-- A scan result needs context: the service, configuration, exposure, and business need all affect the security assessment.
-
-## 4. TCP vs UDP
-
-TCP and UDP operate at the transport layer and use ports, but they handle delivery differently.
-
-| Feature | TCP | UDP |
-|---|---|---|
-| Connection | Connection-oriented; uses a handshake | Connectionless at the transport layer |
-| Delivery | Acknowledgements and retransmissions support reliable delivery | UDP itself does not guarantee delivery |
-| Ordering | Supports ordered delivery | Does not guarantee packet order |
-| Overhead | More transport-level mechanisms and overhead | Smaller basic header and lower protocol overhead |
-| Common uses | HTTPS, SSH, SMTP, file transfers | DNS queries, voice/video applications, online games |
+TCP and UDP operate at the Transport layer, but they handle data differently.
 
 ### TCP three-way handshake
 
-A typical TCP connection begins with a three-way handshake:
+TCP establishes a connection using SYN, SYN-ACK and ACK before data is sent.
 
-```text
-Client                         Server
-  | -------- SYN -------------> |
-  | <------ SYN-ACK ----------- |
-  | -------- ACK -------------> |
-  |       Connection ready     |
-```
+![TCP three-way handshake](evidence/03-tcp-three-way-handshake.jpg)
 
-TCP uses this process to establish a connection before exchanging application data.
+TCP supports reliable, ordered delivery through acknowledgements and retransmissions. It is commonly used for web traffic, email and file transfers.
 
-### Three key differences
+UDP is connectionless and sends datagrams without establishing a transport connection first. UDP itself does not guarantee delivery, retransmission or packet order. It is often used for DNS lookups, live streaming, voice/video calls and online games where lower overhead or latency can be useful.
 
-1. **Connection setup:** TCP establishes a connection; UDP does not require a transport-layer handshake.
-2. **Reliability and order:** TCP supports reliable, ordered delivery through acknowledgements and retransmissions. UDP does not provide those guarantees itself.
-3. **Overhead and use cases:** UDP has a smaller basic header and may suit latency-sensitive traffic. TCP's additional mechanisms suit applications that need reliable delivery.
+| Feature | TCP | UDP |
+|---|---|---|
+| Connection | Connection-oriented | Connectionless |
+| Delivery | Reliable, ordered delivery is supported | No delivery or ordering guarantee from UDP itself |
+| Overhead | More transport-level mechanisms | Lower basic overhead |
+| Examples | HTTP, HTTPS, FTP, SSH, SMTP | DNS, streaming, VoIP, gaming |
 
-UDP is not automatically faster in every situation, and applications using UDP may implement their own reliability or security features.
+I also learned that TCP scans can use handshake responses to help identify services, while UDP scans may take longer and can be less clear when services do not reply.
 
-## 5. Networking Practice and Takeaways
+## 6. TryHackMe rooms
 
-For this task, I used Windows Command Prompt to inspect the host's network configuration:
+These are the three rooms I completed for this task. I used the two free alternatives because **OSI Model** and **Packets & Frames** were premium rooms.
 
-```bat
-ipconfig
-ipconfig /all
-```
+### What is Networking?
+![TryHackMe What is Networking room](evidence/04-tryhackme-what-is-networking.jpg)
 
-I checked the IPv4 Address, Subnet Mask, Default Gateway, IPv6 information, DHCP details, and Physical Address fields in the output.
+### Networking Concepts
+![TryHackMe Networking Concepts room](evidence/05-tryhackme-networking-concepts.jpg)
 
-The original task listed the TryHackMe rooms *What is Networking?*, *OSI Model*, and *Packets & Frames*. My report records that I completed **What is Networking?**, and used **Networking Concepts** and **Intro to LAN** as free alternatives for material that was not accessible to my free account at the time.
+### Intro to LAN
+![TryHackMe Intro to LAN room](evidence/06-tryhackme-intro-to-lan.jpg)
 
-**What I learned:** Understanding addressing, ports, protocols, and layers helps me interpret scan results and network logs. These concepts are important for both penetration testing and defensive monitoring.
+What I took from these rooms was a better understanding of how devices connect, the roles of IP and MAC addresses, what different network layers do, and how local networks are organized.
 
----
+## 7. Conclusion
 
+After this task I understand more clearly how data travels across a network. I can explain the difference between IPv4 and IPv6, IP and MAC addresses, the seven OSI layers, common ports, and TCP versus UDP. I also understand why exposed ports and unencrypted services can create security risks. Next, I want to practise by looking at network traffic and checking the open ports on my own lab machine.

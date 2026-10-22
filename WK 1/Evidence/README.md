@@ -2,46 +2,43 @@
 
 [← Back to WK 1](../README.md)
 
-The original merged Week 1 PDF contains the screenshots listed below. The extracted evidence pack is organized into the same task folders and keeps the source images unchanged.
-
-> **Current repository status:** The task documentation is now separated into folders. The extracted image files are available in the accompanying evidence ZIP, but the binary screenshots themselves have not yet been committed to this GitHub repository. Upload the matching images into each task's `evidence/` folder before relying on relative image embeds in GitHub README files.
+I extracted the screenshots below from my merged Week 1 report PDF and placed the Task 1 and Task 2 images in their matching task folders. The screenshots are included in the documentation using relative image paths.
 
 ## Task 1 — Cybersecurity & Ethical Hacking
 
-| Image filename in evidence pack | What it shows |
+| Evidence image | What it shows |
 |---|---|
-| `01-cia-triad.png` | CIA Triad diagram |
-| `02-tryhackme-pentesting-fundamentals.png` | TryHackMe Pentesting Fundamentals completion view |
-| `03-tryhackme-offensive-security-intro.png` | TryHackMe Offensive Security Intro completion view |
-| `04-tryhackme-careers.png` | TryHackMe Careers in Cyber completion view |
+| [CIA Triad](../Task%201/evidence/01-cia-triad.jpg) | CIA Triad diagram |
+| [Pentesting Fundamentals](../Task%201/evidence/02-pentesting-fundamentals-completed.jpg) | TryHackMe Pentesting Fundamentals room |
+| [Offensive Security Intro](../Task%201/evidence/03-offensive-security-intro-completed.jpg) | TryHackMe Offensive Security Intro room |
+| [Careers in Cybersecurity](../Task%201/evidence/04-careers-in-cybersecurity-completed.jpg) | TryHackMe Careers in Cybersecurity room |
 
 ## Task 2 — Networking Basics
 
-| Image filename in evidence pack | What it shows |
+| Evidence image | What it shows |
 |---|---|
-| `01-network-command-output.png` | Terminal/network command output included in the report |
-| `02-osi-seven-layers.png` | OSI seven-layer diagram |
-| `03-tcp-three-way-handshake.png` | TCP three-way handshake diagram |
-| `04-tryhackme-what-is-networking.png` | TryHackMe What is Networking page |
-| `05-tryhackme-networking-concepts.png` | TryHackMe Networking Concepts page |
-| `06-tryhackme-intro-to-lan.png` | TryHackMe Intro to LAN page |
+| [Windows IP configuration](../Task%202/evidence/01-windows-ipconfig-output.jpg) | Windows `ipconfig` output recorded in my report |
+| [OSI model](../Task%202/evidence/02-osi-model-seven-layers.jpg) | Seven OSI layers |
+| [TCP three-way handshake](../Task%202/evidence/03-tcp-three-way-handshake.jpg) | TCP SYN, SYN-ACK and ACK sequence |
+| [What is Networking?](../Task%202/evidence/04-tryhackme-what-is-networking.jpg) | TryHackMe networking learning page |
+| [Networking Concepts](../Task%202/evidence/05-tryhackme-networking-concepts.jpg) | TryHackMe networking concepts page |
+| [Intro to LAN](../Task%202/evidence/06-tryhackme-intro-to-lan.jpg) | TryHackMe LAN learning page |
 
-## Task 3 — VirtualBox + Kali Linux
+## Task 3 — VirtualBox and Kali Linux
 
-| Image filename in evidence pack | What it shows |
-|---|---|
-| `01-virtualbox-installation.png` | VirtualBox installation progress |
-| `02-kali-vm-import-instructions.png` | Kali VM setup/import instructions visible in the report |
-| `03-virtualbox-vm-manager.png` | VirtualBox Manager with the Kali VM |
-| `04-kali-desktop.png` | Kali Linux desktop after startup |
-| `05-kali-terminal-open.png` | Kali terminal open |
-| `06-kali-command-check.png` | Kali terminal command output |
-| `07-kali-package-update.png` | Package update command output |
-| `08-tryhackme-linux-fundamentals.png` | TryHackMe Linux Fundamentals completion view |
+| Evidence image | What it shows | Status |
+|---|---|---|
+| [VirtualBox installer](../Task%203/evidence/01-virtualbox-installer.jpg) | VirtualBox installation progress captured in the report | Included |
+| VirtualBox first launch | VirtualBox Manager opening | Not yet added to GitHub |
+| Kali VM in VirtualBox Manager | Imported Kali virtual machine | Not yet added to GitHub |
+| Kali Linux desktop | Kali desktop after login | Not yet added to GitHub |
+| Kali terminal | Terminal opened inside Kali | Not yet added to GitHub |
+| Kali command output | `whoami` and network interface details | Not yet added to GitHub |
+| Package update | `sudo apt update` output | Not yet added to GitHub |
+| Linux Fundamentals Part 1 | TryHackMe room shown in the report | Not yet added to GitHub |
 
-## Evidence handling
+## Notes
 
-- Preserve the original screenshots; crop or blur only if needed to remove unrelated personal information.
-- Add images under the matching task folder, for example `WK 1/Task 3/evidence/04-kali-desktop.png`.
-- In each task README, embed with a relative path, such as `![Kali Linux desktop](evidence/04-kali-desktop.png)`.
-- Describe only what the image visibly supports. A learning-platform screenshot documents the displayed page/status; it does not independently prove a separate technical test.
+The Task 1 and Task 2 evidence images listed above are committed in their respective folders and are embedded in those task READMEs. Task 3 currently has the VirtualBox installer image committed; I have not embedded the remaining Task 3 screenshots because those image files are not yet in the repository.
+
+I describe the screenshots according to what appears in my report. Network values belong to the recorded lab session and can be different in another session.

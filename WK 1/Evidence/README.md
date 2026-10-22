@@ -1,8 +1,8 @@
 # WK 1 — Screenshot Evidence
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Week-01-0F172A?style=flat-square" alt="Week 1" />
-  <img src="https://img.shields.io/badge/Evidence-Screenshots-14B8A6?style=flat-square" alt="Screenshot evidence" />
+  <img src="https://img.shields.io/badge/Week-01-404040?style=flat-square&labelColor=238F89" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Evidence-Screenshots-404040?style=flat-square&labelColor=0070C0" alt="Screenshot evidence" />
 </p>
 
 I organized the screenshots from my Week 1 report under the tasks they belong to. They show the concepts I studied, the TryHackMe rooms I completed, the network details I recorded, and the steps I followed to set up Kali Linux.

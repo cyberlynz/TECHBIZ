@@ -34,11 +34,11 @@ This repository documents my Week 1 internship work at TechBiz Academy. I organi
 ## Skills and tools covered
 
 <p>
-  <img src="https://img.shields.io/badge/Foundations-Cybersecurity-0A1F44?style=flat-square" alt="Cybersecurity foundations" />
-  <img src="https://img.shields.io/badge/Networking-TCP%2FIP-0F766E?style=flat-square" alt="TCP/IP networking" />
-  <img src="https://img.shields.io/badge/Lab-Kali%20Linux-557C94?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux" />
-  <img src="https://img.shields.io/badge/Virtualization-VirtualBox-183A61?style=flat-square&logo=virtualbox&logoColor=white" alt="VirtualBox" />
-  <img src="https://img.shields.io/badge/Practice-TryHackMe-212C42?style=flat-square&logo=tryhackme&logoColor=white" alt="TryHackMe" />
+  <img src="https://img.shields.io/badge/Foundations-Cybersecurity-14B8A6?style=flat-square" alt="Cybersecurity foundations" />
+  <img src="https://img.shields.io/badge/Networking-TCP%2FIP-0EA5E9?style=flat-square" alt="TCP/IP networking" />
+  <img src="https://img.shields.io/badge/Lab-Kali%20Linux-0D9488?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux" />
+  <img src="https://img.shields.io/badge/Virtualization-VirtualBox-6366F1?style=flat-square&logo=virtualbox&logoColor=white" alt="VirtualBox" />
+  <img src="https://img.shields.io/badge/Practice-TryHackMe-0F172A?style=flat-square&logo=tryhackme&logoColor=white" alt="TryHackMe" />
 </p>
 
 ## About this portfolio

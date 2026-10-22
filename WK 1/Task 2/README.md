@@ -1,9 +1,9 @@
 # Week 1, Task 2 — Networking Basics: IP, Ports, Protocols & OSI Model
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Week-01-0F172A?style=flat-square" alt="Week 1" />
-  <img src="https://img.shields.io/badge/Task-02-6366F1?style=flat-square" alt="Task 2" />
-  <img src="https://img.shields.io/badge/Focus-Networking-0EA5E9?style=flat-square" alt="Networking" />
+  <img src="https://img.shields.io/badge/Task-02-404040?style=flat-square&labelColor=6366F1" alt="Task 2" />
+  <img src="https://img.shields.io/badge/Network-TCP%2FIP-404040?style=flat-square&labelColor=238F89" alt="TCP/IP networking" />
+  <img src="https://img.shields.io/badge/Model-OSI-0070C0?style=flat-square&labelColor=000000" alt="OSI model" />
 </p>
 
 **Internship:** Ethical Hacking, TechBiz Academy  

@@ -1,9 +1,9 @@
 # TECHBIZ | Cybersecurity Internship Portfolio
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Portfolio-Cybersecurity-0F172A?style=for-the-badge&logo=github&logoColor=white" alt="Cybersecurity portfolio" />
-  <img src="https://img.shields.io/badge/TechBiz%20Academy-Internship-6366F1?style=for-the-badge" alt="TechBiz Academy internship" />
-  <img src="https://img.shields.io/badge/Week-01-14B8A6?style=for-the-badge" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Type-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity portfolio" />
+  <img src="https://img.shields.io/badge/Program-TechBiz%20Academy-404040?style=flat-square&labelColor=6366F1" alt="TechBiz Academy internship" />
+  <img src="https://img.shields.io/badge/Week-01-404040?style=flat-square&labelColor=238F89" alt="Week 1" />
 </p>
 
 <p align="center">
@@ -34,11 +34,11 @@ This repository documents my Week 1 internship work at TechBiz Academy. I organi
 ## Skills and tools covered
 
 <p>
-  <img src="https://img.shields.io/badge/Foundations-Cybersecurity-14B8A6?style=flat-square" alt="Cybersecurity foundations" />
-  <img src="https://img.shields.io/badge/Networking-TCP%2FIP-0EA5E9?style=flat-square" alt="TCP/IP networking" />
-  <img src="https://img.shields.io/badge/Lab-Kali%20Linux-0D9488?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux" />
-  <img src="https://img.shields.io/badge/Virtualization-VirtualBox-6366F1?style=flat-square&logo=virtualbox&logoColor=white" alt="VirtualBox" />
-  <img src="https://img.shields.io/badge/Practice-TryHackMe-0F172A?style=flat-square&logo=tryhackme&logoColor=white" alt="TryHackMe" />
+  <img src="https://img.shields.io/badge/Skill-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity" />
+  <img src="https://img.shields.io/badge/Network-TCP%2FIP-404040?style=flat-square&labelColor=238F89" alt="TCP/IP networking" />
+  <img src="https://img.shields.io/badge/Lab-Kali%20Linux-E87500?style=flat-square&labelColor=000000&logo=kalilinux&logoColor=white" alt="Kali Linux" />
+  <img src="https://img.shields.io/badge/Virtualization-VirtualBox-0070C0?style=flat-square&labelColor=000000&logo=virtualbox&logoColor=white" alt="VirtualBox" />
+  <img src="https://img.shields.io/badge/Practice-TryHackMe-404040?style=flat-square&labelColor=212C42&logo=tryhackme&logoColor=white" alt="TryHackMe" />
 </p>
 
 ## About this portfolio

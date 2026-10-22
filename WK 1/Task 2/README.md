@@ -7,16 +7,6 @@
   <img src="https://img.shields.io/badge/Docs-Markdown-111827?style=flat-square&logo=markdown&logoColor=white" alt="Markdown" />
 </p>
 
-<p align="center">
-  <a href="../README.md">← Week 1 overview</a>
-  &nbsp;·&nbsp;
-  <a href="../Task%201/README.md">← Task 1</a>
-  &nbsp;·&nbsp;
-  <a href="../Task%203/README.md">Next: Task 3 →</a>
-  &nbsp;·&nbsp;
-  <a href="../Evidence/README.md">Evidence index</a>
-</p>
-
 **Internship:** Ethical Hacking, TechBiz Academy  
 **Author:** Collins Okike
 

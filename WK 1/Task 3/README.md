@@ -7,14 +7,6 @@
   <img src="https://img.shields.io/badge/OS-Kali%20Linux-557C94?style=flat-square&logo=kalilinux&logoColor=white" alt="Kali Linux" />
 </p>
 
-<p align="center">
-  <a href="../README.md">← Week 1 overview</a>
-  &nbsp;·&nbsp;
-  <a href="../Task%202/README.md">← Task 2</a>
-  &nbsp;·&nbsp;
-  <a href="../Evidence/README.md">Evidence index</a>
-</p>
-
 **Internship:** Ethical Hacking, TechBiz Academy  
 **Author:** Collins Okike
 

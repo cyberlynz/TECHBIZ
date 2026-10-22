@@ -1,23 +1,13 @@
 # WK 1 — Cybersecurity Fundamentals, Networking Basics & Kali Linux Lab Setup
 
-[← Back to TECHBIZ portfolio](../README.md)
-
-This folder separates the three Week 1 tasks into focused documentation pages. Each task page includes its objective, key concepts, recorded steps/results, and learning outcomes based on the submitted Week 1 report.
+In my first week at TechBiz Academy, I covered cybersecurity and ethical hacking fundamentals, networking basics, and setting up a Kali Linux virtual machine. I separated the work into three tasks to make each part easier to follow.
 
 ## Task folders
 
-| Folder | Topic | Documentation |
+| Folder | Topic | What I documented |
 |---|---|---|
-| [Task 1](Task%201/README.md) | Cyber Security & Ethical Hacking — Introduction | CIA Triad, hacker types, ethical hacking phases, testing approaches, and career fields |
-| [Task 2](Task%202/README.md) | Networking Basics — IP, Ports, Protocols & OSI Model | IP/MAC addresses, OSI layers, common ports, TCP/UDP, and networking practice |
-| [Task 3](Task%203/README.md) | Lab Setup — VirtualBox + Kali Linux | Lab environment, VM import/setup, terminal commands, and recorded network details |
+| [Task 1](Task%201/README.md) | Cyber Security & Ethical Hacking — Introduction | The CIA Triad, types of hackers, the five phases of ethical hacking, penetration testing versus vulnerability assessment, and cybersecurity careers |
+| [Task 2](Task%202/README.md) | Networking Basics — IP, Ports, Protocols & OSI Model | IPv4 and IPv6, private IP addresses, MAC addresses, OSI layers, common ports, and TCP versus UDP |
+| [Task 3](Task%203/README.md) | Building a Hacking Lab — VirtualBox and Kali Linux | VirtualBox installation, importing and starting Kali, terminal commands, network interface details, and Linux fundamentals |
 
-## Evidence
-
-Screenshots extracted from the merged Week 1 PDF are being organized as supporting evidence. The extracted files are supplied separately in the evidence pack for placement in the matching task folders; only evidence that appears in the submitted report should be included.
-
-## Notes on evidence and accuracy
-
-- Screenshots are evidence of the specific pages and lab session captured; they should not be treated as proof of activity beyond what is visible.
-- IP addresses and interface details can change between sessions.
-- The task pages retain the scope and terminology of the Week 1 report rather than claiming additional testing was completed.
+Each task folder contains its own report-style README and an `evidence/` folder with images taken from my submitted Week 1 PDF.

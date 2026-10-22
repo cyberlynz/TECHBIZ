@@ -7,14 +7,6 @@
   <img src="https://img.shields.io/badge/Labs-TryHackMe-212C42?style=flat-square&logo=tryhackme&logoColor=white" alt="TryHackMe" />
 </p>
 
-<p align="center">
-  <a href="../README.md">← Week 1 overview</a>
-  &nbsp;·&nbsp;
-  <a href="../Task%202/README.md">Next: Task 2 →</a>
-  &nbsp;·&nbsp;
-  <a href="../Evidence/README.md">Evidence index</a>
-</p>
-
 **Internship:** Ethical Hacking Internship, TechBiz Academy  
 **Author:** Collins Okike
 

@@ -28,7 +28,7 @@ I downloaded VirtualBox 7.2.16 from the official VirtualBox website and ran the 
 
 After installation, I opened VirtualBox Manager.
 
-![VirtualBox first launch](evidence/02-virtualbox-first-launch.jpg)
+> The remaining setup, Kali desktop and terminal screenshots are part of my submitted Week 1 report, but they are not embedded here yet.
 
 ## 4. Importing and starting Kali Linux
 
@@ -36,11 +36,7 @@ I went to the Kali Linux website, opened the Virtual Machines section, and downl
 
 I extracted the downloaded file with 7-Zip, opened VirtualBox, selected the option to open or import an existing virtual machine, and added the Kali `.vbox` file. I checked that the Kali VM appeared in VirtualBox Manager.
 
-![Kali Linux virtual machine in VirtualBox Manager](evidence/03-virtualbox-kali-vm-manager.jpg)
-
 I started the VM and logged in with the default username and password shown in my report: `kali` / `kali`. The Kali desktop loaded, and I opened a terminal.
-
-![Kali Linux desktop after login](evidence/04-kali-linux-desktop.jpg)
 
 ## 5. Terminal commands and results
 
@@ -53,8 +49,6 @@ whoami
 ```
 
 The output was `kali`, confirming that I was logged in as the normal Kali user rather than root.
-
-![Kali terminal open](evidence/05-kali-terminal.jpg)
 
 ### Checking network interfaces
 
@@ -74,8 +68,6 @@ The command displayed the network interfaces and their addressing details. My re
 | IPv6 address | `fe80::a413:d56d:1797:240/64` |
 | Loopback address | `127.0.0.1` |
 
-![Kali command output, including network details](evidence/06-kali-command-checks.jpg)
-
 The `lo` interface is the loopback interface, which lets the computer communicate with itself. The `10.0.0.3/24` address is a private IPv4 address. The MAC address belongs to the VM's virtual network adapter, and the IPv6 address beginning with `fe80` is link-local.
 
 ### Updating package information
@@ -88,13 +80,9 @@ sudo apt update
 
 The command refreshed the list of available packages from the configured Kali repositories. It asked for my password, and the command finished without errors in the recorded session. This command refreshes package information; it does not upgrade the installed packages by itself.
 
-![Kali sudo apt update output](evidence/07-apt-update-output.jpg)
-
 ## 6. TryHackMe — Linux Fundamentals Part 1
 
 I completed the free **Linux Fundamentals Part 1** room on TryHackMe. It introduced basic Linux commands that I will need when working in the Kali terminal.
-
-![Linux Fundamentals Part 1 completed](evidence/08-tryhackme-linux-fundamentals-completed.jpg)
 
 Some of the commands and operators I covered were:
 
@@ -115,6 +103,10 @@ Some of the commands and operators I covered were:
 
 These commands are useful for moving around a system, finding files, searching logs and saving command output.
 
-## 7. Conclusion
+## 7. Evidence note
+
+The VirtualBox installation screenshot from the report is included above. The other setup screenshots, Kali terminal screenshots and TryHackMe completion image have not been added to this repository yet, so I have not embedded those images here.
+
+## 8. Conclusion
 
 I installed VirtualBox, imported Kali Linux, logged in and ran my first commands. The commands confirmed my current user, showed my VM's network settings and refreshed the package list. Completing Linux Fundamentals Part 1 also introduced me to commands I will keep using in the terminal. My lab is ready for the next tasks, and the screenshots above show the installation and command results recorded in my Week 1 report.

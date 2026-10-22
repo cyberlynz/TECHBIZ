@@ -1,5 +1,17 @@
 # WK 1 — Screenshot Evidence
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Week-01-0A1F44?style=flat-square" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Evidence-Screenshots-2563EB?style=flat-square" alt="Screenshot evidence" />
+  <img src="https://img.shields.io/badge/Tasks-03-0F766E?style=flat-square" alt="Three tasks" />
+</p>
+
+<p align="center">
+  <a href="../README.md">← Week 1 overview</a>
+  &nbsp;·&nbsp;
+  <a href="../../README.md">Portfolio home</a>
+</p>
+
 I organized the screenshots from my Week 1 report under the tasks they belong to. They show the concepts I studied, the TryHackMe rooms I completed, the network details I recorded, and the steps I followed to set up Kali Linux.
 
 ## Task 1 — Cybersecurity & Ethical Hacking

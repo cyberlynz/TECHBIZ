@@ -1,5 +1,22 @@
 # Week 1, Task 2 — Networking Basics: IP, Ports, Protocols & OSI Model
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Week-01-0A1F44?style=flat-square" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Task-02-2563EB?style=flat-square" alt="Task 2" />
+  <img src="https://img.shields.io/badge/Focus-Networking-0F766E?style=flat-square" alt="Networking" />
+  <img src="https://img.shields.io/badge/Docs-Markdown-111827?style=flat-square&logo=markdown&logoColor=white" alt="Markdown" />
+</p>
+
+<p align="center">
+  <a href="../README.md">← Week 1 overview</a>
+  &nbsp;·&nbsp;
+  <a href="../Task%201/README.md">← Task 1</a>
+  &nbsp;·&nbsp;
+  <a href="../Task%203/README.md">Next: Task 3 →</a>
+  &nbsp;·&nbsp;
+  <a href="../Evidence/README.md">Evidence index</a>
+</p>
+
 **Internship:** Ethical Hacking, TechBiz Academy  
 **Author:** Collins Okike
 

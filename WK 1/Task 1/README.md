@@ -1,10 +1,9 @@
 # Week 1, Task 1 — Cybersecurity and Ethical Hacking: Introduction
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Week-01-0A1F44?style=flat-square" alt="Week 1" />
-  <img src="https://img.shields.io/badge/Task-01-2563EB?style=flat-square" alt="Task 1" />
-  <img src="https://img.shields.io/badge/Topic-Cybersecurity-7C3AED?style=flat-square" alt="Cybersecurity" />
-  <img src="https://img.shields.io/badge/Labs-TryHackMe-212C42?style=flat-square&logo=tryhackme&logoColor=white" alt="TryHackMe" />
+  <img src="https://img.shields.io/badge/Week-01-0F172A?style=flat-square" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Task-01-6366F1?style=flat-square" alt="Task 1" />
+  <img src="https://img.shields.io/badge/Topic-Cybersecurity-14B8A6?style=flat-square" alt="Cybersecurity" />
 </p>
 
 **Internship:** Ethical Hacking Internship, TechBiz Academy  

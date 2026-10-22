@@ -1,9 +1,9 @@
 # TECHBIZ | Cybersecurity Internship Portfolio
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Portfolio-Cybersecurity-0A1F44?style=for-the-badge" alt="Cybersecurity portfolio" />
-  <img src="https://img.shields.io/badge/Internship-TechBiz%20Academy-2563EB?style=for-the-badge" alt="TechBiz Academy internship" />
-  <img src="https://img.shields.io/badge/Week-01-C9A24D?style=for-the-badge" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Portfolio-Cybersecurity-0F172A?style=for-the-badge&logo=github&logoColor=white" alt="Cybersecurity portfolio" />
+  <img src="https://img.shields.io/badge/TechBiz%20Academy-Internship-6366F1?style=for-the-badge" alt="TechBiz Academy internship" />
+  <img src="https://img.shields.io/badge/Week-01-14B8A6?style=for-the-badge" alt="Week 1" />
 </p>
 
 <p align="center">

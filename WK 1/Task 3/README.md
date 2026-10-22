@@ -28,6 +28,8 @@ I downloaded VirtualBox 7.2.16 from the official VirtualBox website and ran the 
 
 After installation, I opened VirtualBox Manager.
 
+![VirtualBox Manager on first launch](evidence/02-virtualbox-first-launch.jpg)
+
 ## 4. Importing and starting Kali Linux
 
 I went to the Kali Linux website, opened the Virtual Machines section, and downloaded the pre-built VirtualBox 64-bit image. I chose the pre-built image so I could import the system instead of performing a full installation from scratch.

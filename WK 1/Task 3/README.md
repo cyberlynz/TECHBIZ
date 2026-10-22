@@ -1,148 +1,120 @@
-# WK 1 — Task 3: Lab Setup — VirtualBox + Kali Linux
+# Week 1, Task 3 — Building a Hacking Lab: VirtualBox and Kali Linux
 
-[← Back to Week 1](../README.md) · [Task 1](../Task%201/README.md) · [Task 2](../Task%202/README.md)
+**Internship:** Ethical Hacking, TechBiz Academy  
+**Author:** Collins Okike
 
-This task documents the virtual lab setup and commands recorded in the submitted Week 1 report. Network values are specific to the original lab session and may change.
+## 1. Introduction
 
----
+The goal of this task was to build a basic cybersecurity lab on my computer. I used VirtualBox to run Kali Linux as a virtual machine. A virtual machine gives me a separate environment where I can practise Linux commands and security tools without installing Kali as my main operating system.
 
-# 🐉 Task 3 — VirtualBox and Kali Linux Lab Setup
+For this task I installed VirtualBox, downloaded the pre-built Kali Linux VirtualBox image, imported and started the virtual machine, explored the Kali desktop, and ran terminal commands to check my user, network interfaces and package information. I also completed the free TryHackMe room **Linux Fundamentals Part 1**.
 
-## Objective
+## 2. Tools and resources
 
-Prepare a basic cybersecurity practice environment by running Kali Linux in VirtualBox, exploring the desktop, and verifying the system using introductory terminal commands.
-
-## 1. Tools and Environment
-
-| Component | Role in the lab |
+| Tool or resource | How I used it |
 |---|---|
-| **Windows 10** | Host operating system used for the setup |
-| **Oracle VirtualBox 7.2.16** | Runs the Kali Linux virtual machine |
-| **Kali Linux VirtualBox image** | Pre-built Linux environment for cybersecurity learning |
-| **7-Zip** | Extracts the downloaded virtual-machine archive |
-| **Kali Terminal** | Runs Linux commands and checks system/network information |
-| **TryHackMe — Linux Fundamentals Part 1** | Introductory practice with Linux commands and file navigation |
+| Oracle VirtualBox 7.2.16 | Ran Kali Linux as a virtual machine on my Windows 10 computer |
+| Kali Linux VirtualBox image | Imported a pre-built Kali environment |
+| 7-Zip | Extracted the downloaded Kali files |
+| Kali Terminal | Ran the Linux commands for this task |
+| TryHackMe: Linux Fundamentals Part 1 | Practised basic Linux commands |
+| Setup videos | Used as extra guidance for the installation and first-time setup |
 
-A virtual machine lets me run a separate operating system on the host without replacing Windows as the computer's main operating system. It provides a practical environment for learning Linux and security tools.
+## 3. Installing VirtualBox
 
-> A virtual machine is not a guarantee of isolation from every risk. Network mode, shared folders, clipboard integration, and other settings affect how it interacts with the host and other systems.
+I downloaded VirtualBox 7.2.16 from the official VirtualBox website and ran the installer on my Windows 10 computer using the default options. During installation, the installer showed the status **“Installing support driver.”**
 
-## 2. Setup Procedure
+![VirtualBox installer running](evidence/01-virtualbox-installer.jpg)
 
-### Step 1 — Install VirtualBox
+After installation, I opened VirtualBox Manager.
 
-I downloaded and installed VirtualBox on my Windows 10 computer using the installer defaults. After installation, I opened VirtualBox Manager to confirm that the application was available.
+![VirtualBox first launch](evidence/02-virtualbox-first-launch.jpg)
 
-**Verification:** VirtualBox Manager opened successfully.
+## 4. Importing and starting Kali Linux
 
-### Step 2 — Download the pre-built Kali Linux VM
+I went to the Kali Linux website, opened the Virtual Machines section, and downloaded the pre-built VirtualBox 64-bit image. I chose the pre-built image so I could import the system instead of performing a full installation from scratch.
 
-I used the pre-built VirtualBox image from the official Kali Linux website. This method avoids manually installing the operating system from an ISO image.
+I extracted the downloaded file with 7-Zip, opened VirtualBox, selected the option to open or import an existing virtual machine, and added the Kali `.vbox` file. I checked that the Kali VM appeared in VirtualBox Manager.
 
-I extracted the downloaded archive using 7-Zip.
+![Kali Linux virtual machine in VirtualBox Manager](evidence/03-virtualbox-kali-vm-manager.jpg)
 
-### Step 3 — Import Kali Linux
+I started the VM and logged in with the default username and password shown in my report: `kali` / `kali`. The Kali desktop loaded, and I opened a terminal.
 
-In VirtualBox, I selected **Machine → Add** and chose the extracted `.vbox` file. The Kali virtual machine then appeared in VirtualBox Manager.
+![Kali Linux desktop after login](evidence/04-kali-linux-desktop.jpg)
 
-### Step 4 — Start Kali and log in
+## 5. Terminal commands and results
 
-I started the virtual machine and reached the Kali Linux desktop. My report records that I used the default credentials supplied for that image:
+### Checking the current user
 
-- **Username:** `kali`
-- **Password:** `kali`
-
-These are the credentials recorded for my lab session; default credentials may vary by image and should be changed when appropriate.
-
-### Step 5 — Open the terminal
-
-After logging in, I opened the Kali terminal and ran the commands required for the exercise:
+I ran:
 
 ```bash
 whoami
+```
+
+The output was `kali`, confirming that I was logged in as the normal Kali user rather than root.
+
+![Kali terminal open](evidence/05-kali-terminal.jpg)
+
+### Checking network interfaces
+
+I ran:
+
+```bash
 ip a
+```
+
+The command displayed the network interfaces and their addressing details. My recorded result for `eth0` was:
+
+| Field | Result |
+|---|---|
+| Interface | `eth0` |
+| IPv4 address | `10.0.0.3/24` |
+| MAC address | `08:00:27:63:b0:05` |
+| IPv6 address | `fe80::a413:d56d:1797:240/64` |
+| Loopback address | `127.0.0.1` |
+
+![Kali command output, including network details](evidence/06-kali-command-checks.jpg)
+
+The `lo` interface is the loopback interface, which lets the computer communicate with itself. The `10.0.0.3/24` address is a private IPv4 address. The MAC address belongs to the VM's virtual network adapter, and the IPv6 address beginning with `fe80` is link-local.
+
+### Updating package information
+
+I ran:
+
+```bash
 sudo apt update
 ```
 
-These checks confirmed the logged-in username, displayed the network interfaces, and refreshed the package metadata.
+The command refreshed the list of available packages from the configured Kali repositories. It asked for my password, and the command finished without errors in the recorded session. This command refreshes package information; it does not upgrade the installed packages by itself.
 
-## 3. Commands Run and What They Do
+![Kali sudo apt update output](evidence/07-apt-update-output.jpg)
 
-| Command | Purpose | Recorded result / interpretation |
-|---|---|---|
-| `whoami` | Displays the current username. | Output was `kali`, showing that I was using the normal `kali` account rather than root. |
-| `ip a` | Lists network interfaces and address information. | Displayed the loopback interface and the virtual Ethernet interface, including address and interface details. |
-| `sudo apt update` | Refreshes package information from configured repositories. | My report records that the command completed without errors. It refreshes package lists; it does not by itself upgrade all installed packages. |
+## 6. TryHackMe — Linux Fundamentals Part 1
 
-### Why these commands matter
+I completed the free **Linux Fundamentals Part 1** room on TryHackMe. It introduced basic Linux commands that I will need when working in the Kali terminal.
 
-- **User context:** `whoami` helps me confirm which account is executing a command.
-- **Network visibility:** `ip a` helps identify interfaces, assigned IP addresses, MAC addresses, and interface state.
-- **Package maintenance:** `sudo apt update` refreshes the available package index so package-management tools can identify current versions from configured repositories.
+![Linux Fundamentals Part 1 completed](evidence/08-tryhackme-linux-fundamentals-completed.jpg)
 
-## 4. Recorded Network Results
+Some of the commands and operators I covered were:
 
-The following values are from the terminal output documented in my Week 1 report.
-
-| Field | Recorded value | What it tells me |
-|---|---|---|
-| Network interface | `eth0` | The virtual machine's Ethernet interface |
-| IPv4 address | `10.0.0.3/24` | The address recorded for the Kali interface |
-| MAC address | `08:00:27:63:b0:05` | The virtual network adapter's link-layer address |
-| IPv6 address | `fe80::a413:d56d:1797:240/64` | A link-local IPv6 address |
-| Loopback IPv4 | `127.0.0.1` | The local host loopback address |
-
-The `/24` prefix indicates a 24-bit IPv4 network prefix, equivalent to the subnet mask `255.255.255.0`. The `fe80::/10` range is used for IPv6 link-local addresses, which are not globally routable.
-
-The exact values depend on the virtual network and may change if the VM is moved to another network or its addressing configuration changes.
-
-### Host Windows network check
-
-My networking report separately recorded these Windows host values:
-
-| Field | Recorded value |
+| Command or operator | What it does |
 |---|---|
-| Private IPv4 address | `10.0.0.4` |
-| Subnet mask | `255.255.255.0` |
-| Default gateway | `10.0.0.1` |
-| DHCP server | `10.0.0.2` |
-| Physical Address | `08-00-27-F4-0F-34` |
+| `whoami` | Shows the current username |
+| `echo` | Prints text |
+| `ls` | Lists files and folders |
+| `cd` | Changes directory |
+| `cat` | Displays a file's contents |
+| `pwd` | Shows the current working directory |
+| `find` | Searches for files |
+| `grep` | Searches for text inside files |
+| `&` | Runs a command in the background |
+| `&&` | Runs the next command only if the previous one succeeds |
+| `>` | Writes output to a file, replacing existing content |
+| `>>` | Appends output to a file |
 
-These are the values documented in that report. The Windows host and Kali VM results are shown separately because they belong to different interfaces/environments.
+These commands are useful for moving around a system, finding files, searching logs and saving command output.
 
-## 5. Linux Fundamentals Practice
+## 7. Conclusion
 
-I completed the free **Linux Fundamentals Part 1** room on TryHackMe as part of this task. The room introduced basic terminal navigation, file handling, and command chaining.
-
-| Command / operator | What it does |
-|---|---|
-| `whoami` | Displays the current user. |
-| `echo` | Prints text or variable values. |
-| `ls` | Lists directory contents. |
-| `cd` | Changes the current directory. |
-| `pwd` | Displays the current working directory. |
-| `cat` | Prints file contents. |
-| `find` | Searches for files and directories. |
-| `grep` | Searches text for matching patterns. |
-| `&` | Runs a command in the background in a shell. |
-| `&&` | Runs the next command only if the previous command succeeds. |
-| `>` | Redirects output to a file, replacing its existing contents. |
-| `>>` | Appends output to a file. |
-
-These commands are useful for moving around a Linux system, inspecting files, and searching logs. They are basic skills that I will need when using security tools and reviewing command output.
-
-## 6. Lab Setup Outcome
-
-By the end of the task, I had:
-
-- Installed VirtualBox on the Windows host.
-- Imported and started the pre-built Kali Linux virtual machine.
-- Logged in and opened the Kali terminal.
-- Checked the current user with `whoami`.
-- Inspected the network interfaces with `ip a`.
-- Refreshed package metadata using `sudo apt update`.
-- Completed the Linux Fundamentals Part 1 learning activity.
-
-The screenshots and terminal outputs are recorded in my submitted Week 1 report. They document the setup process and the results observed during the exercise.
-
----
+I installed VirtualBox, imported Kali Linux, logged in and ran my first commands. The commands confirmed my current user, showed my VM's network settings and refreshed the package list. Completing Linux Fundamentals Part 1 also introduced me to commands I will keep using in the terminal. My lab is ready for the next tasks, and the screenshots above show the installation and command results recorded in my Week 1 report.

@@ -1,9 +1,9 @@
 # Week 1 — Cybersecurity Fundamentals, Networking & Kali Linux
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Week-01-0F172A?style=for-the-badge" alt="Week 1" />
-  <img src="https://img.shields.io/badge/Focus-Cybersecurity%20%26%20Networking-3B82F6?style=for-the-badge" alt="Cybersecurity and networking" />
-  <img src="https://img.shields.io/badge/Lab-Kali%20Linux-14B8A6?style=for-the-badge&logo=kalilinux&logoColor=white" alt="Kali Linux lab" />
+  <img src="https://img.shields.io/badge/Week-01-404040?style=flat-square&labelColor=238F89" alt="Week 1" />
+  <img src="https://img.shields.io/badge/Focus-Cybersecurity%20%26%20Networking-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity and networking" />
+  <img src="https://img.shields.io/badge/Lab-Kali%20Linux-E87500?style=flat-square&labelColor=000000&logo=kalilinux&logoColor=white" alt="Kali Linux lab" />
 </p>
 
 In my first week at TechBiz Academy, I covered cybersecurity and ethical hacking fundamentals, networking basics, and setting up a Kali Linux virtual machine. I split the work into three tasks to make each part straightforward to review.

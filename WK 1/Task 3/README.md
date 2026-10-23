@@ -6,8 +6,6 @@
   <img src="https://img.shields.io/badge/OS-Kali%20Linux-E87500?style=flat-square&labelColor=000000&logo=kalilinux&logoColor=white" alt="Kali Linux" />
 </p>
 
-**Internship:** Ethical Hacking, TechBiz Academy  
-**Author:** Collins Okike
 
 ## 1. Introduction
 

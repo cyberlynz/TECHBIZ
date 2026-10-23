@@ -6,8 +6,6 @@
   <img src="https://img.shields.io/badge/Focus-Ethical%20Hacking-E87500?style=flat-square&labelColor=000000&logo=kalilinux&logoColor=white" alt="Ethical hacking" />
 </p>
 
-**Internship:** Ethical Hacking Internship, TechBiz Academy  
-**Author:** Collins Okike
 
 ## 1. Introduction
 

@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <strong>Cybersecurity learning notes, practical labs and screenshot evidence</strong><br />
+  <strong>Cybersecurity learning notes, practical labs and screenshot gallery</strong><br />
   <sub>Ethical Hacking Internship · TechBiz Academy</sub>
 </p>
 
@@ -32,7 +32,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 | **[Task 2 — Networking Basics](WK%201/Task%202/README.md)** | Networking concepts | IP and MAC addresses, OSI model, common ports, TCP vs. UDP and TryHackMe learning notes |
 | **[Task 3 — VirtualBox & Kali Linux](WK%201/Task%203/README.md)** | Lab setup | VirtualBox installation, Kali VM import, terminal commands, network details and Linux fundamentals practice |
 
-[Browse Week 1 screenshot evidence →](WK%201/Evidence/README.md)
+[Browse Week 1 screenshot gallery →](WK%201/Screenshots/README.md)
 
 ## Week 2 at a glance
 
@@ -42,7 +42,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 | **[Task 2 — Networking Tools & Subnetting](WK%202/Task%202/README.md)** | Network troubleshooting and addressing | ping, traceroute, nslookup, dig, netstat, CIDR calculations and TryHackMe DNS/HTTP rooms |
 | **[Task 3 — Metasploitable 2 Lab Setup](WK%202/Task%203/README.md)** | Vulnerable lab environment | VirtualBox, NatNetwork, Kali-to-target connectivity and Metasploitable 2 web applications |
 
-[Browse Week 2 screenshot evidence →](WK%202/Evidence/README.md)
+[Browse Week 2 screenshot gallery →](WK%202/Screenshots/README.md)
 
 ## Skills and tools covered
 
@@ -57,7 +57,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 
 ## About this portfolio
 
-The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task's \`evidence/\` folder and embedded where they support the explanation. Network addresses shown in the lab notes are values from the recorded sessions and may differ in another setup.
+The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task's \`screenshots/\` folder and embedded where they support the explanation. Network addresses shown in the lab notes are values from the recorded sessions and may differ in another setup.
 
 ---
 

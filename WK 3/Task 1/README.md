@@ -59,7 +59,7 @@ I looked up \`techbiz-sec.com\` on whois.com and recorded the registration detai
 
 The transfer-prohibited status indicates that the domain is locked against transfer unless the owner unlocks it. The registrant's personal details were not displayed in the lookup. The abuse email and phone number belong to the registrar, not to the domain owner. The name servers were also returned by DNSDumpster later in the task.
 
-![WHOIS lookup for techbiz-sec.com on whois.com](screenshots/01-whois-domain-lookup.jpg)
+![WHOIS lookup for techbiz-sec.com on whois.com](screenshots/01-whois-domain-lookup.webp)
 
 ## 5. Google dorking
 
@@ -69,13 +69,13 @@ I used three Google search operators to check what the search engine had indexed
 
 This search returned the home page, a Resources page about browser extensions (LeadForge), a Contact Us page and additional resource pages. The Contact Us search snippet displayed the public email \`info@techbiz-sec.com\`, a phone number and a location. The report treats these as business contact details that are meant to be public, while noting that they could also be useful to someone preparing phishing or social-engineering attempts.
 
-![Google results for site:techbiz-sec.com](screenshots/02-google-dork-site-search.jpg)
+![Google results for site:techbiz-sec.com](screenshots/02-google-dork-site-search.webp)
 
 ### 5.2 \`site:techbiz-sec.com filetype:pdf\`
 
 This search returned three PDF files in an \`/outlines\` folder: course outlines for SOC Analyst (Blue Team Operations), Certified Ethical Hacker (CEH v13) and Cisco CCNA 200-301. They appeared to be public marketing/course documents, and I did not identify sensitive information in the search results. The folder name also gave an indication of how the site organised these files.
 
-![Google results for site:techbiz-sec.com filetype:pdf](screenshots/03-google-dork-filetype-pdf.jpg)
+![Google results for site:techbiz-sec.com filetype:pdf](screenshots/03-google-dork-filetype-pdf.webp)
 
 ### 5.3 \`site:techbiz-sec.com inurl:login\`
 
@@ -83,9 +83,9 @@ Google returned no matching documents for the target. This means that the search
 
 For comparison only, I ran \`site:tryhackme.com inurl:login\`. That search showed a public login page and room pages that mention login. TryHackMe was only a comparison example, not the target of this assessment.
 
-![Google inurl:login search for techbiz-sec.com showing no matching documents](screenshots/04-google-dork-inurl-login-no-results.jpg)
+![Google inurl:login search for techbiz-sec.com showing no matching documents](screenshots/04-google-dork-inurl-login-no-results.webp)
 
-![Google inurl:login search for tryhackme.com used as a comparison](screenshots/05-google-dork-tryhackme-comparison.jpg)
+![Google inurl:login search for tryhackme.com used as a comparison](screenshots/05-google-dork-tryhackme-comparison.webp)
 
 ## 6. theHarvester
 
@@ -97,11 +97,11 @@ theHarvester -d techbiz-sec.com -b all
 
 \`-d\` specifies the domain, and \`-b all\` asks theHarvester to use all supported data sources. The tool version recorded in the report was **4.11.1**. Many sources required API keys that I had not configured, so they returned missing or invalid API-key messages and were skipped. A work-item \`TypeError\` also appeared, but the tool completed and printed results.
 
-![theHarvester start of run and API-key messages](screenshots/06-theharvester-start-api-key-errors.jpg)
+![theHarvester start of run and API-key messages](screenshots/06-theharvester-start-api-key-errors.webp)
 
-![theHarvester middle of run showing queried sources and errors](screenshots/07-theharvester-middle-run.jpg)
+![theHarvester middle of run showing queried sources and errors](screenshots/07-theharvester-middle-run.webp)
 
-![theHarvester end of run showing hosts and IP addresses](screenshots/08-theharvester-hosts-and-ips.jpg)
+![theHarvester end of run showing hosts and IP addresses](screenshots/08-theharvester-hosts-and-ips.webp)
 
 ### Results recorded
 
@@ -122,7 +122,7 @@ TheHarvester did not return emails even though the Google search in the previous
 
 I searched for the exact identity \`techbiz-sec.com\` on crt.sh. The captured results showed certificates issued from **2024-10-11** through **2026-10-05**, with the newest certificate valid until **2027-01-03**. The issuers shown included Let's Encrypt (R10, R12, R13, YR1 and YE2) and ZeroSSL (RSA Domain Secure Site CA). The captured exact-domain results showed \`techbiz-sec.com\`; I did not see a subdomain in the portion captured. A wildcard search such as \`%.techbiz-sec.com\` could be used to look for subdomain certificates.
 
-![crt.sh identity search for techbiz-sec.com](screenshots/09-crtsh-certificate-search.jpg)
+![crt.sh identity search for techbiz-sec.com](screenshots/09-crtsh-certificate-search.webp)
 
 The first certificate date matched the WHOIS creation date recorded earlier. The certificate list showed repeated renewals, which I interpreted as consistent with certificates being renewed periodically. The exact-domain search and a wildcard subdomain search are different queries, so the absence of subdomains in this captured result is not proof that none exist.
 
@@ -141,11 +141,11 @@ DNSDumpster returned five hostnames with A records: \`www.techbiz-sec.com\`, \`a
 | NS records | \`ns1.dns-parking.com\` and \`ns2.dns-parking.com\` |
 | TXT records | Several Google site-verification records, an SPF record including Hostinger mail and ending in \`~all\`, and a \`brevo-code\` record |
 
-![DNSDumpster results showing hosting, services and A records](screenshots/10-dnsdumpster-hosting-and-a-records.jpg)
+![DNSDumpster results showing hosting, services and A records](screenshots/10-dnsdumpster-hosting-and-a-records.webp)
 
-![DNSDumpster A records and MX records](screenshots/11-dnsdumpster-a-and-mx-records.jpg)
+![DNSDumpster A records and MX records](screenshots/11-dnsdumpster-a-and-mx-records.webp)
 
-![DNSDumpster NS and TXT records](screenshots/12-dnsdumpster-ns-and-txt-records.jpg)
+![DNSDumpster NS and TXT records](screenshots/12-dnsdumpster-ns-and-txt-records.webp)
 
 The \`demos\` hostname stood out because the third-party results showed SSH and a sign-in page, and the certificate name did not match the company domain. These service details came from DNSDumpster's database; I did not confirm them with a direct scan. The SPF value ending in \`~all\` is a soft-fail policy, as noted in my report. The \`brevo-code\` TXT record indicated that Brevo was also referenced in the domain's DNS data.
 
@@ -153,7 +153,7 @@ The \`demos\` hostname stood out because the third-party results showed SSH and 
 
 I checked the Wayback Machine summary for \`techbiz-sec.com\`. The report recorded **10 saves between November 2, 2024 and October 15, 2025**. The summary showed these file types: HTML (16 captures, 10 unique URLs), PNG (10), SVG (7), MP4 (2), CSS (1) and JPEG (1).
 
-![Wayback Machine summary for techbiz-sec.com](screenshots/13-wayback-machine-archive-summary.jpg)
+![Wayback Machine summary for techbiz-sec.com](screenshots/13-wayback-machine-archive-summary.webp)
 
 The first archived save was about three weeks after the domain's WHOIS creation date. The archive also retained image and video captures, so older copies of site media may remain available even if the live site later changes.
 
@@ -161,7 +161,7 @@ The first archived save was about three weeks after the domain's WHOIS creation 
 
 I searched Shodan for \`https://techbiz-sec.com\`. The result captured in the report was **No results found**. This only describes the result of that search term; it does not establish that the domain or its hosts have no exposed services. DNSDumpster returned different information for the \`demos\` hostname.
 
-![Shodan search for techbiz-sec.com showing no results](screenshots/14-shodan-domain-search-no-results.jpg)
+![Shodan search for techbiz-sec.com showing no results](screenshots/14-shodan-domain-search-no-results.webp)
 
 ### 7.5 Hunter.io and OSINT Framework
 
@@ -182,25 +182,25 @@ I completed the four compulsory rooms listed for this task.
 
 The room reinforced how public sources can reveal domain registration details, DNS records, subdomains and services without touching the target. From a defender's perspective, the same methods can be used to review an organisation's public footprint.
 
-![TryHackMe Passive Reconnaissance room completed](screenshots/15-tryhackme-passive-recon-completed.jpg)
+![TryHackMe Passive Reconnaissance room completed](screenshots/15-tryhackme-passive-recon-completed.webp)
 
 ### Google Dorking
 
 The room covered how crawlers discover pages, how SEO affects indexing, and how \`robots.txt\` and sitemaps are used. It also reinforced that \`robots.txt\` is public and is not a security control. Public files and pages can be located quickly with search operators.
 
-![TryHackMe Google Dorking room completed](screenshots/16-tryhackme-google-dorking-completed.jpg)
+![TryHackMe Google Dorking room completed](screenshots/16-tryhackme-google-dorking-completed.webp)
 
 ### OhSINT
 
 The room demonstrated how a single image and its metadata can lead to other pieces of public information. The main lesson was that individually small details can become more revealing when they are connected together.
 
-![TryHackMe OhSINT room completed](screenshots/17-tryhackme-ohsint-completed.jpg)
+![TryHackMe OhSINT room completed](screenshots/17-tryhackme-ohsint-completed.webp)
 
 ### Shodan.io
 
 The room explained that Shodan is a search engine for internet-connected devices and services. Searching by IP address, ASN, banners and filters can show what services are exposed without conducting a new scan against the target.
 
-![TryHackMe Shodan.io room completed](screenshots/18-tryhackme-shodan-completed.jpg)
+![TryHackMe Shodan.io room completed](screenshots/18-tryhackme-shodan-completed.webp)
 
 ## 9. Summary of findings
 

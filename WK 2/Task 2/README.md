@@ -27,6 +27,8 @@ The `-c 4` option stopped the command after four packets.
 
 I learned that ping helps me check reachability and round-trip time. A failed ping does not always mean a host is down, because a firewall may block ICMP replies.
 
+![Screenshot: ping -c 4 google.com output in Kali](evidence/01-ping-google.webp)
+
 ## 3. Traceroute
 
 I used traceroute to see the path my packets took towards Google.
@@ -41,6 +43,8 @@ Each line represents a hop. The tool sends probes with increasing TTL values so 
 
 The destination IP differed from the IP in my ping test. I noted that Google can have multiple IP addresses. I was not completely sure why the later probes did not receive replies; a firewall or the VM network may have blocked them. My successful ping showed that the timeouts did not mean I had no internet connection.
 
+![Screenshot: traceroute google.com output in Kali](evidence/02-traceroute-google.webp)
+
 ## 4. DNS lookup — nslookup and dig
 
 I used both tools to ask a DNS server for the addresses associated with `google.com`.
@@ -52,7 +56,11 @@ dig google.com
 
 **My nslookup result:** The DNS server was `192.168.0.1` on port 53. The response was marked non-authoritative. It returned the IPv4 address `142.251.142.142` and IPv6 address `2a00:1450:4007:816::200e`.
 
+![Screenshot: nslookup google.com output in Kali](evidence/03-nslookup-google.webp)
+
 **My dig result:** The status was `NOERROR` and there was one answer. The ANSWER SECTION contained an A record for `google.com` pointing to `142.251.142.142`, with a TTL of 123 seconds. The query took 44 ms, and the response came from `192.168.0.1#53` over UDP.
+
+![Screenshot: dig google.com output in Kali](evidence/04-dig-google.webp)
 
 The IP address from nslookup and dig matched the one from my ping test. Traceroute returned a different IP, which I recorded in the report.
 
@@ -73,6 +81,8 @@ The options I used were `-t` for TCP, `-u` for UDP, `-l` for listening sockets a
 - `netstat -tun` showed a UDP entry from `10.0.0.3:68` to `10.0.0.2:67`, with the state displayed as `ESTABLISHED`. I identified ports 68 and 67 as the DHCP client and server ports, so I recorded this as the VM's DHCP traffic.
 
 I learned that netstat can help me review listening ports and connections to unfamiliar addresses. I also noted that UDP itself is connectionless, even though the output displayed the state shown above.
+
+![Screenshot: netstat -tuln and netstat -tun output in Kali](evidence/05-netstat-connections.webp)
 
 ## 6. Subnetting basics
 
@@ -122,11 +132,15 @@ I learned that a domain can contain a top-level domain such as `.com`, a second-
 
 **My result:** The DNS in Detail room showed 100% completion.
 
+![Screenshot: DNS in Detail room completed](evidence/06-tryhackme-dns-in-detail.webp)
+
 ### HTTP in Detail
 
 I learned that HTTP uses a request-and-response model. I reviewed the GET and POST methods, common status codes (200, 301, 403, 404 and 500), and headers such as User-Agent, cookies and content type.
 
 **My result:** The HTTP in Detail room showed 100% completion.
+
+![Screenshot: HTTP in Detail room completed](evidence/07-tryhackme-http-in-detail.webp)
 
 ## 8. Conclusion
 

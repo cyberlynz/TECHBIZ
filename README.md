@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <strong>Cybersecurity learning notes, practical labs and task documentation</strong><br />
+  <strong>Cybersecurity learning notes, practical labs and screenshot evidence</strong><br />
   <sub>Ethical Hacking Internship · TechBiz Academy</sub>
 </p>
 
@@ -57,7 +57,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 
 ## About this portfolio
 
-The write-ups are based on my task reports and recorded lab results. Network addresses shown in the lab notes are values from the recorded sessions and may differ in another setup. Week 1 screenshot evidence is stored with the related tasks; Week 2 task documentation records the commands, observations and results from the submitted reports.
+The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task's \`evidence/\` folder and embedded where they support the explanation. Network addresses shown in the lab notes are values from the recorded sessions and may differ in another setup.
 
 ---
 

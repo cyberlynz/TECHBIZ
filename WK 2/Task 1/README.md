@@ -146,7 +146,7 @@ nmap --version
 - \`sudo apt install nmap -y\` installed Nmap or upgraded it if it was already present.
 - \`nmap --version\` checked that Nmap could run from the terminal.
 
-**My result:** Nmap was already on my system, so apt upgraded it instead of installing it fresh. The command completed without errors. \`nmap --version\` printed **Nmap 7.991**.
+**My result:** `apt update` reported that 630 packages could be upgraded. Nmap was already on my system, so apt upgraded it instead of installing it fresh. The summary showed four packages upgraded (`ndiff`, `nmap`, `nmap-common` and `zenmap`), zero newly installed, and 626 not upgraded. The command completed without errors. `nmap --version` printed **Nmap 7.991**.
 
 ![Screenshot 6: apt package operation and Nmap version output](evidence/06-apt-nmap-installation.jpg)
 

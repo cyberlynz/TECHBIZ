@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Lab-Metasploitable%202-E87500?style=flat-square&labelColor=000000" alt="Metasploitable 2 lab" />
 </p>
 
-During Week 2 at TechBiz Academy, I practised Linux commands and permissions, used basic networking tools, worked through subnetting, and prepared an isolated vulnerable lab with Metasploitable 2. I documented the commands I ran and the results I recorded in each task.
+During Week 2 at TechBiz Academy, I practised Linux commands and permissions, used basic networking tools, worked through subnetting, and prepared an isolated vulnerable lab with Metasploitable 2. I documented the commands I ran, what I observed and the results from each task.
 
 ---
 
@@ -17,8 +17,6 @@ During Week 2 at TechBiz Academy, I practised Linux commands and permissions, us
 | [**Task 1 →**](Task%201/README.md) | Linux Fundamentals | Linux directories, 20 basic commands, file creation, permissions, ownership, sudo and apt |
 | [**Task 2 →**](Task%202/README.md) | Networking Tools & Subnetting Basics | ping, traceroute, nslookup, dig, netstat, CIDR notation and TryHackMe DNS/HTTP rooms |
 | [**Task 3 →**](Task%203/README.md) | Vulnerable Lab Setup — Metasploitable 2 | VirtualBox, NAT Network, Kali-to-target connectivity and the target's web applications |
-
-[Browse all Week 2 screenshot evidence →](Evidence/README.md)
 
 ## Main lab details
 
@@ -35,13 +33,19 @@ During Week 2 at TechBiz Academy, I practised Linux commands and permissions, us
 ## What I practised
 
 - Navigating the Linux file system and working with files from the terminal.
-- Reading and changing permissions with `ls -l` and `chmod`.
-- Checking ownership and using `sudo` when administrator privileges are required.
-- Installing or updating Nmap with `apt` and checking its version.
+- Reading and changing permissions with \`ls -l\` and \`chmod\`.
+- Checking ownership and using \`sudo\` when administrator privileges are required.
+- Updating packages, installing or upgrading Nmap with \`apt\`, and checking its version.
 - Checking host reachability, tracing network paths and looking up DNS records.
 - Reviewing listening ports and active network sockets.
 - Calculating usable host addresses from CIDR notation.
 - Building a private lab network and confirming that Kali could reach Metasploitable 2.
+
+## Screenshot evidence
+
+I placed the screenshots extracted from my Week 2 task reports in the matching task folders and embedded them in the task write-ups.
+
+**[Open the Week 2 screenshot evidence index →](Evidence/README.md)**
 
 ---
 

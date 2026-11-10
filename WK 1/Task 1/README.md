@@ -17,7 +17,7 @@ Cybersecurity means protecting computers, networks, applications and data from p
 
 The CIA Triad explains three important parts of keeping information secure: Confidentiality, Integrity and Availability.
 
-![CIA Triad diagram](evidence/01-cia-triad.jpg)
+![CIA Triad diagram](screenshots/01-cia-triad.jpg)
 
 - **Confidentiality:** Only people who are allowed to see information should be able to access it. In a hospital, for example, only the staff treating a patient should be able to open that patient's records. Passwords, access controls and encryption help protect confidentiality.
 - **Integrity:** Information should remain correct and should not be changed without permission. If someone changed the amount in a bank transfer, the bank's records could no longer be trusted. Hashing and digital signatures can help detect changes.
@@ -87,13 +87,13 @@ I read about both offensive and defensive security work and some of the roles in
 I completed these three free TryHackMe rooms for this task.
 
 ### Pentesting Fundamentals
-![Pentesting Fundamentals completed](evidence/02-pentesting-fundamentals-completed.jpg)
+![Pentesting Fundamentals completed](screenshots/02-pentesting-fundamentals-completed.jpg)
 
 ### Offensive Security Intro
-![Offensive Security Intro completed](evidence/03-offensive-security-intro-completed.jpg)
+![Offensive Security Intro completed](screenshots/03-offensive-security-intro-completed.jpg)
 
 ### Careers in Cybersecurity
-![Careers in Cybersecurity completed](evidence/04-careers-in-cybersecurity-completed.jpg)
+![Careers in Cybersecurity completed](screenshots/04-careers-in-cybersecurity-completed.jpg)
 
 ## 9. Conclusion
 

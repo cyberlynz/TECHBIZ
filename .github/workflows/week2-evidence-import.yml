@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "WK 2/.week2-evidence-assets.zip"
+      - "WK 2/.week2-evidence-assets.manifest"
 
 permissions:
   contents: write
@@ -19,10 +19,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Extract screenshot evidence into task folders
+      - name: Reassemble and extract screenshots
         run: |
-          unzip -q "WK 2/.week2-evidence-assets.zip" -d .
-          rm "WK 2/.week2-evidence-assets.zip"
+          cat "WK 2"/.week2-evidence-assets.part-*.txt | base64 -d > /tmp/week2-evidence-assets.zip
+          unzip -q /tmp/week2-evidence-assets.zip -d .
+          rm "WK 2"/.week2-evidence-assets.part-*.txt
+          rm "WK 2/.week2-evidence-assets.manifest"
           rm ".github/workflows/week2-evidence-import.yml"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

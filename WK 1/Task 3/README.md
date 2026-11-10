@@ -25,25 +25,25 @@ For this task, I set up a basic cybersecurity lab on my Windows 10 computer. I u
 
 I downloaded VirtualBox 7.2.16 and ran the installer on my Windows 10 computer. During installation, the setup window showed the support-driver installation step.
 
-![VirtualBox installer running](evidence/01-virtualbox-installer.jpg)
+![VirtualBox installer running](screenshots/01-virtualbox-installer.jpg)
 
 After installation, I opened VirtualBox Manager.
 
-![VirtualBox Manager on first launch](evidence/02-virtualbox-first-launch.jpg)
+![VirtualBox Manager on first launch](screenshots/02-virtualbox-first-launch.jpg)
 
 ## 4. Importing and starting Kali Linux
 
 I downloaded the pre-built Kali Linux VirtualBox image, extracted it with 7-Zip and opened the existing `.vbox` file in VirtualBox Manager. After importing the machine, I checked that Kali appeared in the list of virtual machines.
 
-![Kali Linux virtual machine in VirtualBox Manager](evidence/03-virtualbox-kali-vm-manager.jpg)
+![Kali Linux virtual machine in VirtualBox Manager](screenshots/03-virtualbox-kali-vm-manager.jpg)
 
 I started the VM and logged in using the credentials recorded in my report: `kali` / `kali`. The Kali desktop loaded successfully.
 
-![Kali Linux desktop after login](evidence/04-kali-linux-desktop.jpg)
+![Kali Linux desktop after login](screenshots/04-kali-linux-desktop.jpg)
 
 I then opened the terminal to start checking the system.
 
-![Kali terminal open](evidence/05-kali-terminal.jpg)
+![Kali terminal open](screenshots/05-kali-terminal.jpg)
 
 ## 5. Commands I ran
 
@@ -71,7 +71,7 @@ This command displayed the available network interfaces and their addressing inf
 | IPv6 address | `fe80::a413:d56d:1797:240/64` |
 | Loopback address | `127.0.0.1` |
 
-![Kali command output and network details](evidence/06-kali-command-checks.jpg)
+![Kali command output and network details](screenshots/06-kali-command-checks.jpg)
 
 The `lo` interface is the loopback interface, which lets the computer communicate with itself. The `10.0.0.3/24` address is a private IPv4 address. These are the values from this lab session, so they may be different in another session or network setup.
 
@@ -83,13 +83,13 @@ sudo apt update
 
 I used this command to refresh the list of available packages from the configured Kali repositories. It updates package information; it does not upgrade installed packages by itself.
 
-![Kali package update output](evidence/07-apt-update-output.jpg)
+![Kali package update output](screenshots/07-apt-update-output.jpg)
 
 ## 6. TryHackMe — Linux Fundamentals Part 1
 
 I completed the free Linux Fundamentals Part 1 room on TryHackMe. The room introduced Linux commands I can use to navigate folders, view files and search through text.
 
-![Linux Fundamentals Part 1 completed](evidence/08-tryhackme-linux-fundamentals-completed.jpg)
+![Linux Fundamentals Part 1 completed](screenshots/08-tryhackme-linux-fundamentals-completed.jpg)
 
 Some of the commands and operators I covered were:
 

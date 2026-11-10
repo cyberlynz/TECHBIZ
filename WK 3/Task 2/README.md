@@ -26,9 +26,9 @@ Both machines were VirtualBox virtual machines on the same network. The detailed
 
 I checked the addresses with \`ip addr\` on Kali and \`ip a\` on Metasploitable 2. Both addresses were in the same \`/24\` network.
 
-![Kali Linux ip addr output showing 10.0.0.3/24](screenshots/01-kali-ip-addr.jpg)
+![Kali Linux ip addr output showing 10.0.0.3/24](screenshots/01-kali-ip-addr.webp)
 
-![Metasploitable 2 ip a output showing 10.0.0.6/24](screenshots/02-metasploitable-ip-a.jpg)
+![Metasploitable 2 ip a output showing 10.0.0.6/24](screenshots/02-metasploitable-ip-a.webp)
 
 ## 3. Nmap scan types reviewed
 
@@ -42,9 +42,9 @@ I used the TryHackMe Nmap room and the official Nmap Reference Guide to review t
 
 The TryHackMe room also covered TCP Connect, SYN, UDP, NULL, FIN, Xmas and Ping Sweep scans, how Nmap classifies open, closed and filtered ports, and the trade-offs between scan speed, stealth and accuracy.
 
-![TryHackMe Nmap room completed](screenshots/03-tryhackme-nmap-room-completed.jpg)
+![TryHackMe Nmap room completed](screenshots/03-tryhackme-nmap-room-completed.webp)
 
-![Nmap Reference Guide on nmap.org](screenshots/04-nmap-reference-guide.jpg)
+![Nmap Reference Guide on nmap.org](screenshots/04-nmap-reference-guide.webp)
 
 ## 4. Step 1 — Host discovery
 
@@ -65,7 +65,7 @@ nmap -sn 10.0.0.0/24
 
 The target MAC address was \`08:00:27:A5:88:41\`. The scan completed in **4.17 seconds**. I used \`10.0.0.6\` as the target for the next scans.
 
-![Nmap host discovery scan on 10.0.0.0/24](screenshots/05-nmap-host-discovery-scan.jpg)
+![Nmap host discovery scan on 10.0.0.0/24](screenshots/05-nmap-host-discovery-scan.webp)
 
 ## 5. Step 2 — Port scan and service version detection
 
@@ -77,7 +77,7 @@ nmap -sV 10.0.0.6
 
 **My result:** The scan reported **23 open ports** and **977 closed ports** and took **13.81 seconds**. The open services included FTP, SSH, Telnet, web servers, MySQL and PostgreSQL. Port 1524 was identified as a Metasploitable root shell. The service-version results also showed \`vsftpd 2.3.4\` on port 21 and UnrealIRCd on port 6667.
 
-![Nmap service and version scan of Metasploitable 2](screenshots/06-nmap-service-version-scan.jpg)
+![Nmap service and version scan of Metasploitable 2](screenshots/06-nmap-service-version-scan.webp)
 
 ## 6. Step 3 — Aggressive scan
 
@@ -96,13 +96,13 @@ The aggressive scan added OS detection, default script results and traceroute in
 - The traceroute showed one hop to \`10.0.0.6\`, with a recorded RTT of \`0.79 ms\`.
 - The aggressive scan took **34.79 seconds**, compared with **13.81 seconds** for \`-sV\`.
 
-![Nmap aggressive scan output, part 1 of 4](screenshots/07-nmap-aggressive-scan-part-1.jpg)
+![Nmap aggressive scan output, part 1 of 4](screenshots/07-nmap-aggressive-scan-part-1.webp)
 
-![Nmap aggressive scan output, part 2 of 4](screenshots/08-nmap-aggressive-scan-part-2.jpg)
+![Nmap aggressive scan output, part 2 of 4](screenshots/08-nmap-aggressive-scan-part-2.webp)
 
-![Nmap aggressive scan output, part 3 of 4](screenshots/09-nmap-aggressive-scan-part-3.jpg)
+![Nmap aggressive scan output, part 3 of 4](screenshots/09-nmap-aggressive-scan-part-3.webp)
 
-![Nmap aggressive scan output, part 4 of 4](screenshots/10-nmap-aggressive-scan-part-4.jpg)
+![Nmap aggressive scan output, part 4 of 4](screenshots/10-nmap-aggressive-scan-part-4.webp)
 
 ### Reading the additional output
 

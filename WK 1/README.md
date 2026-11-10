@@ -22,7 +22,7 @@ In my first week at TechBiz Academy, I covered cybersecurity and ethical hacking
 
 Screenshots are placed in each task's `evidence/` folder and embedded alongside the related explanation.
 
-**[Browse all Week 1 screenshot evidence →](Evidence/README.md)**
+**[Browse all Week 1 screenshots →](Screenshots/README.md)**
 
 ---
 

@@ -50,11 +50,17 @@ I also chose this setup for safety. Metasploitable 2 is intentionally insecure, 
 
 I downloaded and extracted the Metasploitable 2 archive. In VirtualBox I created a VM named `Metasploitable2`, selected Linux with Ubuntu (32-bit), assigned 512 MB of RAM, and selected the existing `.vmdk` virtual disk.
 
+![Screenshot: Metasploitable2 imported in VirtualBox on NatNetwork](evidence/01-metasploitable2-virtualbox.webp)
+
 ### Connect both VMs to NatNetwork
 
 My Kali VM was already installed from Week 1. I set Adapter 1 on both the Kali and Metasploitable 2 VMs to the same NAT Network, `NatNetwork`.
 
+![Screenshot: kali-linux in VirtualBox on the same NAT Network NatNetwork](evidence/02-kali-vm-virtualbox.webp)
+
 I opened the VirtualBox NAT Networks settings and created `NatNetwork` with DHCP enabled. Its IPv4 prefix was `10.0.0.0/24`.
+
+![Screenshot: VirtualBox NAT Networks tab showing NatNetwork with IPv4 prefix 10.0.0.0/24 and DHCP enabled](evidence/03-virtualbox-natnetwork-settings.webp)
 
 ### Find the target IP
 
@@ -66,6 +72,8 @@ ifconfig
 
 The target address was `10.0.0.6` on interface `eth0`, with subnet mask `255.255.255.0`.
 
+![Screenshot: ifconfig on Metasploitable2 showing eth0 with IP address 10.0.0.6](evidence/04-metasploitable2-ifconfig.webp)
+
 ### Check the Kali IP
 
 I started Kali and ran:
@@ -75,6 +83,8 @@ ip a
 ```
 
 Kali had address `10.0.0.3/24` on `eth0`. Both machines were in the `10.0.0.0/24` subnet.
+
+![Screenshot: ip a on Kali showing eth0 with IP address 10.0.0.3/24](evidence/05-kali-ip-address.webp)
 
 ## 6. Test connectivity from Kali
 
@@ -86,6 +96,8 @@ ping -c 4 10.0.0.6
 
 **My result:** All four packets returned: 4 transmitted, 4 received and **0% packet loss**. The average round-trip time was **0.459 ms**. This confirmed that Kali (`10.0.0.3`) could reach Metasploitable 2 (`10.0.0.6`) on the lab network.
 
+![Screenshot: successful ping from Kali to Metasploitable2 with 0% packet loss](evidence/06-ping-metasploitable2.webp)
+
 ### Open the target web page
 
 As an additional check, I opened the target in the Kali browser:
@@ -95,6 +107,12 @@ http://10.0.0.6/
 ```
 
 The page loaded and listed the web applications available on Metasploitable 2, including TWiki, phpMyAdmin, Mutillidae, DVWA and WebDAV. This showed that more than ping connectivity was working.
+
+![Screenshot: Metasploitable 2 web page opened from the Kali browser at http://10.0.0.6](evidence/07-metasploitable2-web-page.webp)
+
+The report also includes a screenshot of the TryHackMe DVWA room.
+
+![Screenshot: TryHackMe DVWA room](evidence/08-tryhackme-dvwa-room.webp)
 
 ## 7. Problems faced
 

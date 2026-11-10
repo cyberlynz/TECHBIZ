@@ -1,0 +1,31 @@
+name: Import Week 2 screenshot evidence
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "WK 2/.week2-evidence-assets.zip"
+
+permissions:
+  contents: write
+
+jobs:
+  import-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract screenshot evidence into task folders
+        run: |
+          unzip -q "WK 2/.week2-evidence-assets.zip" -d .
+          rm "WK 2/.week2-evidence-assets.zip"
+          rm ".github/workflows/week2-evidence-import.yml"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Add Week 2 screenshot evidence"
+          git push

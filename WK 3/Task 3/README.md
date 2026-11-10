@@ -42,7 +42,7 @@ The scan showed 23 open ports and 977 closed ports. The relevant services were:
 
 Nmap gave a version range for Samba, so I used enum4linux to try to identify the exact version.
 
-![Nmap service-version scan of 10.0.0.6 from Task 2](screenshots/01-nmap-service-version-scan-reference.jpg)
+![Nmap service-version scan of 10.0.0.6 from Task 2](screenshots/01-nmap-service-version-scan-reference.webp)
 
 ## 3. SMB enumeration with enum4linux
 
@@ -54,17 +54,17 @@ enum4linux -a 10.0.0.6
 
 The \`-a\` option runs the available checks together. In this task I used it to query the workgroup and NetBIOS information, OS information, null-session access, users, shares, groups and password policy.
 
-![enum4linux part 1: target information, workgroup, NetBIOS names and session check](screenshots/02-enum4linux-target-workgroup-and-session.jpg)
+![enum4linux part 1: target information, workgroup, NetBIOS names and session check](screenshots/02-enum4linux-target-workgroup-and-session.webp)
 
-![enum4linux part 2: Samba OS information and start of the users list](screenshots/03-enum4linux-samba-version-and-user-list.jpg)
+![enum4linux part 2: Samba OS information and start of the users list](screenshots/03-enum4linux-samba-version-and-user-list.webp)
 
-![enum4linux part 3: remaining users list](screenshots/04-enum4linux-rest-of-user-list.jpg)
+![enum4linux part 3: remaining users list](screenshots/04-enum4linux-rest-of-user-list.webp)
 
-![enum4linux part 4: share enumeration and share mapping](screenshots/05-enum4linux-share-enumeration-and-mapping.jpg)
+![enum4linux part 4: share enumeration and share mapping](screenshots/05-enum4linux-share-enumeration-and-mapping.webp)
 
-![enum4linux part 5: password policy information](screenshots/06-enum4linux-password-policy.jpg)
+![enum4linux part 5: password policy information](screenshots/06-enum4linux-password-policy.webp)
 
-![enum4linux part 6: RID cycling and end of the run](screenshots/07-enum4linux-rid-cycling.jpg)
+![enum4linux part 6: RID cycling and end of the run](screenshots/07-enum4linux-rid-cycling.webp)
 
 ### Results recorded
 
@@ -94,9 +94,9 @@ smbclient //10.0.0.6/tmp -N
 
 \`-L\` lists the shares on the server, and \`-N\` tells smbclient not to prompt for a password. After connecting to \`tmp\`, I used \`ls\` to list its contents.
 
-![smbclient share listing on 10.0.0.6](screenshots/08-smbclient-share-listing.jpg)
+![smbclient share listing on 10.0.0.6](screenshots/08-smbclient-share-listing.webp)
 
-![smbclient connected to the tmp share and listing files](screenshots/09-smbclient-tmp-share-files.jpg)
+![smbclient connected to the tmp share and listing files](screenshots/09-smbclient-tmp-share-files.webp)
 
 ### Results recorded
 
@@ -126,7 +126,7 @@ The banner was:
 
 This identified the service as vsftpd 2.3.4.
 
-![FTP banner grabbed with netcat on port 21](screenshots/10-netcat-ftp-banner.jpg)
+![FTP banner grabbed with netcat on port 21](screenshots/10-netcat-ftp-banner.webp)
 
 ### 5.2 SSH — port 22
 
@@ -142,7 +142,7 @@ SSH-2.0-OpenSSH_4.7p1 Debian-8ubuntu1
 
 This identified OpenSSH 4.7p1 using SSH protocol 2.0. The \`Debian-8ubuntu1\` text identifies the package build string recorded in the banner.
 
-![SSH banner grabbed with netcat on port 22](screenshots/11-netcat-ssh-banner.jpg)
+![SSH banner grabbed with netcat on port 22](screenshots/11-netcat-ssh-banner.webp)
 
 The two banners matched the versions from the Nmap service scan. The report notes that vsftpd 2.3.4 is associated with the backdoor issue CVE-2011-2523 and that OpenSSH 4.7p1 is an old release. I did not test or exploit either service; I recorded the versions as weaknesses that should be reviewed. Netcat remained connected after displaying the banner, so I closed the connections myself.
 
@@ -156,13 +156,13 @@ The room covered a path from reconnaissance to root access in the training envir
 
 The main lesson I recorded was that several small weaknesses can combine into a larger compromise. From a defensive perspective, the room highlighted the need to review upload filters, elevated processes and SUID files.
 
-![TryHackMe Vulnversity room completed](screenshots/12-tryhackme-vulnversity-completed.jpg)
+![TryHackMe Vulnversity room completed](screenshots/12-tryhackme-vulnversity-completed.webp)
 
 ### 6.2 Nmap
 
 The Nmap room covered TCP Connect, SYN, UDP, NULL, FIN, Xmas and Ping Sweep scans, and how Nmap identifies open, closed and filtered ports. It reinforced that scan types have different trade-offs involving speed, stealth and accuracy. The scan choice should match the target environment and the objective of an authorised assessment.
 
-![TryHackMe Nmap room completed](screenshots/13-tryhackme-nmap-completed.jpg)
+![TryHackMe Nmap room completed](screenshots/13-tryhackme-nmap-completed.webp)
 
 ## 7. Summary of findings
 

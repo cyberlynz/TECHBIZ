@@ -48,7 +48,7 @@ I opened Command Prompt and ran `ipconfig`, then used `ipconfig /all` to see mor
 | Physical address (MAC) | `08-00-27-F4-0F-34` | The MAC address recorded for my Ethernet adapter |
 | DHCP server | `10.0.0.2` | The server that automatically assigned the address |
 
-![Windows ipconfig output](evidence/01-windows-ipconfig-output.jpg)
+![Windows ipconfig output](screenshots/01-windows-ipconfig-output.jpg)
 
 A MAC address identifies a network interface at the data-link layer. It is typically shown as six pairs of hexadecimal characters. I learned that MAC addresses can be spoofed, so they should not be treated as complete proof of a device's identity.
 
@@ -58,7 +58,7 @@ I think of the IP address like a street address used to reach a destination, whi
 
 The OSI model breaks network communication into seven layers. It helps me understand where a problem may be happening and which kind of tool or log could be useful when investigating it. I used the phrase **“All People Seem To Need Data Processing”** to remember the order from Application down to Physical.
 
-![OSI model: seven layers](evidence/02-osi-model-seven-layers.jpg)
+![OSI model: seven layers](screenshots/02-osi-model-seven-layers.jpg)
 
 | Layer | Name | Example |
 |---:|---|---|
@@ -101,7 +101,7 @@ TCP and UDP operate at the Transport layer, but they handle data differently.
 
 TCP establishes a connection using SYN, SYN-ACK and ACK before data is sent.
 
-![TCP three-way handshake](evidence/03-tcp-three-way-handshake.jpg)
+![TCP three-way handshake](screenshots/03-tcp-three-way-handshake.jpg)
 
 TCP supports reliable, ordered delivery through acknowledgements and retransmissions. It is commonly used for web traffic, email and file transfers.
 
@@ -121,13 +121,13 @@ I also learned that TCP scans can use handshake responses to help identify servi
 These are the three rooms I completed for this task. I used the two free alternatives because **OSI Model** and **Packets & Frames** were premium rooms.
 
 ### What is Networking?
-![TryHackMe What is Networking room](evidence/04-tryhackme-what-is-networking.jpg)
+![TryHackMe What is Networking room](screenshots/04-tryhackme-what-is-networking.jpg)
 
 ### Networking Concepts
-![TryHackMe Networking Concepts room](evidence/05-tryhackme-networking-concepts.jpg)
+![TryHackMe Networking Concepts room](screenshots/05-tryhackme-networking-concepts.jpg)
 
 ### Intro to LAN
-![TryHackMe Intro to LAN room](evidence/06-tryhackme-intro-to-lan.jpg)
+![TryHackMe Intro to LAN room](screenshots/06-tryhackme-intro-to-lan.jpg)
 
 What I took from these rooms was a better understanding of how devices connect, the roles of IP and MAC addresses, what different network layers do, and how local networks are organized.
 

@@ -65,7 +65,11 @@ I also practised three additional commands that are useful when looking at files
 
 I ran `pwd`, `ls`, `cd`, `cd ..` and `whoami`. The working directory printed by `pwd` was `/home/kali`. I entered Downloads, listed its contents, and then returned to `/home/kali`. The `whoami` command printed `kali`.
 
+![Screenshot 1: pwd, ls, cd and whoami in the Kali terminal](evidence/01-file-system-navigation.webp)
+
 The additional checks showed that the first five entries in `/etc/passwd` were root, daemon, bin, sys and sync. The `id` output showed that my account was `kali` (UID 1000) and belonged to the `sudo` group. The `find` command returned text files under my home directory, including files in my Firefox profile, local PKI folder and John the Ripper folder.
+
+![Screenshot 2: head, id and find output in the Kali terminal](evidence/02-extra-linux-commands.webp)
 
 ## 4. Practical exercise — create, write and read a file
 
@@ -85,6 +89,8 @@ Practising Linux commands in Kali.
 ```
 
 This confirmed that the file was created and saved correctly.
+
+![Screenshot 3: creating a folder, writing to notes.txt and reading it with cat](evidence/03-create-write-read-file.webp)
 
 ## 5. Changing file permissions
 
@@ -109,6 +115,8 @@ I compared this with `644`, which is a common setting for ordinary text files. T
 
 **My result:** Before `chmod`, `script.sh` showed `-rw-rw-r--`. After `chmod 755 script.sh`, it showed `-rwxr-xr-x`. The permissions on `notes.txt` did not change. I learned that giving execute permission to everyone can be risky, so using the smallest permission that works is the safer choice.
 
+![Screenshot 4: touch, ls -l, chmod 755 and ls -l in the Kali terminal](evidence/04-file-permissions-chmod.webp)
+
 ## 6. Ownership and sudo
 
 I checked the owner and group of `notes.txt`, then ran:
@@ -121,6 +129,8 @@ sudo chown $USER:$USER notes.txt
 The `chown` command changes file ownership. I used `sudo` because changing ownership normally requires administrator rights. The owner and group were already `kali`, so the command finished without an error but did not produce a visible ownership change. I did not run `ls -l` again after the command, so the screenshot does not show a separate after-check.
 
 I learned to use `sudo` carefully because root privileges can make system-wide changes, and a mistake in a privileged command can cause damage.
+
+![Screenshot 5: ls -l and sudo chown in the Kali terminal](evidence/05-file-ownership-sudo.webp)
 
 ## 7. Package management with apt
 
@@ -137,6 +147,8 @@ nmap --version
 - `nmap --version` checked that Nmap could run from the terminal.
 
 **My result:** The package-list update reported that 630 packages could be upgraded. Nmap was already on my system, so apt upgraded it instead of installing it fresh. The summary showed four packages upgraded — `nmap`, `ndiff`, `nmap-common` and `zenmap` — and zero newly installed. The command finished without errors. `nmap --version` printed **Nmap 7.991**.
+
+![Screenshot 6: apt update, apt install nmap -y and nmap --version in the Kali terminal](evidence/06-apt-nmap-installation.webp)
 
 ## 8. What I learned and conclusion
 

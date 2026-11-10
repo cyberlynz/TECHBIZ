@@ -25,7 +25,7 @@ The \`-c 4\` option stopped the command after four packets.
 
 **My result:** \`google.com\` resolved to \`142.251.142.142\`. All four packets returned, so packet loss was **0%**. The reply times were 134, 133, 147 and 135 ms. The summary showed a minimum of 133.036 ms, an average of 137.202 ms and a maximum of 146.918 ms. The TTL in every reply was 64.
 
-![Screenshot: ping -c 4 google.com output in Kali](evidence/01-ping-google.jpg)
+![Screenshot: ping -c 4 google.com output in Kali](screenshots/01-ping-google.jpg)
 
 I learned that ping helps me check reachability and round-trip time. A failed ping does not always mean a host is down, because a firewall may block ICMP replies.
 
@@ -41,7 +41,7 @@ Each line represents a hop. The tool sends probes with increasing TTL values so 
 
 **My result:** The trace used destination address \`192.178.25.110\`, with a maximum of 30 hops and 60-byte packets. Hop 1 was my gateway, \`10.0.0.1\`, and it responded in under 1 ms (0.806, 0.772 and 0.746 ms). Hops 2 through 30 showed \`* * *\`, giving 29 timeouts. The trace did not reach Google.
 
-![Screenshot: traceroute google.com output in Kali](evidence/02-traceroute-google.jpg)
+![Screenshot: traceroute google.com output in Kali](screenshots/02-traceroute-google.jpg)
 
 The destination IP differed from the IP in my ping test. I noted that Google can have multiple IP addresses. I was not completely sure why the later probes did not receive replies; a firewall or the VM network may have blocked them. My successful ping showed that the timeouts did not mean I had no internet connection.
 
@@ -58,13 +58,13 @@ dig google.com
 
 The DNS server was \`192.168.0.1\` on port 53. The response was marked non-authoritative. It returned the IPv4 address \`142.251.142.142\` and IPv6 address \`2a00:1450:4007:816::200e\`.
 
-![Screenshot: nslookup google.com output in Kali](evidence/03-nslookup-google.jpg)
+![Screenshot: nslookup google.com output in Kali](screenshots/03-nslookup-google.jpg)
 
 ### dig
 
 The status was \`NOERROR\` and there was one answer. The ANSWER SECTION contained an A record for \`google.com\` pointing to \`142.251.142.142\`, with a TTL of 123 seconds. The query took 44 ms, and the response came from \`192.168.0.1#53\` over UDP.
 
-![Screenshot: dig google.com output in Kali](evidence/04-dig-google.jpg)
+![Screenshot: dig google.com output in Kali](screenshots/04-dig-google.jpg)
 
 The IP address from nslookup and dig matched the one from my ping test. Traceroute returned a different IP, which I recorded in the report.
 
@@ -84,7 +84,7 @@ The options I used were \`-t\` for TCP, \`-u\` for UDP, \`-l\` for listening soc
 - \`netstat -tuln\` showed only the header and no entries. In that output, there were no TCP or UDP services listening.
 - \`netstat -tun\` showed a UDP entry from \`10.0.0.3:68\` to \`10.0.0.2:67\`, with the state displayed as \`ESTABLISHED\`. I identified ports 68 and 67 as the DHCP client and server ports, so I recorded this as the VM's DHCP traffic.
 
-![Screenshot: netstat -tuln and netstat -tun output in Kali](evidence/05-netstat-connections.jpg)
+![Screenshot: netstat -tuln and netstat -tun output in Kali](screenshots/05-netstat-connections.jpg)
 
 I learned that netstat can help me review listening ports and connections to unfamiliar addresses. I also noted that UDP itself is connectionless, even though the output displayed the state shown above.
 
@@ -134,13 +134,13 @@ I completed two free TryHackMe rooms for this task.
 
 I learned about domain structure, DNS record types and how DNS resolution works. The room covered A records for IPv4, AAAA records for IPv6, CNAME records for aliases, MX records for mail servers and TXT records for text information. I also studied recursive DNS resolution involving root, TLD and authoritative DNS servers.
 
-![Screenshot: TryHackMe DNS in Detail room](evidence/06-tryhackme-dns-in-detail.jpg)
+![Screenshot: TryHackMe DNS in Detail room](screenshots/06-tryhackme-dns-in-detail.jpg)
 
 ### HTTP in Detail
 
 I learned that HTTP uses a request-and-response model. I reviewed the GET and POST methods, common status codes (200, 301, 403, 404 and 500), and headers such as User-Agent, cookies and content type.
 
-![Screenshot: TryHackMe HTTP in Detail room](evidence/07-tryhackme-http-in-detail.jpg)
+![Screenshot: TryHackMe HTTP in Detail room](screenshots/07-tryhackme-http-in-detail.jpg)
 
 ## 8. Conclusion
 

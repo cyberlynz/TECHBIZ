@@ -23,12 +23,12 @@ I used a private VirtualBox NAT Network so the two VMs could communicate inside 
 | Virtualization software | Oracle VirtualBox 7.2.16 |
 | Attacker VM | kali-linux (Kali Linux, 64-bit) |
 | Target VM | Metasploitable2 (Ubuntu Linux, 32-bit) |
-| Network type | NAT Network named `NatNetwork`, on Adapter 1 of both VMs |
+| Network type | NAT Network named \`NatNetwork\`, on Adapter 1 of both VMs |
 | Network adapter | Intel PRO/1000 MT Desktop on both VMs |
-| Network prefix | `10.0.0.0/24` |
-| Kali IP address | `10.0.0.3` on `eth0` |
-| Target IP address | `10.0.0.6` on `eth0`, mask `255.255.255.0` |
-| Target login used in the lab | `msfadmin / msfadmin` (default) |
+| Network prefix | \`10.0.0.0/24\` |
+| Kali IP address | \`10.0.0.3\` on \`eth0\` |
+| Target IP address | \`10.0.0.6\` on \`eth0\`, mask \`255.255.255.0\` |
+| Target login used in the lab | \`msfadmin / msfadmin\` (default) |
 
 ## 3. Key terms
 
@@ -42,84 +42,88 @@ I used a private VirtualBox NAT Network so the two VMs could communicate inside 
 
 I used a NAT Network because both VMs needed to communicate with each other. Plain NAT would give each VM its own private connection and would not provide the shared network required for this lab.
 
-I also chose this setup for safety. Metasploitable 2 is intentionally insecure, so I did not use a Bridged adapter that could expose it to my real network. Both VMs used the same network name, `NatNetwork`.
+I also chose this setup for safety. Metasploitable 2 is intentionally insecure, so I did not use a Bridged adapter that could expose it to my real network. Both VMs used the same network name, \`NatNetwork\`.
 
 ## 5. Setting up the lab
 
-### Import Metasploitable 2
+### 5.1 Import Metasploitable 2
 
-I downloaded and extracted the Metasploitable 2 archive. In VirtualBox I created a VM named `Metasploitable2`, selected Linux with Ubuntu (32-bit), assigned 512 MB of RAM, and selected the existing `.vmdk` virtual disk.
+I downloaded and extracted the Metasploitable 2 archive. In VirtualBox I created a VM named \`Metasploitable2\`, selected Linux with Ubuntu (32-bit), assigned 512 MB of RAM, and selected the existing \`.vmdk\` virtual disk.
 
-![Screenshot: Metasploitable2 imported in VirtualBox on NatNetwork](evidence/01-metasploitable2-virtualbox.webp)
+![Screenshot: Metasploitable2 imported in VirtualBox](evidence/01-metasploitable2-virtualbox.jpg)
 
-### Connect both VMs to NatNetwork
+### 5.2 Put Kali on the same network
 
-My Kali VM was already installed from Week 1. I set Adapter 1 on both the Kali and Metasploitable 2 VMs to the same NAT Network, `NatNetwork`.
+My Kali VM was already installed from Week 1. I opened its settings and set Adapter 1 to the same NAT Network, \`NatNetwork\`. The adapter name had to match on both VMs so they would be on the same network.
 
-![Screenshot: kali-linux in VirtualBox on the same NAT Network NatNetwork](evidence/02-kali-vm-virtualbox.webp)
+![Screenshot: kali-linux in VirtualBox on the same NAT Network](evidence/02-kali-virtualbox.jpg)
 
-I opened the VirtualBox NAT Networks settings and created `NatNetwork` with DHCP enabled. Its IPv4 prefix was `10.0.0.0/24`.
+### 5.3 Create the NAT Network
 
-![Screenshot: VirtualBox NAT Networks tab showing NatNetwork with IPv4 prefix 10.0.0.0/24 and DHCP enabled](evidence/03-virtualbox-natnetwork-settings.webp)
+In VirtualBox I opened Tools, then Network, then the NAT Networks tab, and created a network named \`NatNetwork\` with DHCP enabled. My NatNetwork used the IPv4 prefix \`10.0.0.0/24\`, which is why both VMs received addresses in the \`10.0.0.x\` range.
 
-### Find the target IP
+![Screenshot: VirtualBox NAT Networks showing NatNetwork, IPv4 prefix and DHCP](evidence/03-natnetwork-configuration.jpg)
 
-I started Metasploitable 2, logged in with its default lab account, and ran:
+### 5.4 Start the target and find its IP
 
-```bash
+I started Metasploitable 2 and logged in with the default account (\`msfadmin / msfadmin\`). I checked its network address with:
+
+\`\`\`bash
 ifconfig
-```
+\`\`\`
 
-The target address was `10.0.0.6` on interface `eth0`, with subnet mask `255.255.255.0`.
+The target address was \`10.0.0.6\` on interface \`eth0\`, with the mask \`255.255.255.0\`.
 
-![Screenshot: ifconfig on Metasploitable2 showing eth0 with IP address 10.0.0.6](evidence/04-metasploitable2-ifconfig.webp)
+![Screenshot: ifconfig on Metasploitable2 showing 10.0.0.6](evidence/04-metasploitable2-ifconfig.jpg)
 
-### Check the Kali IP
+### 5.5 Start Kali and check its IP
 
-I started Kali and ran:
+Next I started Kali and checked that it also received an address from the NAT Network.
 
-```bash
+\`\`\`bash
 ip a
-```
+\`\`\`
 
-Kali had address `10.0.0.3/24` on `eth0`. Both machines were in the `10.0.0.0/24` subnet.
+The Kali address was \`10.0.0.3/24\` on \`eth0\`. Both addresses were in the same \`10.0.0.0/24\` subnet.
 
-![Screenshot: ip a on Kali showing eth0 with IP address 10.0.0.3/24](evidence/05-kali-ip-address.webp)
+![Screenshot: ip a on Kali showing eth0 with 10.0.0.3/24](evidence/05-kali-ip-configuration.jpg)
 
-## 6. Test connectivity from Kali
+## 6. Testing connectivity from Kali
 
-I sent four packets from Kali to the target:
+From Kali I pinged the target IP with four packets.
 
-```bash
+\`\`\`bash
 ping -c 4 10.0.0.6
-```
+\`\`\`
 
-**My result:** All four packets returned: 4 transmitted, 4 received and **0% packet loss**. The average round-trip time was **0.459 ms**. This confirmed that Kali (`10.0.0.3`) could reach Metasploitable 2 (`10.0.0.6`) on the lab network.
+**My result:** Four packets were transmitted and four were received, with **0% packet loss**. The average round-trip time was **0.459 ms**. This confirmed that Kali (\`10.0.0.3\`) could reach Metasploitable 2 (\`10.0.0.6\`) on the lab network.
 
-![Screenshot: successful ping from Kali to Metasploitable2 with 0% packet loss](evidence/06-ping-metasploitable2.webp)
+![Screenshot: successful ping from Kali to Metasploitable2 with 0% packet loss](evidence/06-kali-to-metasploitable-ping.jpg)
 
 ### Open the target web page
 
-As an additional check, I opened the target in the Kali browser:
+As an extra check I opened the target in the Kali browser:
 
-```text
+\`\`\`text
 http://10.0.0.6/
-```
+\`\`\`
 
 The page loaded and listed the web applications available on Metasploitable 2, including TWiki, phpMyAdmin, Mutillidae, DVWA and WebDAV. This showed that more than ping connectivity was working.
 
-![Screenshot: Metasploitable 2 web page opened from the Kali browser at http://10.0.0.6](evidence/07-metasploitable2-web-page.webp)
+![Screenshot: Metasploitable 2 web page opened from the Kali browser](evidence/07-metasploitable-webpage.jpg)
 
-The report also includes a screenshot of the TryHackMe DVWA room.
+### TryHackMe DVWA room
 
-![Screenshot: TryHackMe DVWA room](evidence/08-tryhackme-dvwa-room.webp)
+The report also includes the screenshot of the TryHackMe DVWA room.
+
+![Screenshot: TryHackMe DVWA room](evidence/08-tryhackme-dvwa-completed.jpg)
 
 ## 7. Problems faced
 
-I did not encounter any errors during this task. Both VMs received IP addresses from `NatNetwork`, and the ping to `10.0.0.6` completed with 0% packet loss.
+I did not encounter any errors during this task. Both VMs received IP addresses from \`NatNetwork\`, and the ping to \`10.0.0.6\` had 0% packet loss.
 
 ## 8. Conclusion
 
-I imported Metasploitable 2 into VirtualBox and connected it to the same NAT Network as my Kali VM. The successful ping confirmed that the two VMs could communicate. I also recorded the target address, `10.0.0.6`, for the scanning tasks that follow.
+I imported Metasploitable 2 into VirtualBox and connected it to the same NAT Network as my Kali VM. The successful ping confirmed that the two VMs could communicate. I also recorded the target address, \`10.0.0.6\`, for the scanning tasks that follow.
 
 This setup gives me a dedicated lab environment where I can practise network scanning and security testing against an intentionally vulnerable target.

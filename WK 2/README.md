@@ -45,7 +45,7 @@ During Week 2 at TechBiz Academy, I practised Linux commands and permissions, us
 
 I placed the screenshots extracted from my Week 2 task reports in the matching task folders and embedded them in the task write-ups.
 
-**[Open the Week 2 screenshot evidence index →](Evidence/README.md)**
+**[Open the Week 2 screenshot gallery →](Screenshots/README.md)**
 
 ---
 

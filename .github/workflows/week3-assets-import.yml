@@ -1,0 +1,33 @@
+name: Import Week 3 screenshots
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "WK 3/.week3-assets.manifest"
+
+permissions:
+  contents: write
+
+jobs:
+  import-week3-screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract screenshots and clean up importer
+        run: |
+          base64 --decode "WK 3/.week3-images.b64" > /tmp/week3-images.zip
+          unzip -q /tmp/week3-images.zip -d .
+          rm "WK 3/.week3-images.b64"
+          rm "WK 3/.week3-assets.manifest"
+          rm ".github/workflows/week3-assets-import.yml"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add Week 3 report screenshots"
+          git push origin main

@@ -42,6 +42,8 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 | **[Task 2 — Networking Tools & Subnetting](WK%202/Task%202/README.md)** | Network troubleshooting and addressing | ping, traceroute, nslookup, dig, netstat, CIDR calculations and TryHackMe DNS/HTTP rooms |
 | **[Task 3 — Metasploitable 2 Lab Setup](WK%202/Task%203/README.md)** | Vulnerable lab environment | VirtualBox, NatNetwork, Kali-to-target connectivity and Metasploitable 2 web applications |
 
+[Browse Week 2 screenshot evidence →](WK%202/Evidence/README.md)
+
 ## Skills and tools covered
 
 <p>

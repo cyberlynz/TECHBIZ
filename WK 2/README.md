@@ -18,6 +18,8 @@ During Week 2 at TechBiz Academy, I practised Linux commands and permissions, us
 | [**Task 2 →**](Task%202/README.md) | Networking Tools & Subnetting Basics | ping, traceroute, nslookup, dig, netstat, CIDR notation and TryHackMe DNS/HTTP rooms |
 | [**Task 3 →**](Task%203/README.md) | Vulnerable Lab Setup — Metasploitable 2 | VirtualBox, NAT Network, Kali-to-target connectivity and the target's web applications |
 
+[Browse all Week 2 screenshot evidence →](Evidence/README.md)
+
 ## Main lab details
 
 | Item | Recorded value |

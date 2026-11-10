@@ -3,11 +3,11 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Type-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity portfolio" />
   <img src="https://img.shields.io/badge/Program-TechBiz%20Academy-404040?style=flat-square&labelColor=6366F1" alt="TechBiz Academy internship" />
-  <img src="https://img.shields.io/badge/Weeks-01%20%26%2002-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 and 2" />
+  <img src="https://img.shields.io/badge/Weeks-01%20%E2%80%93%2003-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 to 3" />
 </p>
 
 <p align="center">
-  <strong>Cybersecurity learning notes, practical labs and screenshot gallery</strong><br />
+  <strong>Cybersecurity learning notes, practical labs and screenshot galleries</strong><br />
   <sub>Ethical Hacking Internship · TechBiz Academy</sub>
 </p>
 
@@ -23,6 +23,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 |---|---|---|
 | **Week 1** | Cybersecurity fundamentals, networking basics and Kali Linux setup | [Open Week 1 →](WK%201/README.md) |
 | **Week 2** | Linux fundamentals, networking tools, subnetting and vulnerable lab setup | [Open Week 2 →](WK%202/README.md) |
+| **Week 3** | Footprinting, passive OSINT, Nmap scanning and service enumeration | [Open Week 3 →](WK%203/README.md) |
 
 ## Week 1 at a glance
 
@@ -44,20 +45,32 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 
 [Browse Week 2 screenshot gallery →](WK%202/Screenshots/README.md)
 
+## Week 3 at a glance
+
+| Task | Focus | What you'll find |
+|---|---|---|
+| **[Task 1 — Footprinting & OSINT](WK%203/Task%201/README.md)** | Passive reconnaissance | WHOIS, Google dorks, theHarvester, crt.sh, DNSDumpster, Wayback Machine, Shodan and four TryHackMe rooms |
+| **[Task 2 — Network Scanning with Nmap](WK%203/Task%202/README.md)** | Active network scanning | Host discovery, service/version detection, aggressive scanning and a table of 23 open ports on Metasploitable 2 |
+| **[Task 3 — Enumeration](WK%203/Task%203/README.md)** | Service enumeration | enum4linux, SMB shares and users, null-session access, password policy, FTP/SSH banners and TryHackMe practice |
+
+[Browse Week 3 screenshot gallery →](WK%203/Screenshots/README.md)
+
 ## Skills and tools covered
 
 <p>
   <img src="https://img.shields.io/badge/Skill-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity" />
+  <img src="https://img.shields.io/badge/Recon-OSINT-404040?style=flat-square&labelColor=238F89" alt="OSINT" />
   <img src="https://img.shields.io/badge/Network-TCP%2FIP-404040?style=flat-square&labelColor=238F89" alt="TCP/IP networking" />
   <img src="https://img.shields.io/badge/Lab-Kali%20Linux-E87500?style=flat-square&labelColor=000000&logo=kalilinux&logoColor=white" alt="Kali Linux" />
   <img src="https://img.shields.io/badge/Scanning-Nmap-404040?style=flat-square&labelColor=238F89" alt="Nmap" />
+  <img src="https://img.shields.io/badge/Enumeration-SMB-404040?style=flat-square&labelColor=C00000" alt="SMB enumeration" />
   <img src="https://img.shields.io/badge/Virtualization-VirtualBox-0070C0?style=flat-square&labelColor=000000&logo=virtualbox&logoColor=white" alt="VirtualBox" />
   <img src="https://img.shields.io/badge/Practice-TryHackMe-404040?style=flat-square&labelColor=212C42&logo=tryhackme&logoColor=white" alt="TryHackMe" />
 </p>
 
 ## About this portfolio
 
-The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task's \`screenshots/\` folder and embedded where they support the explanation. Network addresses shown in the lab notes are values from the recorded sessions and may differ in another setup.
+The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task's `screenshots/` folder and embedded where they support the explanation. Network addresses shown in the lab notes are values from the recorded sessions and may differ in another setup. Passive OSINT observations, third-party database results and active lab scan results are identified separately in the relevant task reports.
 
 ---
 

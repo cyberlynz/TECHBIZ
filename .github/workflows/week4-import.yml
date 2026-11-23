@@ -1,0 +1,33 @@
+name: Import Week 4 assets
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "WK 4/.week4-package.zip"
+
+permissions:
+  contents: write
+
+jobs:
+  import-week4:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract Week 4 write-ups and screenshots
+        run: |
+          mkdir -p /tmp/week4-package
+          unzip -q "WK 4/.week4-package.zip" -d /tmp/week4-package
+          cp -a /tmp/week4-package/. .
+          rm "WK 4/.week4-package.zip"
+          rm ".github/workflows/week4-import.yml"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Add Week 4 task write-ups and screenshots"
+          git push origin main

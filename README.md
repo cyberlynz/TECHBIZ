@@ -3,11 +3,11 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Type-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity portfolio" />
   <img src="https://img.shields.io/badge/Program-TechBiz%20Academy-404040?style=flat-square&labelColor=6366F1" alt="TechBiz Academy internship" />
-  <img src="https://img.shields.io/badge/Weeks-01%20%E2%80%93%2003-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 to 3" />
+  <img src="https://img.shields.io/badge/Weeks-01%20%E2%80%93%2003%20%7C%2005-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 to 3 and 5" />
 </p>
 
 <p align="center">
-  <strong>Cybersecurity learning notes, practical labs and screenshot galleries</strong><br />
+  <strong>Cybersecurity learning notes, practical labs and evidence indexes</strong><br />
   <sub>Ethical Hacking Internship · TechBiz Academy</sub>
 </p>
 
@@ -24,6 +24,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 | **Week 1** | Cybersecurity fundamentals, networking basics and Kali Linux setup | [Open Week 1 →](WK%201/README.md) |
 | **Week 2** | Linux fundamentals, networking tools, subnetting and vulnerable lab setup | [Open Week 2 →](WK%202/README.md) |
 | **Week 3** | Footprinting, passive OSINT, Nmap scanning and service enumeration | [Open Week 3 →](WK%203/README.md) |
+| **Week 5** | SQL Injection, Cross-Site Scripting and Hydra authentication testing | [Open Week 5 →](WK%205/README.md) |
 
 ## Week 1 at a glance
 
@@ -55,6 +56,16 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 
 [Browse Week 3 screenshot gallery →](WK%203/Screenshots/README.md)
 
+## Week 5 at a glance
+
+| Task | Focus | What you'll find |
+|---|---|---|
+| **[Task 1 — SQL Injection](WK%205/Task%201/README.md)** | SQL Injection with DVWA | Tautology testing, ORDER BY column counting, information_schema enumeration, username/hash extraction and remediation |
+| **[Task 2 — Cross-Site Scripting](WK%205/Task%202/README.md)** | Reflected and Stored XSS | Script injection, guestbook persistence, cookie exposure, TryHackMe practice and output-encoding verification |
+| **[Task 3 — Brute Force & Authentication Attacks](WK%205/Task%203/README.md)** | Hydra and password testing | rockyou.txt, web-form Hydra configuration, credential verification, TryHackMe Hydra and Brute It |
+
+[Browse Week 5 evidence index →](WK%205/Screenshots/README.md)
+
 ## Skills and tools covered
 
 <p>
@@ -63,14 +74,15 @@ This repository documents my practical work during the TechBiz Academy Ethical H
   <img src="https://img.shields.io/badge/Network-TCP%2FIP-404040?style=flat-square&labelColor=238F89" alt="TCP/IP networking" />
   <img src="https://img.shields.io/badge/Lab-Kali%20Linux-E87500?style=flat-square&labelColor=000000&logo=kalilinux&logoColor=white" alt="Kali Linux" />
   <img src="https://img.shields.io/badge/Scanning-Nmap-404040?style=flat-square&labelColor=238F89" alt="Nmap" />
-  <img src="https://img.shields.io/badge/Enumeration-SMB-404040?style=flat-square&labelColor=C00000" alt="SMB enumeration" />
+  <img src="https://img.shields.io/badge/Testing-Burp%20Suite-404040?style=flat-square&labelColor=C00000" alt="Burp Suite" />
+  <img src="https://img.shields.io/badge/Testing-Hydra-404040?style=flat-square&labelColor=238F89" alt="Hydra" />
   <img src="https://img.shields.io/badge/Virtualization-VirtualBox-0070C0?style=flat-square&labelColor=000000&logo=virtualbox&logoColor=white" alt="VirtualBox" />
   <img src="https://img.shields.io/badge/Practice-TryHackMe-404040?style=flat-square&labelColor=212C42&logo=tryhackme&logoColor=white" alt="TryHackMe" />
 </p>
 
 ## About this portfolio
 
-The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task's `screenshots/` folder and embedded where they support the explanation. Network addresses shown in the lab notes are values from the recorded sessions and may differ in another setup. Passive OSINT observations, third-party database results and active lab scan results are identified separately in the relevant task reports.
+The write-ups are based on my task reports and recorded lab results. Evidence is indexed by task and source-report page. Network addresses shown in lab notes are values from recorded sessions and may differ in another setup. All exploitation described in the portfolio was conducted in controlled training environments or against systems for which permission was granted.
 
 ---
 

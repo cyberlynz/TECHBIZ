@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "WK 4/.week4-package.zip.b64"
+      - "WK 4/.week4-import-trigger"
 
 permissions:
   contents: write
@@ -19,13 +19,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Decode and extract Week 4 write-ups and screenshots
+      - name: Join package parts, decode and extract
         run: |
+          cat WK 4/.week4-parts/*.b64 > /tmp/week4-package.zip.b64
+          base64 --decode /tmp/week4-package.zip.b64 > /tmp/week4-package.zip
           mkdir -p /tmp/week4-package
-          base64 --decode "WK 4/.week4-package.zip.b64" > /tmp/week4-package.zip
           unzip -q /tmp/week4-package.zip -d /tmp/week4-package
           cp -a /tmp/week4-package/. .
-          rm "WK 4/.week4-package.zip.b64"
+          rm -rf "WK 4/.week4-parts"
+          rm "WK 4/.week4-import-trigger"
           rm ".github/workflows/week4-import.yml"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

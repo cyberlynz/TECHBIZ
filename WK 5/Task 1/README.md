@@ -14,7 +14,7 @@
 
 For this task I learned about SQL Injection (SQLi) and tested it against DVWA in my controlled lab environment. I started with a basic tautology payload, used `ORDER BY` to identify the number of columns returned by the original query, and then used `UNION SELECT` to enumerate the database and retrieve the usernames and password hashes in the `users` table.
 
-The main issue is that an application can become vulnerable when it joins user input directly into an SQL statement. Instead of treating the value as data, the database may interpret part of it as SQL syntax. The report also covered in-band, error-based, blind Boolean-based and blind time-based SQL injection.
+The main issue is that an application can become vulnerable when it joins user input directly into an SQL statement. Instead of treating the value as data, the database may interpret part of it as SQL syntax. I also studied in-band, error-based, blind Boolean-based and blind time-based SQL injection.
 
 ## 2. Objectives
 
@@ -29,7 +29,7 @@ The main issue is that an application can become vulnerable when it joins user i
 
 ### 3.1 How the vulnerable query works
 
-The report describes the DVWA query as:
+The vulnerable DVWA query used in this exercise was:
 
 ```sql
 SELECT first_name, last_name FROM users WHERE user_id = '$id';
@@ -48,7 +48,7 @@ The value supplied in the User ID field is placed directly inside the query. At 
 
 ### 3.3 Techniques used in the lab
 
-| Technique | Purpose | Example from the report |
+| Technique | Purpose | Example payload |
 |---|---|---|
 | Tautology | Makes the `WHERE` condition always true. | `' OR '1'='1` |
 | `ORDER BY` probing | Identifies how many columns the original query returns. | `' ORDER BY 1-- -` |
@@ -97,7 +97,7 @@ Once I knew the original query returned two columns, I used `UNION SELECT` to re
 ' UNION SELECT table_name,2 FROM information_schema.tables-- -
 ```
 
-The returned list included many MySQL system tables and the DVWA `users` table. The screenshot shows the table-name output recorded in the report.
+The returned list included many MySQL system tables and the DVWA `users` table. The screenshot below shows the table-name output I obtained.
 
 ![Table-name enumeration using information_schema](screenshots/03-information-schema-table-enumeration.webp)
 
@@ -119,7 +119,7 @@ I used the following payload to retrieve the account names and password values f
 ' UNION SELECT user, password FROM users-- -
 ```
 
-The query returned five username and hash pairs. The report identifies the hashes as unsalted MD5 values.
+The query returned five username and hash pairs. I noted that the extracted values were unsalted MD5 hashes.
 
 ![Extracted usernames and password hashes](screenshots/05-usernames-and-password-hashes.webp)
 
@@ -135,7 +135,7 @@ I noticed that `admin` and `smithy` had the same hash. This indicates password r
 
 ## 9. TryHackMe Practice
 
-I completed both free TryHackMe rooms listed in my report.
+I also completed both free TryHackMe rooms related to this task.
 
 ### 9.1 SQL Injection
 

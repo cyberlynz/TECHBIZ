@@ -12,9 +12,9 @@
 
 ## 1. Introduction
 
-For this task I learned about SQL Injection (SQLi) and tested it against DVWA in my controlled lab environment. I started with a basic tautology payload, used `ORDER BY` to identify the number of columns returned by the original query, and then used `UNION SELECT` to enumerate the database and retrieve the usernames and password hashes in the `users` table.
+For this exercise, I used the SQL Injection page in DVWA and tried a few payloads to see how the application responded. I first entered a basic tautology, then used `ORDER BY` to work out how many columns the query was returning. After that, I tried `UNION SELECT` and used `information_schema` to look through the database tables and columns. I was able to get the usernames and password hashes from the `users` table.
 
-The main issue is that an application can become vulnerable when it joins user input directly into an SQL statement. Instead of treating the value as data, the database may interpret part of it as SQL syntax. I also studied in-band, error-based, blind Boolean-based and blind time-based SQL injection.
+While doing the practical, I saw how directly inserting a value into an SQL query can cause a problem. The database can end up treating part of the input as a command instead of just a value. I also went through the other SQL Injection types, including error-based, blind Boolean-based and time-based injection.
 
 ## 2. Objectives
 
@@ -162,4 +162,4 @@ I also completed both free TryHackMe rooms related to this task.
 
 ## 11. Conclusion
 
-In this task I confirmed that the DVWA Low security SQL Injection page accepted unsanitized input. I used a tautology payload to return all users, `ORDER BY` to identify the two-column query, and `UNION SELECT` with `information_schema` to enumerate the database. I then extracted five username/hash pairs and noticed that two accounts shared the same MD5 hash. The UNION-based enumeration was the part I found most challenging because the number and position of columns had to match the original query. The exercise reinforced why parameterized queries and secure password storage are important.
+I was able to get all five user records with the first payload. I then tested the column count and found that the query used two columns, which helped me use `UNION SELECT` successfully. From there, I checked the tables and columns and retrieved five usernames with their password hashes. I also noticed that the `admin` and `smithy` accounts had the same hash. The part that took me some time was getting the column count right before using UNION. This practical helped me understand how SQL Injection can expose database information when input is not handled properly.

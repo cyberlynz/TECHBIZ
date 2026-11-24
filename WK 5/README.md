@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/Lab-DVWA-404040?style=flat-square&labelColor=000000" alt="DVWA lab" />
 </p>
 
-During Week 5 at TechBiz Academy, I practised three areas of application security: SQL Injection, Cross-Site Scripting and brute-force authentication testing. I used DVWA in my own lab for the practical exercises, documented the payloads and results, and completed the related TryHackMe rooms.
+This week, I worked on three tasks covering SQL Injection, XSS and password guessing with Hydra. I carried out the practical work on DVWA running in my lab, took screenshots as I went along and wrote down the results. I also completed the TryHackMe rooms connected to the tasks.
 
 ---
 
@@ -28,7 +28,7 @@ During Week 5 at TechBiz Academy, I practised three areas of application securit
 | Attacker environment used in Task 3 | Kali Linux (`10.0.0.3`) |
 | Main tools | Browser, DVWA, Hydra, `rockyou.txt` |
 
-## What I practised
+## What I worked on
 
 - Tested how unsanitized application input can change a SQL query and expose database records.
 - Compared Reflected and Stored XSS and checked what a script could read from the page's cookies.
@@ -36,7 +36,7 @@ During Week 5 at TechBiz Academy, I practised three areas of application securit
 - Used Hydra's web-form module with the form's request path, parameters, session cookie and failure response.
 - Confirmed the credential found by Hydra by signing in manually, then recorded defensive controls for the findings.
 
-## Main results at a glance
+## Results from my tasks
 
 | Task | Main result |
 |---|---|
@@ -46,7 +46,7 @@ During Week 5 at TechBiz Academy, I practised three areas of application securit
 
 ## Screenshot gallery
 
-I organized the screenshots from my three Week 5 tasks in the matching task folders and placed them beside the relevant steps in each write-up.
+I saved the screenshots in the folders for each task. I also added them to the write-ups so it is easier to see what I did at each stage.
 
 **[Open the Week 5 screenshot gallery →](Screenshots/README.md)**
 

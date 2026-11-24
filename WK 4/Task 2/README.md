@@ -73,6 +73,8 @@ Other HTTP methods include PUT, DELETE, HEAD and OPTIONS.
 
 ### 5.1 GET example — DVWA SQL Injection page
 
+
+
 Before this test I changed the DVWA security level from impossible to low. When I submitted User ID 1 on the SQL Injection page, the value appeared in the URL and request line:
 
 ~~~http
@@ -80,6 +82,7 @@ GET /vulnerabilities/sqli/?id=1&Submit=Submit HTTP/1.1
 ~~~
 
 ### 5.2 POST example — DVWA login page
+
 
 The login page used POST. The username and password were placed in the request body rather than the URL. The report observed that GET placed id=1 in the URL, while the login POST carried its submitted fields in the request body. POST keeps those fields out of the URL, but it does not encrypt them; HTTPS is still necessary.
 
@@ -109,6 +112,8 @@ The captured login request showed security=impossible and a PHP session cookie. 
 
 ## 8. Setting up Burp Suite
 
+![Burp Suite proxy listener configured on 127.0.0.1 port 8080](screenshots/04-burp-proxy-listener-127-0-0-1-8080.webp)
+
 I used Burp Suite Community Edition on Kali Linux. The steps recorded were:
 
 1. Open Burp Suite and choose a Temporary project with the default settings.
@@ -123,9 +128,11 @@ With Intercept enabled, I opened the DVWA login page, entered the lab login deta
 
 ### 9.1 Intercept the request
 
+
 The request appeared under Proxy → Intercept as POST /login.php. I could inspect its headers, cookie values and body fields. The body also contained a user_token value used by DVWA as an anti-CSRF token.
 
 ### 9.2 Modify the request
+
 
 Before forwarding the request, I changed the password value in the body from password to password123. This was a test value, not the correct DVWA password.
 
@@ -136,9 +143,13 @@ After:  username=admin&password=password123&Login=Login...
 
 ### 9.3 Forward and inspect the response
 
+![DVWA showing Login failed after the modified request was forwarded](screenshots/07-dvwa-login-failed-after-forward.webp)
+
 I clicked Forward and then turned Intercept off so later requests would not remain paused. The server did not log me in with the changed password. DVWA returned to the login page and displayed Login failed. This demonstrated that the server processes the request Burp forwards, not simply the values originally entered in the browser. It also reinforced why security checks must be performed on the server rather than only in client-side code.
 
 ### 9.4 Review HTTP history
+
+![Burp Proxy HTTP history showing the DVWA requests and status codes](screenshots/08-burp-http-history-status-codes.webp)
 
 I opened Proxy → HTTP history to review the requests and responses. The report recorded two POST /login.php requests (rows 6 and 8), both marked as edited and returning status 302. Each was followed by a GET /login.php response with status 200, showing the login page loading again. The history also showed the earlier GET / and GET /index.php requests.
 
@@ -146,9 +157,11 @@ I opened Proxy → HTTP history to review the requests and responses. The report
 
 ### 10.1 Walking An Application
 
+
 In this room I learned to review a web application manually using browser developer tools. I used the page source, Inspector, Debugger, Network and Storage tabs to understand what a page displays, how its JavaScript behaves, what requests it makes and what data the browser stores. The room reinforced that manual review can reveal details that automated scanners or scripts may miss.
 
 ### 10.2 Burp Suite: The Basics
+
 
 This room introduced Burp Suite Community Edition, its Dashboard and navigation, the Proxy, browser configuration through FoxyProxy, the site map, issue definitions, scoping and targeting, HTTPS proxying and a short example attack. The main lesson was that Burp sits between a browser and a web application, allowing the tester to intercept and inspect requests and responses.
 

@@ -133,6 +133,8 @@ The report notes that DVWA does not have direct modules for A03, A08, A09 and A1
 
 ## 6. TryHackMe: OWASP Top 10 (2025) module
 
+![TryHackMe OWASP Top 10 2025 module showing the three rooms completed](screenshots/01-tryhackme-owasp-top-10-2025-all-rooms-completed.webp)
+
 The module on the account was divided into three rooms: IAAA Failures, Application Design Flaws and Insecure Data Handling. I completed all three rooms.
 
 ### 6.1 OWASP Top 10 2025: IAAA Failures

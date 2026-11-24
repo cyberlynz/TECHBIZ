@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Type-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity portfolio" />
   <img src="https://img.shields.io/badge/Program-TechBiz%20Academy-404040?style=flat-square&labelColor=6366F1" alt="TechBiz Academy internship" />
-  <img src="https://img.shields.io/badge/Weeks-01%20%E2%80%93%2004-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 to 4" />
+  <img src="https://img.shields.io/badge/Weeks-01%20%E2%80%93%2005-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 to 5" />
 </p>
 
 <p align="center">
@@ -25,6 +25,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 | **Week 2** | Linux fundamentals, networking tools, subnetting and vulnerable lab setup | [Open Week 2 →](WK%202/README.md) |
 | **Week 3** | Footprinting, passive OSINT, Nmap scanning and service enumeration | [Open Week 3 →](WK%203/README.md) |
 | **Week 4** | Vulnerability scanning, HTTP fundamentals, Burp Suite and OWASP Top 10 (2025) | [Open Week 4 →](WK%204/README.md) |
+| **Week 5** | SQL Injection, Cross-Site Scripting and Hydra authentication testing | [Open Week 5 →](WK%205/README.md) |
 
 ## Week 1 at a glance
 
@@ -66,6 +67,18 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 
 [Open the Week 4 overview →](WK%204/README.md)
 
+[Browse Week 4 screenshot gallery →](WK%204/Screenshots/README.md)
+
+## Week 5 at a glance
+
+| Task | Focus | What you'll find |
+|---|---|---|
+| **[Task 1 — SQL Injection](WK%205/Task%201/README.md)** | SQL Injection with DVWA | Tautology testing, ORDER BY column counting, information_schema enumeration, username/hash extraction and remediation |
+| **[Task 2 — Cross-Site Scripting](WK%205/Task%202/README.md)** | Reflected and Stored XSS | Script injection, guestbook persistence, cookie exposure, TryHackMe practice and output-encoding verification |
+| **[Task 3 — Brute Force & Authentication Attacks](WK%205/Task%203/README.md)** | Hydra and password testing | rockyou.txt, web-form Hydra configuration, credential verification, TryHackMe Hydra and Brute It |
+
+[Browse Week 5 screenshot gallery →](WK%205/Screenshots/README.md)
+
 ## Skills and tools covered
 
 <p>
@@ -84,7 +97,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 
 ## About this portfolio
 
-The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task folders and embedded beside the explanations in the local Week 4 package. Network addresses shown in lab notes are values from recorded sessions and may differ in another setup. Active testing described in the portfolio was conducted in controlled training environments or against systems for which permission was granted.
+The write-ups are based on my task reports and recorded lab results. Screenshots are stored in the relevant task folders and embedded beside the steps in each write-up. Network addresses shown in lab notes are values from recorded sessions and may differ in another setup. Active testing described in the portfolio was conducted in controlled training environments or against systems for which permission was granted.
 
 ---
 

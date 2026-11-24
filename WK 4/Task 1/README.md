@@ -49,21 +49,26 @@ Nmap reported that the host was up, with **23 open ports** and **977 closed port
 
 ### 4.1 vsftpd 2.3.4 backdoor — TCP 21
 
+
 Nmap marked the FTP service as VULNERABLE (Exploitable) for CVE-2011-2523. The script ran the id command through the backdoor and returned uid=0(root). This was the finding that the scan confirmed with an observed root result.
 
 ### 4.2 SSL POODLE and anonymous Diffie-Hellman — TCP 25
+
 
 On Postfix SMTP port 25, Nmap reported SSL POODLE (CVE-2014-3566) and an anonymous Diffie-Hellman key-exchange weakness. Both were marked vulnerable in the scan. The sslv2-drown script returned an error, so that check did not complete. Telnet on port 23 was also open.
 
 ### 4.3 ISC BIND 9.4.2 — TCP/UDP 53 service identification
 
+
 The SMTP script reported that the server was not vulnerable to the Exim issue CVE-2010-4344. The DNS service was identified as ISC BIND 9.4.2. The vulners output listed multiple CVEs for that version, including CVE-2008-0122 with a score of 10.0. This is a version-based match and needed validation against the actual package build.
 
 ### 4.4 Apache httpd 2.2.8 — TCP 80
 
+
 Nmap showed HTTP TRACE enabled. It did not find stored or DOM-based XSS in the tested checks, and the http-sql-injection script returned an error. The version-based vulners list included several high-scoring entries; these were not treated as confirmed vulnerabilities solely because of the version match.
 
 ### 4.5 Java RMI and other exposed services
+
 
 The rmi-vuln-classloader script marked Java RMI on port 1099 as vulnerable because the registry allowed class loading from remote URLs. Other services seen included a bindshell on port 1524, r-services on ports 512–514, Samba on 139 and 445, NFS on 2049, and ProFTPD 1.3.1 on port 2121. The vulners output associated ProFTPD with CVE-2019-12815 and a score of 9.8; that version-based result also required confirmation.
 
@@ -164,9 +169,12 @@ The report reviewed Nessus and OpenVAS as dedicated vulnerability scanners. Ness
 
 ## 11. TryHackMe: Vulnerabilities 101
 
+![TryHackMe Vulnerabilities 101 room completed at 100 percent](screenshots/06-tryhackme-vulnerabilities-101-completed.webp)
+
 The room covered what a vulnerability is, five main types, and the difference between CVSS (technical severity) and VPR (risk in an organisational context). It also introduced NVD for CVE tracking and Exploit-DB for researching exploits by software name and version. The report's key lesson was that vulnerabilities can be chained: a small piece of exposed information can help identify a relevant exploit when combined with other findings.
 
 ## 12. Nmap Scripting Engine reference
+
 
 The Nmap reference page explained script categories such as safe, intrusive, vuln and exploit, and how to combine them with not, and and or. It also covered --script-args, --script-help and --script-updatedb. The report notes that NSE scripts are not sandboxed, so selecting an appropriate script category matters for safety as well as scan results.
 

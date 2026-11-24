@@ -65,6 +65,12 @@ Nmap showed that the host was up, with **23 open ports** and **977 closed ports*
 
 ![Nmap result showing SSL POODLE and anonymous Diffie-Hellman findings on port 25](screenshots/02-nmap-ssl-poodle-diffie-hellman-port-25.webp)
 
+![Nmap vulners output matching the detected BIND 9.4.2 service on port 53](screenshots/03-nmap-bind-9-4-2-port-53-vulners-cve-list.webp)
+
+![Nmap scan result for Apache httpd 2.2.8 on port 80, including the HTTP TRACE finding](screenshots/04-nmap-apache-httpd-2-2-8-port-80.webp)
+
+![Nmap scan result showing the Java RMI classloader finding on port 1099](screenshots/05-nmap-java-rmi-port-1099.webp)
+
 ### What stood out to me
 
 The vsftpd result was the clearest finding. Nmap did more than identify an old version: the script ran the id command through the backdoor and returned uid=0(root). That is why I treated it differently from the BIND CVE list, which was generated from a version match.

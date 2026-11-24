@@ -54,6 +54,8 @@ Cookie: security=impossible; PHPSESSID=[REDACTED]
 username=admin&password=password&Login=Login&user_token=[REDACTED]
 ~~~
 
+![Original Burp capture of the POST login request, with the submitted form fields in its request body](screenshots/03-burp-original-post-login-request.webp)
+
 The server replies with a response containing a status line, headers and a body. In the report's simplified example, DVWA returned HTTP/1.1 302 Found with a Location header after a login attempt.
 
 ## 4. GET, POST and the DVWA examples

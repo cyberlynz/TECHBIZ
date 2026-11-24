@@ -25,7 +25,7 @@ During Week 5 at TechBiz Academy, I practised three areas of application securit
 | Vulnerable application | Damn Vulnerable Web Application (DVWA) |
 | SQL Injection and XSS security level | Low |
 | Hydra target | DVWA Brute Force page at `http://127.0.0.1:42001` |
-| Attacker environment in the Hydra report | Kali Linux (`10.0.0.3`) |
+| Attacker environment used in Task 3 | Kali Linux (`10.0.0.3`) |
 | Main tools | Browser, DVWA, Hydra, `rockyou.txt` |
 
 ## What I practised
@@ -46,7 +46,7 @@ During Week 5 at TechBiz Academy, I practised three areas of application securit
 
 ## Screenshot gallery
 
-The screenshots extracted from my three Week 5 task reports are stored in the matching task folders and embedded beside the relevant steps in each write-up.
+I organized the screenshots from my three Week 5 tasks in the matching task folders and placed them beside the relevant steps in each write-up.
 
 **[Open the Week 5 screenshot gallery →](Screenshots/README.md)**
 

@@ -8,189 +8,151 @@
 
 **Internship:** Ethical Hacking Internship, TechBiz Academy  
 **Author:** Collins Okike  
-**Attacker:** Kali Linux VM (10.0.0.3)  
-**Target:** Metasploitable 2 VM (10.0.0.6)  
-**Network:** Private 10.0.0.x lab network
+**Attacker:** Kali Linux — 10.0.0.3  
+**Target:** Metasploitable 2 — 10.0.0.6
 
-## 1. Objective
+## 1. Introduction
 
-In this task I learned how automated vulnerability scanning works. I used Nmap with its vulnerability NSE scripts against my Metasploitable 2 lab machine, selected findings for further research using their CVE numbers, and reviewed the purpose of Nessus and OpenVAS. I wanted to understand not only what a scanner reports, but also how serious a finding is and what remediation should be recommended.
+In this task I moved from finding open services to checking whether any of them had known weaknesses. I used Nmap's vulnerability scripts against my Metasploitable 2 machine, then researched selected results using their CVE numbers.
 
-## 2. Lab Setup and Scope
+I also learned that a scanner result needs to be checked before I call it a vulnerability. Some scripts actually test a weakness, while others match the detected software version against a database. Those two types of result should not be reported in the same way.
 
-- **Attacker machine:** Kali Linux VM, IP 10.0.0.3
-- **Target machine:** Metasploitable 2 VM, IP 10.0.0.6
-- **Network:** both VMs are on the same private lab network (10.0.0.x)
+## 2. Lab setup and scope
 
-Metasploitable 2 is made to be vulnerable, so it shows a lot more problems than a normal server would. I only scanned my own lab machine. Scanning systems I do not own or have permission for is outside the scope of this work.
+| Machine | Address | Purpose |
+|---|---|---|
+| Kali Linux VM | 10.0.0.3 | Running Nmap and reviewing the results |
+| Metasploitable 2 VM | 10.0.0.6 | Intentionally vulnerable lab target |
+| Network | 10.0.0.x | Private lab network shared by both VMs |
 
-## 3. Tool Used and Command
+I only scanned my own Metasploitable 2 machine. I kept the activity inside the private lab because the target is deliberately vulnerable.
 
-I used Nmap version 7.991 on Kali Linux. The command was:
+## 3. Running the vulnerability scan
+
+The main tool was Nmap 7.991. I ran:
 
 ~~~bash
 nmap -sV --script vuln 10.0.0.6 -oN VulnMS.txt
 ~~~
 
-| Option | Purpose |
+I used the options as follows:
+
+| Option | What it does |
 |---|---|
-| -sV | Detect service versions so findings can be matched to software versions. |
-| --script vuln | Run NSE scripts in the vulnerability category against discovered services. |
-| -oN VulnMS.txt | Save the normal-format output for later review. |
+| -sV | Tries to identify the service and version running on each open port. |
+| --script vuln | Runs NSE scripts from the vulnerability category. |
+| -oN VulnMS.txt | Saves the normal output so I can read it after the scan. |
 
-Scripts shown in the output included ftp-vsftpd-backdoor, ssl-poodle, ssl-dh-params, sslv2-drown, smtp-vuln-cve2010-4344, http-trace, http-stored-xss, http-dombased-xss, http-sql-injection, rmi-vuln-classloader and vulners. The vulners script matches detected software versions to CVEs in its database; those matches are leads, not proof that every listed vulnerability is exploitable on the target.
+The output included checks such as ftp-vsftpd-backdoor, ssl-poodle, ssl-dh-params, http-trace, rmi-vuln-classloader and vulners. The vulners script was useful for research, but its CVE matches were based on version information and were not proof that every issue affected this machine.
 
-## 4. Method (Steps I Followed)
+## 4. What Nmap reported
 
-1. Ran the Nmap scan with service/version detection and the vuln script category against 10.0.0.6.
-2. Saved the output to VulnMS.txt and reviewed it from the beginning.
-3. Marked the entries where Nmap reported VULNERABLE, along with CVE numbers and scores.
-4. Selected the clearest and most serious findings, including the result that Nmap actually confirmed.
-5. Looked up the CVEs on the NVD website and in additional write-ups.
-6. Rated the findings by severity and recorded remediation actions.
+Nmap showed that the host was up, with **23 open ports** and **977 closed ports** in the default 1,000-port TCP scan. These were the findings I selected for closer review.
 
-## 5. Scan Results
-
-Nmap reported that the host was up, with **23 open ports** and **977 closed ports** in the 1,000-port default TCP scan. The main results below follow the order in which they appeared in the output.
-
-### 5.1 vsftpd 2.3.4 backdoor — TCP 21
-
-Nmap marked the FTP service as VULNERABLE (Exploitable) for CVE-2011-2523. The script ran the id command through the backdoor and returned uid=0(root). This was the finding that the scan confirmed with an observed root result.
-
-### 5.2 SSL POODLE and anonymous Diffie-Hellman — TCP 25
-
-On Postfix SMTP port 25, Nmap reported SSL POODLE (CVE-2014-3566) and an anonymous Diffie-Hellman key-exchange weakness. Both were marked vulnerable in the scan. The sslv2-drown script returned an error, so that check did not complete. Telnet on port 23 was also open.
-
-### 5.3 ISC BIND 9.4.2 — TCP/UDP 53 service identification
-
-The SMTP script reported that the server was not vulnerable to the Exim issue CVE-2010-4344. The DNS service was identified as ISC BIND 9.4.2. The vulners output listed multiple CVEs for that version, including CVE-2008-0122 with a score of 10.0. This is a version-based match and needed validation against the actual package build.
-
-### 5.4 Apache httpd 2.2.8 — TCP 80
-
-Nmap showed HTTP TRACE enabled. It did not find stored or DOM-based XSS in the tested checks, and the http-sql-injection script returned an error. The version-based vulners list included several high-scoring entries; these were not treated as confirmed vulnerabilities solely because of the version match.
-
-### 5.5 Java RMI and other exposed services
-
-The rmi-vuln-classloader script marked Java RMI on port 1099 as vulnerable because the registry allowed class loading from remote URLs. Other services seen included a bindshell on port 1524, r-services on ports 512–514, Samba on 139 and 445, NFS on 2049, and ProFTPD 1.3.1 on port 2121. The vulners output associated ProFTPD with CVE-2019-12815 and a score of 9.8; that version-based result also required confirmation.
-
-### 5.6 Scan interpretation and limitations seen during the run
-
-Two scripts (sslv2-drown and http-sql-injection) failed with errors, so those checks did not finish. The version-based vulners results were possible issues, not proven findings. The vsftpd backdoor was the only finding described in the report as fully confirmed because Nmap executed a command and returned uid=0(root).
-
-## 6. List of Issues Found
-
-| Port / service | Finding recorded | CVE | Severity recorded |
-|---|---|---|---|
-| 21 / vsftpd 2.3.4 | FTP backdoor; Nmap confirmed a root shell (uid=0) | CVE-2011-2523 | Critical (9.8) |
-| 25 / Postfix smtpd | SSL POODLE; SSL 3.0 still allowed | CVE-2014-3566 | Medium (4.3) |
-| 25 / Postfix smtpd | Anonymous Diffie-Hellman key exchange; man-in-the-middle risk | None shown by Nmap | Medium (analyst rating) |
-| 53 / ISC BIND 9.4.2 | Old DNS server version matched multiple CVEs; inet_network overflow researched | CVE-2008-0122 | Critical (10.0, CVSS v2) — version match to validate |
-| 1099 / Java RMI | Registry allowed classes to be loaded from remote URLs | None shown by Nmap | High / Critical (analyst assessment) |
-
-## 7. Other Things I Noticed
-
-| Port / service | What the scan showed | Why it matters |
+| Port / service | What appeared in the scan | How I treated the result |
 |---|---|---|
-| 23 / Telnet | Linux telnetd open | Telnet sends information, including passwords, in plaintext; SSH should be used instead. |
-| 512–514 / r-services | rexecd, rlogin and tcpwrapped | Legacy remote-login services with weak or no encryption. |
-| 1524 / bindshell | Metasploitable root shell | A service that gives a root shell to anyone who connects should not be exposed. |
-| 139, 445 / Samba | smbd 3.X–4.X range | Old Samba versions have known issues; the exact package version should be checked. |
-| 2049 / NFS (111 / rpcbind) | NFS 2–4 and rpcinfo listing | Unrestricted shares may be mountable by other machines; rpcbind also reveals service information. |
-| 2121 / ProFTPD 1.3.1 | CVE-2019-12815 appeared in the vulners list with 9.8 | Old FTP version; the result is version-based and should be confirmed. |
-| 80 / Apache 2.2.8 | HTTP TRACE enabled | TRACE should be disabled and the old Apache release reviewed. |
+| 21/tcp — vsftpd 2.3.4 | The ftp-vsftpd-backdoor script reported the service as vulnerable and the id command returned uid=0(root). | Confirmed by the script's observed result. |
+| 25/tcp — Postfix | SSL POODLE (CVE-2014-3566) and anonymous Diffie-Hellman were reported. | Findings to review in the server's TLS configuration. |
+| 53/tcp — BIND 9.4.2 | vulners listed CVEs for the detected version, including CVE-2008-0122. | Version-based matches; verify whether the installed package is affected. |
+| 80/tcp — Apache 2.2.8 | HTTP TRACE was enabled. Stored/DOM XSS checks did not find those issues; the SQL injection script returned an error. | TRACE was observed; the failed script did not provide a result. |
+| 1099/tcp — Java RMI | rmi-vuln-classloader reported that the registry allowed remote class loading. | Important exposure to investigate; Nmap did not show a CVE number. |
 
-## 8. CVE Research
+### What stood out to me
 
-### 8.1 CVE-2011-2523 — vsftpd 2.3.4 backdoor
+The vsftpd result was the clearest finding. Nmap did more than identify an old version: the script ran the id command through the backdoor and returned uid=0(root). That is why I treated it differently from the BIND CVE list, which was generated from a version match.
 
-The report describes a backdoor inserted into a particular vsftpd 2.3.4 download between 30 June and 3 July 2011. A username ending with :) caused the server to open a shell on port 6200. The affected copy was not representative of normal vsftpd releases, but the vulnerable copy was present in Metasploitable 2. The report records CVSS 9.8 (v3.1) and 10.0 (v2), and Nmap returned uid=0(root).
+The scan also reported that the SMTP server was not vulnerable to the Exim issue CVE-2010-4344. Two checks did not complete: sslv2-drown and http-sql-injection returned errors. I did not treat either error as a clean result.
 
-**Impact:** A remote attacker could obtain a root command shell without a normal authenticated login.  
-**Remediation recorded:** Replace the backdoored copy with a clean official release, verify downloaded files, and block ports 21 and 6200 when FTP is not required.
+## 5. Other exposed services I noted
 
-### 8.2 CVE-2014-3566 — SSL POODLE
+The scan showed additional services that would also need attention during a real assessment.
 
-POODLE is a weakness in SSL 3.0 that affects CBC-mode padding. A man-in-the-middle attacker may be able to recover parts of encrypted data over repeated interactions. The report records 4.3 under CVSS v2 (Medium) and 3.4 under CVSS v3.1 (Low).
-
-**Impact:** Private data such as session cookies or mail content could be exposed to an attacker positioned in the connection.  
-**Remediation recorded:** Disable SSL 3.0 and allow TLS 1.2 or higher.
-
-### 8.3 Anonymous Diffie-Hellman — no CVE shown
-
-The ssl-dh-params script showed TLS_DH_anon_WITH_DES_CBC_SHA with a 1024-bit modulus. Anonymous Diffie-Hellman does not authenticate the server, leaving the connection exposed to an active man-in-the-middle. The report assigned Medium severity as an analyst rating; Nmap did not provide a CVE or score.
-
-**Remediation recorded:** Disable anonymous cipher suites and use Diffie-Hellman groups of 2048 bits or more.
-
-### 8.4 CVE-2008-0122 — ISC BIND 9.4.2 version match
-
-The report describes an off-by-one error in the inet_network function in libbind, which may cause a buffer overflow when specially crafted input is processed. NVD's CVSS v2 score was recorded as 10.0. The report also notes an important qualification: the vulners result was based on the detected version, and Debian's security tracker indicated that its bind9 package did not use the old libbind code. The issue therefore needed confirmation before being reported as applicable to this target.
-
-**Potential impact:** Denial of service and possibly code execution, depending on the affected code path.  
-**Remediation recorded:** Upgrade BIND to a supported release and verify whether the specific vulnerability affects the installed package.
-
-### 8.5 Java RMI registry remote class loading
-
-The rmi-vuln-classloader script marked port 1099 vulnerable because the registry's default configuration allowed classes to be loaded from remote URLs. Nmap did not show a CVE number; it linked to the Metasploit java_rmi_server module. The report rated the issue High to Critical because it could result in remote code execution.
-
-**Remediation recorded:** Disable the RMI registry if it is not required, firewall port 1099, and use a current Java version with safe remote-class-loading settings.
-
-## 9. Understanding Findings by Severity
-
-The report used CVSS scores from 0 to 10 and the following severity bands:
-
-| CVSS score | Severity | Response described in the report |
+| Port / service | Observation | Why I noted it |
 |---|---|---|
-| 9.0–10.0 | Critical | Fix first; these usually have serious impact and may be easier to exploit. |
-| 7.0–8.9 | High | Fix soon. |
-| 4.0–6.9 | Medium | Plan the fix and consider whether it can be chained with other issues. |
-| 0.1–3.9 | Low | Fix when practical or formally accept the risk. |
+| 23/tcp — Telnet | Linux telnetd was open. | Telnet does not encrypt the login session. |
+| 512–514/tcp — r-services | rexecd, rlogin and tcpwrapped were reported. | These are old remote-access services and should be reviewed or disabled. |
+| 1524/tcp — bindshell | Metasploitable root shell was exposed. | A remotely reachable root shell is a serious exposure. |
+| 139/445 — Samba | Samba service was present. | I would check the exact installed version and whether file sharing is needed. |
+| 2049/tcp — NFS | NFS and rpcbind information appeared. | Shares and access restrictions should be reviewed. |
+| 2121/tcp — ProFTPD 1.3.1 | The version matched CVE-2019-12815 in the vulners output. | This was another version match to validate. |
+| 80/tcp — Apache | HTTP TRACE was enabled. | I would disable TRACE if it is not needed and review the old server version. |
 
-The report also explains why a high score in a version-matching database is not enough by itself. For example, the vulners output included CVE-2010-0425 for Apache 2.2.8 with a score of 10.0, but the issue concerns the Windows-only mod_isapi module. The report notes that Ubuntu lists the 8.04 base version as not affected. This is why findings must be checked against the actual operating system, package and enabled modules.
+## 6. Researching the main findings
 
-## 10. Priority and Recommendations
+I used the CVE identifiers and NVD to understand what the scan had found. These were the main points from my research.
 
-If I were writing this for the owner of the server, this is the order I would fix things in:
+### vsftpd 2.3.4 — CVE-2011-2523
 
-| Priority | Finding | Recommended action |
-|---:|---|---|
-| 1 | vsftpd 2.3.4 backdoor | Replace with a clean vsftpd version and block ports 21 and 6200 if FTP is not needed. |
-| 2 | Java RMI registry and bindshell on port 1524 | Turn off or firewall ports 1099 and 1524. Nobody outside should reach these. |
-| 3 | BIND 9.4.2 | Upgrade BIND to a supported version and confirm which CVEs really apply. |
-| 4 | Telnet and r-services | Turn them off and use SSH. |
-| 5 | POODLE and anonymous Diffie-Hellman on port 25 | Disable SSL 3.0 and anonymous cipher suites, use TLS 1.2 or higher and 2048-bit DH groups. |
-| 6 | Apache TRACE enabled | Turn TRACE off in the Apache configuration, and update Apache since 2.2.8 is old. |
+The report describes a backdoored vsftpd 2.3.4 download from 30 June to 3 July 2011. A specially formed username could cause the server to open a shell on port 6200. In my scan, the script returned uid=0(root), showing that the lab target's service exposed a root shell.
 
-## 11. Limitations of the Scan
+**What I would recommend:** Replace the backdoored copy with a clean supported release, verify downloaded software, and block ports 21 and 6200 if FTP is not needed.
 
-- Nmap checked the 1,000 most common TCP ports by default; other TCP ports and UDP were not checked in this run.
-- The sslv2-drown and http-sql-injection scripts failed, so their checks were incomplete.
-- vulners matches software version strings, and some matches may not apply to the target's actual package build or enabled modules.
-- A scan can miss weaknesses; no finding does not prove that a system is secure.
-- Metasploitable 2 is intentionally vulnerable and does not represent a typical production server.
+### SSL POODLE — CVE-2014-3566
 
-## 12. Nessus and OpenVAS (Concept)
+POODLE is a weakness in SSL 3.0's CBC padding. The report explains that a man-in-the-middle attacker could recover parts of encrypted information after repeated interactions.
 
-The report reviewed Nessus and OpenVAS as dedicated vulnerability scanners. Nessus is made by Tenable; the report notes that Nessus Essentials can scan up to 16 IP addresses and produces findings arranged by severity. OpenVAS is described as a free and open-source alternative. Nmap's vulnerability scripts are useful for a quick check, but their results are less comprehensive and need manual validation. A Nessus Essentials scan was not run because it was optional for this task.
+**What I would recommend:** Disable SSL 3.0 and use TLS 1.2 or higher.
 
-## 13. TryHackMe: Vulnerabilities 101
+### Anonymous Diffie-Hellman
 
-![TryHackMe Vulnerabilities 101 room completed at 100 percent](screenshots/06-tryhackme-vulnerabilities-101-completed.webp)
+The ssl-dh-params script reported TLS_DH_anon_WITH_DES_CBC_SHA with a 1024-bit modulus. Anonymous Diffie-Hellman does not authenticate the server, which creates a man-in-the-middle risk. Nmap did not provide a CVE or score for this result; the report rated it Medium.
 
-The room covered what a vulnerability is, five main types, and the difference between CVSS (technical severity) and VPR (risk in an organisational context). It also introduced NVD for CVE tracking and Exploit-DB for researching exploits by software name and version. The report's key lesson was that vulnerabilities can be chained: a small piece of exposed information can help identify a relevant exploit when combined with other findings.
+**What I would recommend:** Disable anonymous cipher suites and use stronger Diffie-Hellman groups of at least 2048 bits.
 
-## 14. Nmap NSE Reference
+### BIND 9.4.2 — CVE-2008-0122
 
-The Nmap reference page explained script categories such as safe, intrusive, vuln and exploit, and how to combine them with not, and and or. It also covered --script-args, --script-help and --script-updatedb. The report notes that NSE scripts are not sandboxed, so selecting an appropriate script category matters for safety as well as scan results.
+The vulners script matched the BIND version to CVE-2008-0122, an off-by-one error in the inet_network function in libbind. The report records a CVSS v2 score of 10.0. However, it also notes that Debian's security tracker said its bind9 package did not use the old libbind code.
 
-## 15. What I Learned
+**How I treated it:** I kept it as a result that needs package-level validation rather than claiming it was confirmed on my target.
 
-- A vulnerability scan identifies possible weaknesses; it is not the same as a penetration test that attempts to exploit them.
-- Each finding needs validation because scanners can report false positives and some checks can fail.
-- CVE identifiers help locate technical details, while CVSS scores help organise remediation priorities.
-- Small weaknesses can be chained into a more serious attack path.
-- Nmap NSE scripts are not sandboxed, so I need to choose script categories carefully, especially outside a lab.
-- An analyst needs to scan, validate, rank and clearly report findings with practical remediation steps.
+### Java RMI on port 1099
 
-## 16. Conclusion
+The rmi-vuln-classloader script reported that the registry allowed classes to be loaded from remote URLs. Nmap did not show a CVE number, but the report connected the behaviour to possible remote code execution.
 
-Running nmap --script vuln against Metasploitable 2 produced a long list of findings within a few minutes. The most important result was the vsftpd 2.3.4 backdoor (CVE-2011-2523), which Nmap confirmed by obtaining a root identity. I also reviewed SSL POODLE, anonymous Diffie-Hellman, the old BIND version and Java RMI. The main lesson was that scanning is only the first step: the output must be checked, prioritised and explained with a realistic remediation recommendation.
+**What I would recommend:** Disable the RMI registry if it is not needed, restrict port 1099 with a firewall and use a supported Java configuration that prevents unsafe remote class loading.
+
+## 7. Severity and remediation priority
+
+I used the CVSS ranges from my research to help understand the severity of a finding.
+
+| CVSS score | Severity | How I would prioritise it |
+|---|---|---|
+| 9.0–10.0 | Critical | Fix first and verify the exposure is removed. |
+| 7.0–8.9 | High | Schedule a prompt fix. |
+| 4.0–6.9 | Medium | Plan remediation and check whether it can combine with other weaknesses. |
+| 0.1–3.9 | Low | Fix when practical or document an accepted risk. |
+
+Based on the results in this lab, my remediation order would be:
+
+1. Replace the backdoored vsftpd installation and remove unnecessary FTP access.
+2. Disable or firewall the Java RMI registry and the bindshell on port 1524.
+3. Review BIND 9.4.2 and confirm which CVEs apply to the installed package.
+4. Disable Telnet and the legacy r-services; use SSH instead.
+5. Disable SSL 3.0 and anonymous Diffie-Hellman.
+6. Disable Apache TRACE and review the old Apache installation.
+
+I would not rank a finding only by the highest number in a scanner output. For example, the report notes that one Apache CVE listed with a 10.0 score concerned the Windows-only mod_isapi module, so that match did not apply to the Linux target.
+
+## 8. Nessus, OpenVAS and what I learned
+
+I also reviewed Nessus and OpenVAS. Nessus Essentials is Tenable's free edition, with the report noting a limit of 16 IP addresses. OpenVAS is a free and open-source vulnerability scanner. Both are dedicated vulnerability-scanning tools, while Nmap's NSE scripts are useful for a quicker initial check. I did not run a Nessus scan because it was optional for this task.
+
+### TryHackMe — Vulnerabilities 101
+
+![TryHackMe Vulnerabilities 101 room completed](screenshots/06-tryhackme-vulnerabilities-101-completed.webp)
+
+The room introduced vulnerability types and the difference between CVSS and VPR. I learned that CVSS describes technical severity, while VPR helps consider risk in an organisation's context. It also introduced NVD for researching CVEs and Exploit-DB for looking up exploit information.
+
+The point I took away was that vulnerabilities can be chained. A small detail, such as an exposed software version, may help an attacker identify a weakness that can be combined with another issue.
+
+## 9. Limitations and conclusion
+
+There were a few limits to this scan:
+
+- Nmap checked the 1,000 most common TCP ports by default; UDP and other TCP ports were not covered in this run.
+- The sslv2-drown and http-sql-injection scripts returned errors, so those checks were incomplete.
+- The vulners results were matched by version and needed manual confirmation.
+- A vulnerability scan can miss issues; an empty result does not prove that a system is secure.
+- Metasploitable 2 is deliberately vulnerable and does not represent a normal production server.
+
+This task helped me understand that vulnerability scanning is only the starting point. I need to read the output, confirm which findings really apply, explain the impact and give a practical fix. The clearest result in my scan was the vsftpd backdoor because Nmap demonstrated the root-level result instead of only listing a possible CVE match.

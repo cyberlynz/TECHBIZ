@@ -12,9 +12,9 @@
 
 ## 1. Introduction
 
-For this task I learned about Cross-Site Scripting (XSS) and tested it against DVWA in my controlled lab environment. I tried both Reflected XSS and Stored XSS, compared how the payloads behaved, and used a cookie-reading proof of concept to understand what JavaScript running in the page could access. I also tested the same reflected payload at DVWA's Impossible security level to check how output encoding changes the result.
+For this task, I opened the XSS sections in DVWA and tried both Reflected XSS and Stored XSS. I started with a simple alert payload, then added a script to the guestbook and checked whether it would still run after I refreshed the page. I also tried reading the cookies from the page and later changed DVWA to Impossible security to compare the result.
 
-XSS happens when an application places untrusted input into a page without encoding it for the right context. The browser may then interpret the input as code and execute it in the context of the website. I also studied DOM-based XSS, where client-side JavaScript handles the unsafe data flow in the browser.
+From the exercise, I understood that XSS can happen when an application displays user input without handling it safely. The browser may treat that input as HTML or JavaScript and run it. I also read about DOM-based XSS and how it can happen when JavaScript on the page uses untrusted data in an unsafe way.
 
 ## 2. Objectives
 
@@ -130,7 +130,7 @@ I noted several possible consequences when injected JavaScript runs in a victim'
 - Redirect a visitor to another website.
 - Capture information entered into an affected page.
 
-As a future analyst, I can review web server or WAF logs for suspicious input such as `<script>`, `onerror=` and URL-encoded forms such as `%3Cscript%3E`. The vulnerable page, proof-of-concept, impact and remediation should be documented in the finding.
+I also noted that suspicious input such as `<script>`, `onerror=` and encoded script tags may appear in web server or WAF logs. If I were writing this up as a finding, I would include the affected page, the input I tested, what happened and how it could be fixed.
 
 ## 10. TryHackMe Practice
 
@@ -162,4 +162,4 @@ No alert appeared. The page displayed `Hello <script>alert(1)</script>` as plain
 
 ## 12. Conclusion
 
-In this task I tested Reflected and Stored XSS in DVWA, used a cookie-reading payload to understand the possible session impact, and compared the two behaviours. Seeing the stored payload run again after a reload made the difference between reflected and stored XSS clear. I also completed the TryHackMe XSS room and verified that the same reflected payload was displayed as plain text at DVWA Impossible security. The exercise reinforced the importance of context-aware output encoding and protecting session cookies.
+I tested both Reflected and Stored XSS on DVWA. The main difference became clearer when I refreshed the guestbook page and saw the stored payload run again without submitting it a second time. I also checked what cookies the script could read and tested the same payload after changing the security level to Impossible. At that level, the payload appeared as text instead of running. I completed the TryHackMe XSS room as part of the task. Overall, the practical helped me see why applications need to handle user input properly and protect session cookies.

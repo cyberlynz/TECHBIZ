@@ -5,7 +5,7 @@
   <img src="https://img.shields.io/badge/Collection-21%20Screenshots-404040?style=flat-square&labelColor=0070C0" alt="21 screenshots" />
 </p>
 
-I organized the screenshots from my three Week 5 tasks in this gallery. The original images are kept in the matching task folders and embedded beside the relevant steps in each write-up.
+These are the screenshots I took while working through the three Week 5 tasks. I kept them in their task folders and added them to the reports around the steps where I used them.
 
 ## Task 1 — SQL Injection
 

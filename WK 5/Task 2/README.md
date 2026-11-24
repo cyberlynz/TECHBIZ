@@ -14,7 +14,7 @@
 
 For this task I learned about Cross-Site Scripting (XSS) and tested it against DVWA in my controlled lab environment. I tried both Reflected XSS and Stored XSS, compared how the payloads behaved, and used a cookie-reading proof of concept to understand what JavaScript running in the page could access. I also tested the same reflected payload at DVWA's Impossible security level to check how output encoding changes the result.
 
-XSS happens when an application places untrusted input into a page without encoding it for the right context. The browser may then interpret the input as code and execute it in the context of the website. The report also introduced DOM-based XSS, where client-side JavaScript handles the unsafe data flow in the browser.
+XSS happens when an application places untrusted input into a page without encoding it for the right context. The browser may then interpret the input as code and execute it in the context of the website. I also studied DOM-based XSS, where client-side JavaScript handles the unsafe data flow in the browser.
 
 ## 2. Objectives
 
@@ -30,7 +30,7 @@ XSS happens when an application places untrusted input into a page without encod
 
 ### 3.1 How the vulnerable page works
 
-The report describes the Reflected XSS page as taking the supplied `name` value and placing it directly into the response, in a simplified form similar to:
+The Reflected XSS page I tested takes the supplied `name` value and places it directly into the response. The simplified example below shows the behaviour:
 
 ```php
 echo '<pre>Hello ' . $_GET['name'] . '</pre>';
@@ -46,7 +46,7 @@ If the application does not encode the value before returning it, the browser ma
 | Stored | The payload is saved by the application and runs when a page displays the saved content. | Comments, guestbooks, forum posts and profile fields. |
 | DOM-based | Client-side JavaScript places untrusted data into an unsafe page location. | Code using unsafe sinks such as `innerHTML` or values from `location.hash`. |
 
-### 3.3 Common techniques in the report
+### 3.3 Common techniques I reviewed
 
 | Technique | Purpose | Example payload |
 |---|---|---|
@@ -85,7 +85,7 @@ Name: Test
 Message: <script>alert('Stored XSS')</script>
 ```
 
-After I selected Sign Guestbook, an alert containing `Stored XSS` appeared. I then opened the Stored XSS page again without submitting another entry. The same alert appeared after the reload, which showed that the payload had been saved and was being returned from the guestbook content. The report records that I used Clear Guestbook after the test.
+After I selected Sign Guestbook, an alert containing `Stored XSS` appeared. I then opened the Stored XSS page again without submitting another entry. The same alert appeared after the reload, which showed that the payload had been saved and was being returned from the guestbook content. I cleared the guestbook after completing the test.
 
 ![Stored XSS alert after submitting the guestbook entry](screenshots/04-stored-xss-submit-alert.webp)
 
@@ -122,7 +122,7 @@ This demonstrated why session cookies should use the `HttpOnly` attribute. If a 
 
 ## 9. Security Impact
 
-The report identifies several possible consequences when injected JavaScript runs in a victim's browser:
+I noted several possible consequences when injected JavaScript runs in a victim's browser:
 
 - Read accessible session cookies and potentially take over a session.
 - Send requests through the victim's authenticated browser session.
@@ -134,13 +134,13 @@ As a future analyst, I can review web server or WAF logs for suspicious input su
 
 ## 10. TryHackMe Practice
 
-I completed the free [XSS room](https://tryhackme.com/room/axss). The room covered Reflected XSS, Stored XSS and DOM-based XSS, including practice against the training applications described in my report.
+I completed the free [XSS room](https://tryhackme.com/room/axss). The room covered Reflected XSS, Stored XSS and DOM-based XSS, and gave me additional practice with the training applications.
 
 ![TryHackMe XSS room completed](screenshots/08-tryhackme-xss-room.webp)
 
 ## 11. Remediation — Preventing XSS
 
-- Encode output for the context where it is used so untrusted input is displayed as text rather than executed. In PHP, the report references `htmlspecialchars()`.
+- Encode output for the context where it is used so untrusted input is displayed as text rather than executed. For PHP, I noted `htmlspecialchars()` as one way to encode special characters.
 - Validate and allow-list input where practical, but do not rely on filtering alone.
 - Add a Content Security Policy (CSP) as an additional control to restrict which scripts the browser can run.
 - Set session cookies with `HttpOnly`, `Secure` and appropriate `SameSite` attributes.
@@ -156,7 +156,7 @@ I changed DVWA to **Impossible** and submitted the same reflected payload:
 <script>alert(1)</script>
 ```
 
-No alert appeared. The page displayed `Hello <script>alert(1)</script>` as plain text, showing that the output was encoded rather than executed. The report also notes that DVWA included a `user_token` in the URL at this security level.
+No alert appeared. The page displayed `Hello <script>alert(1)</script>` as plain text, showing that the output was encoded rather than executed. I also noticed that DVWA included a `user_token` in the URL at this security level.
 
 ![Same payload displayed as plain text at DVWA Impossible security](screenshots/09-dvwa-impossible-output-encoding.webp)
 

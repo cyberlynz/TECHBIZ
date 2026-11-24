@@ -37,7 +37,7 @@ OWASP stands for the Open Web Application Security Project. It publishes free gu
 - Cryptographic Failures and Injection moved to A04 and A05, and Insecure Design moved to A06.
 - Some category names changed, including Security Logging & Alerting and Authentication Failures.
 
-## 3. Three categories studied in detail
+## 3. Three Categories Studied in Detail
 
 ### 3.1 A01 — Broken Access Control
 
@@ -88,7 +88,7 @@ In a vulnerable command-injection field, the semicolon can separate the expected
 **Impact:** Data theft, login bypass, data loss or even full control of the server.  
 **Prevention recorded:** Use parameterized queries or prepared statements, validate input on the server, escape output to prevent XSS and give database accounts only the permissions they need.
 
-## 4. Real-world examples recorded for the ten categories
+## 4. Real-World Examples Recorded for the Ten Categories
 
 The following examples and incident details are reproduced from the report's research notes and reference list.
 
@@ -105,7 +105,7 @@ The following examples and incident details are reproduced from the report's res
 | A09 | Target | 2013 | FireEye detection alerts were not acted on in time; about 40 million payment cards were stolen, according to the cited US Senate report. |
 | A10 | gdm3 login manager (CVE-2020-16125) | 2020 | If the accounts service could not be reached in time, the login manager could start the new-account setup program; on Ubuntu this could let a local user create a privileged account. |
 
-## 5. Mapping DVWA modules to the OWASP Top 10 (2025)
+## 5. Mapping DVWA Modules to the OWASP Top 10 (2025)
 
 DVWA is intentionally vulnerable and is used as a practice application. I mapped each module to the closest OWASP 2025 category. Some modules could relate to more than one category; the notes below retain the report's primary mapping and secondary observations.
 
@@ -131,9 +131,7 @@ DVWA is intentionally vulnerable and is used as a practice application. I mapped
 
 The report notes that DVWA does not have direct modules for A03, A08, A09 and A10. These areas depend more on the wider system, including dependencies, build pipelines, monitoring and error handling, so they are harder to represent in a small intentionally vulnerable web application.
 
-## 6. TryHackMe: OWASP Top 10 (2025) module
-
-![TryHackMe OWASP Top 10 2025 module showing the three rooms completed](screenshots/01-tryhackme-owasp-top-10-2025-all-rooms-completed.webp)
+## 6. TryHackMe: OWASP Top 10 (2025) Module
 
 The module on the account was divided into three rooms: IAAA Failures, Application Design Flaws and Insecure Data Handling. I completed all three rooms.
 
@@ -153,9 +151,11 @@ The report notes examples such as default passwords, exposed services, open clou
 
 This room covered Cryptographic Failures, Injection, and Software or Data Integrity Failures. It reinforced the use of strong, vetted cryptography and slow password-hashing functions such as bcrypt, scrypt and Argon2. It also covered SQL injection, command injection, AI prompts and SSTI, with parameterized queries as a key prevention measure. The integrity section explained why trust boundaries and checks such as checksums matter, including in CI/CD pipelines. The practical labs included weak note encryption, SSTI and a Python deserialization attack.
 
-### 6.4 How the three rooms connect
+### 6.4 How the Three Rooms Connect
 
 The three rooms move from identity and access (who is allowed to do what), to the way systems are designed and configured, and then to how applications handle data and input. Together, they help me consider where an attack may begin, what defenders need to log and how to describe a finding in a report.
+
+![TryHackMe OWASP Top 10 2025 module showing the three rooms completed](screenshots/01-tryhackme-owasp-top-10-2025-all-rooms-completed.webp)
 
 ## 7. Conclusion
 

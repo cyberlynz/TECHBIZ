@@ -59,15 +59,37 @@ Nmap showed that the host was up, with **23 open ports** and **977 closed ports*
 | 80/tcp — Apache 2.2.8 | HTTP TRACE was enabled. Stored/DOM XSS checks did not find those issues; the SQL injection script returned an error. | TRACE was observed; the failed script did not provide a result. |
 | 1099/tcp — Java RMI | rmi-vuln-classloader reported that the registry allowed remote class loading. | Important exposure to investigate; Nmap did not show a CVE number. |
 
-### Scan output from my lab
+### Evidence from my scan
+
+I placed the screenshots directly under the findings they support so the scan evidence can be checked alongside my notes.
+
+#### FTP — vsftpd 2.3.4 on port 21
+
+The script did more than identify the service version. It connected to the backdoor and returned `uid=0(root)`, which is why I treated this as the clearest confirmed result in the scan.
 
 ![Nmap result showing the vsftpd 2.3.4 backdoor detection on port 21](screenshots/01-nmap-vsftpd-backdoor-port-21.webp)
 
+#### SMTP — SSL POODLE and anonymous Diffie-Hellman on port 25
+
+These results pointed to older TLS/SSL configuration that needed review. I kept them separate from the confirmed FTP backdoor result.
+
 ![Nmap result showing SSL POODLE and anonymous Diffie-Hellman findings on port 25](screenshots/02-nmap-ssl-poodle-diffie-hellman-port-25.webp)
+
+#### DNS — BIND 9.4.2 on port 53
+
+The vulners script matched the detected version to CVE entries. I treated these as version-based matches because the package details still needed to be checked.
 
 ![Nmap vulners output matching the detected BIND 9.4.2 service on port 53](screenshots/03-nmap-bind-9-4-2-port-53-vulners-cve-list.webp)
 
+#### HTTP — Apache 2.2.8 on port 80
+
+The scan identified the Apache version and reported that HTTP TRACE was enabled. The screenshot records the service and the related script output.
+
 ![Nmap scan result for Apache httpd 2.2.8 on port 80, including the HTTP TRACE finding](screenshots/04-nmap-apache-httpd-2-2-8-port-80.webp)
+
+#### Java RMI — port 1099
+
+The rmi-vuln-classloader script reported that the registry allowed remote class loading. Nmap did not show a CVE number for this result, so I recorded the observed behaviour and the need to investigate the exposure.
 
 ![Nmap scan result showing the Java RMI classloader finding on port 1099](screenshots/05-nmap-java-rmi-port-1099.webp)
 

@@ -31,7 +31,7 @@ I chose the DVWA web login page instead of SSH or FTP on Metasploitable 2. Becau
 
 ## 3. Locating `rockyou.txt`
 
-The wordlist was supplied in compressed form as `rockyou.txt.gz`. I checked the Kali wordlists folder, extracted the file and counted its lines:
+I found the wordlist in compressed form as `rockyou.txt.gz` in Kali's wordlists folder. I extracted it and counted its lines:
 
 ```bash
 ls /usr/share/wordlists/
@@ -39,7 +39,7 @@ sudo gunzip /usr/share/wordlists/rockyou.txt.gz
 wc -l /usr/share/wordlists/rockyou.txt
 ```
 
-The report records that `rockyou.txt` contained **14,344,391 lines** after extraction.
+After extraction, my `wc -l` command showed **14,344,391 lines** in `rockyou.txt`.
 
 ![rockyou.txt located and extracted in Kali](screenshots/01-rockyou-wordlist-extracted.webp)
 
@@ -47,7 +47,7 @@ The report records that `rockyou.txt` contained **14,344,391 lines** after extra
 
 I reviewed the DVWA form so I could identify the request path, the `username` and `password` parameters, the `Login` value, the session cookie and the text displayed for an unsuccessful login. I then used Hydra's `http-get-form` module with the wordlist.
 
-The command below shows the structure used in my report. The session cookie is represented by `<LAB_SESSION>` because the value changes between sessions; I used the current cookie from my own DVWA login when I ran the test.
+I used the following command structure. The session cookie is represented by `<LAB_SESSION>` because the value changes between sessions; when I ran the test, I used the current cookie from my own DVWA login.
 
 ```bash
 hydra -l admin -P /usr/share/wordlists/rockyou.txt 127.0.0.1 -s 42001 http-get-form \
@@ -71,14 +71,14 @@ The options I used were:
 
 ![Hydra output showing the successful DVWA login guess](screenshots/02-hydra-finds-admin-password.webp)
 
-**Result recorded:** Hydra reported the following credential pair:
+**Result:** Hydra returned the following credential pair:
 
 ```text
 [42001][http-get-form] host: 127.0.0.1 login: admin password: password
 1 of 1 target successfully completed, 1 valid password found
 ```
 
-The report records that Hydra found the password on the fourth attempt, after `123456`, `12345` and `123456789`. Although the wordlist contained more than 14 million entries, the run stopped at the first valid result because I used `-f`.
+Hydra found the password on the fourth attempt, after `123456`, `12345` and `123456789`. Although the wordlist contained more than 14 million entries, the run stopped at the first valid result because I used `-f`.
 
 ## 5. Confirming the Credentials Manually
 
@@ -95,7 +95,7 @@ The page displayed **“Welcome to the password protected area admin”**. This 
 
 ## 6. TryHackMe Practice
 
-I completed both rooms listed in my report.
+I also completed both TryHackMe rooms to practise this topic.
 
 ### 6.1 Hydra
 
@@ -114,12 +114,12 @@ I completed both rooms listed in my report.
 | Finding | Recorded result | Why it matters |
 |---|---|---|
 | Target | DVWA Brute Force page on port `42001` | A web login form was tested in my own lab. |
-| Wordlist | `rockyou.txt`; `wc -l` reported 14,344,391 lines. | The list contains common passwords from a historical breach. |
+| Wordlist | `rockyou.txt`; my `wc -l` command showed 14,344,391 lines. | The list contains common passwords from a historical breach. |
 | Hydra result | `admin:password` | The password was weak and appeared near the start of the wordlist. |
 | Attempts before success | 4 | Hydra found the password almost immediately. |
 | Account lockout | None observed during this test. | Repeated attempts were not blocked or slowed during the run. |
 
-The report's Hydra output showed 14,344,398 login tries queued for the run, while the `wc -l` command recorded 14,344,391 lines in the extracted file. These are the two separate values recorded in the report.
+Hydra's output showed 14,344,398 login tries queued for the run, while my `wc -l` command showed 14,344,391 lines in the extracted file. I have kept these as two separate values because that is what each command displayed.
 
 ## 8. Defensive Recommendations
 

@@ -13,9 +13,9 @@
 
 ## 1. Introduction
 
-For this task I used Hydra with the `rockyou.txt` wordlist to test the DVWA Brute Force login page in my own lab. I located and extracted the wordlist, configured Hydra for the web form, recorded the credentials it found and then verified the login manually in the browser. I also completed the TryHackMe Hydra and Brute It rooms.
+For this task, I used Hydra to test the DVWA Brute Force page in my lab. I first located `rockyou.txt` in Kali and extracted it because it was still compressed. I then checked the login form details and set up the Hydra command with the correct fields and failure message. After Hydra found a password, I went back to the browser and tried the login myself to make sure it worked. I also completed the TryHackMe Hydra and Brute It rooms.
 
-The exercise showed how a common password can be found quickly when an account does not have controls such as rate limiting or account lockout. Hydra makes repeated login attempts automatically, so this type of testing must only be carried out against systems where permission has been granted.
+This practical showed me how quickly a weak password can be guessed when there is no visible limit on failed attempts. I carried out the test on my local DVWA setup, not on a public website.
 
 ## 2. Lab Setup and Target Service
 
@@ -132,4 +132,4 @@ Hydra's output showed 14,344,398 login tries queued for the run, while my `wc -l
 
 ## 9. Conclusion
 
-In this task I located and extracted `rockyou.txt`, configured Hydra for the DVWA web form, found the weak `admin` password on the fourth attempt and confirmed the credentials manually. I also completed the TryHackMe Hydra and Brute It rooms. The main lesson was that a common password combined with no observed account lockout made the account vulnerable to automated guessing. All testing described here was carried out in my own lab; written permission is required before testing a live system.
+Hydra found the password `password` for the `admin` account on the fourth attempt. I then entered the same details in the DVWA login page and was able to sign in, so I knew the result was correct. I also finished the Hydra and Brute It rooms on TryHackMe. What stood out to me was how little time it took to find a weak password near the beginning of the wordlist. I did this exercise on my own DVWA lab, and I understand that permission is needed before carrying out this kind of test on any other system.

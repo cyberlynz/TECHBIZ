@@ -45,6 +45,8 @@ I used the options as follows:
 
 The output included checks such as ftp-vsftpd-backdoor, ssl-poodle, ssl-dh-params, http-trace, rmi-vuln-classloader and vulners. The vulners script was useful for research, but its CVE matches were based on version information and were not proof that every issue affected this machine.
 
+![Nmap NSE reference page used to understand the vulnerability scripts](screenshots/07-nmap-nse-reference-page.webp)
+
 ## 4. What Nmap reported
 
 Nmap showed that the host was up, with **23 open ports** and **977 closed ports** in the default 1,000-port TCP scan. These were the findings I selected for closer review.
@@ -56,6 +58,12 @@ Nmap showed that the host was up, with **23 open ports** and **977 closed ports*
 | 53/tcp — BIND 9.4.2 | vulners listed CVEs for the detected version, including CVE-2008-0122. | Version-based matches; verify whether the installed package is affected. |
 | 80/tcp — Apache 2.2.8 | HTTP TRACE was enabled. Stored/DOM XSS checks did not find those issues; the SQL injection script returned an error. | TRACE was observed; the failed script did not provide a result. |
 | 1099/tcp — Java RMI | rmi-vuln-classloader reported that the registry allowed remote class loading. | Important exposure to investigate; Nmap did not show a CVE number. |
+
+### Scan output from my lab
+
+![Nmap result showing the vsftpd 2.3.4 backdoor detection on port 21](screenshots/01-nmap-vsftpd-backdoor-port-21.webp)
+
+![Nmap result showing SSL POODLE and anonymous Diffie-Hellman findings on port 25](screenshots/02-nmap-ssl-poodle-diffie-hellman-port-25.webp)
 
 ### What stood out to me
 

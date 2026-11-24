@@ -62,10 +62,14 @@ I compared a GET request from the SQL Injection page with the POST request from 
 
 Before using the SQL Injection page, I changed DVWA's security level from impossible to low.
 
+![DVWA security page with the security level changed to low](screenshots/01-dvwa-security-level-low.webp)
+
 | Method | What I saw in DVWA |
 |---|---|
 | GET | The SQL Injection page put id=1 in the URL: /vulnerabilities/sqli/?id=1&Submit=Submit. |
 | POST | The login form sent the username and password in the request body instead of putting them in the URL. |
+
+![Burp capture of the GET request to DVWA SQL Injection showing id=1 in the URL](screenshots/02-burp-get-sqli-request.webp)
 
 The GET request had no body. The POST request carried the submitted form fields in its body. POST keeps the values out of the URL and normal browser history, but it does not encrypt them. HTTPS is still needed to protect traffic while it travels between the browser and server.
 
@@ -91,6 +95,8 @@ With Intercept switched on, I opened the DVWA login page, entered the lab detail
 
 I found the request under **Proxy → Intercept**. It was a POST /login.php request. I could inspect the headers, cookies and body before forwarding it.
 
+![Burp showing the original DVWA POST login request](screenshots/05-burp-intercepted-post-login-request.webp)
+
 ### Changing the request
 
 I changed the password value in the request body from password to password123.
@@ -99,6 +105,8 @@ I changed the password value in the request body from password to password123.
 Before: username=admin&password=password&Login=Login...
 After:  username=admin&password=password123&Login=Login...
 ~~~
+
+![Burp request with the password changed to password123 before forwarding](screenshots/06-burp-edited-password-request.webp)
 
 I then clicked **Forward** to send the modified request to DVWA.
 
@@ -128,11 +136,15 @@ This room showed me how to review a web application manually using browser devel
 
 The main thing I took from this room was that manual inspection can reveal details that an automated scan may not explain, such as page behaviour, requests and data stored in the browser.
 
+![TryHackMe Walking An Application room completed](screenshots/09-tryhackme-walking-application-completed.webp)
+
 ### Burp Suite: The Basics
 
 This room introduced Burp Suite Community Edition, its Dashboard and navigation, the Proxy, browser configuration with FoxyProxy, the site map, issue definitions and scoping. It also covered HTTPS proxying and a short example attack.
 
 The part that connected most with my practical work was the Proxy: Burp sits between the browser and the application, which lets me inspect and change requests and responses.
+
+![TryHackMe Burp Suite: The Basics room completed](screenshots/10-tryhackme-burp-suite-basics-completed.webp)
 
 ## 9. What I learned and conclusion
 

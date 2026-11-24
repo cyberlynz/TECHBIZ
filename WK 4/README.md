@@ -47,29 +47,11 @@ Task 1 scanning and Task 2 request interception were carried out in my own train
 | Task 2 | I changed the password value in an intercepted DVWA login request to password123. The login failed, and Burp HTTP history showed the edited POST requests returning 302 before the login page loaded with 200. |
 | Task 3 | I reviewed all ten OWASP categories, studied Broken Access Control, Cryptographic Failures and Injection, mapped DVWA modules and completed the three TryHackMe rooms. |
 
-## Evidence shown in the task pages
+## Screenshots
 
-The captures below are also embedded in the matching task write-ups, beside the steps and findings they support.
+The screenshots currently published for Week 4 are embedded in the relevant task pages and indexed in the gallery.
 
-### Task 1 — Vulnerability Scanning Basics
-
-![Nmap confirmation of the vsftpd 2.3.4 backdoor result on port 21](Task%201/screenshots/01-nmap-vsftpd-backdoor-port-21.webp)
-
-[Open Task 1 write-up →](Task%201/README.md)
-
-### Task 2 — HTTP and Burp Suite
-
-![Burp Suite intercepting the DVWA POST login request](Task%202/screenshots/05-burp-intercepted-post-login-request.webp)
-
-[Open Task 2 write-up →](Task%202/README.md)
-
-### Task 3 — OWASP Top 10 (2025)
-
-![TryHackMe OWASP Top 10 (2025) module showing all three rooms completed](Task%203/screenshots/01-tryhackme-owasp-top-10-2025-all-rooms-completed.webp)
-
-[Open Task 3 write-up →](Task%203/README.md)
-
-**[Browse the complete Week 4 screenshot gallery →](Screenshots/README.md)**
+**[Browse the Week 4 screenshot gallery →](Screenshots/README.md)**
 
 ---
 

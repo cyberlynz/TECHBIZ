@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Type-Cybersecurity-404040?style=flat-square&labelColor=C00000" alt="Cybersecurity portfolio" />
   <img src="https://img.shields.io/badge/Program-TechBiz%20Academy-404040?style=flat-square&labelColor=6366F1" alt="TechBiz Academy internship" />
-  <img src="https://img.shields.io/badge/Weeks-01%20%E2%80%93%2005-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 to 5" />
+  <img src="https://img.shields.io/badge/Weeks-01%20%E2%80%93%2006-404040?style=flat-square&labelColor=238F89" alt="Weeks 1 to 6" />
 </p>
 
 <p align="center">
@@ -26,6 +26,7 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 | **Week 3** | Footprinting, passive OSINT, Nmap scanning and service enumeration | [Open Week 3 →](WK%203/README.md) |
 | **Week 4** | Vulnerability scanning, HTTP fundamentals, Burp Suite and OWASP Top 10 (2025) | [Open Week 4 →](WK%204/README.md) |
 | **Week 5** | SQL Injection, Cross-Site Scripting and Hydra authentication testing | [Open Week 5 →](WK%205/README.md) |
+| **Week 6** | Metasploit exploitation, password-hash cracking and a full capstone penetration test | [Open Week 6 →](WK%206/README.md) |
 
 ## Week 1 at a glance
 
@@ -79,6 +80,18 @@ This repository documents my practical work during the TechBiz Academy Ethical H
 
 [Browse Week 5 screenshot gallery →](WK%205/Screenshots/README.md)
 
+## Week 6 at a glance
+
+| Task | Focus | What you'll find |
+|---|---|---|
+| **[Task 1 — Metasploit](WK%206/Task%201/README.md)** | Exploiting a vulnerable machine | vsftpd 2.3.4 backdoor module, Metasploit configuration, Meterpreter session, root-shell verification and TryHackMe Metasploit / Blue practice |
+| **[Task 2 — Password Cracking: Hashes](WK%206/Task%202/README.md)** | John the Ripper and hash fundamentals | MD5, SHA-1, SHA-256, bcrypt, a Raw-MD5 wordlist test, and TryHackMe Crack the Hash |
+| **[Task 3 — Capstone Full Pentest](WK%206/Task%203/README.md)** | Full penetration test and professional report | Five findings across scanning, enumeration and exploitation, including exposed development notes, SMB enumeration and access to jan and kay |
+
+[Open the Week 6 overview →](WK%206/README.md)
+
+[Browse Week 6 screenshot gallery →](WK%206/Screenshots/README.md)
+
 ## Skills and tools covered
 
 <p>
@@ -93,6 +106,10 @@ This repository documents my practical work during the TechBiz Academy Ethical H
   <img src="https://img.shields.io/badge/Enumeration-SMB-404040?style=flat-square&labelColor=C00000" alt="SMB enumeration" />
   <img src="https://img.shields.io/badge/Virtualization-VirtualBox-0070C0?style=flat-square&labelColor=000000&logo=virtualbox&logoColor=white" alt="VirtualBox" />
   <img src="https://img.shields.io/badge/Practice-TryHackMe-404040?style=flat-square&labelColor=212C42&logo=tryhackme&logoColor=white" alt="TryHackMe" />
+  <img src="https://img.shields.io/badge/Exploitation-Metasploit-404040?style=flat-square&labelColor=C00000" alt="Metasploit" />
+  <img src="https://img.shields.io/badge/Password%20Testing-John%20the%20Ripper-404040?style=flat-square&labelColor=238F89" alt="John the Ripper" />
+  <img src="https://img.shields.io/badge/Authentication-Hydra-404040?style=flat-square&labelColor=C00000" alt="Hydra" />
+  <img src="https://img.shields.io/badge/Discovery-Gobuster-404040?style=flat-square&labelColor=238F89" alt="Gobuster" />
 </p>
 
 ## About this portfolio

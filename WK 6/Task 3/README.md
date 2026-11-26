@@ -65,7 +65,7 @@ nmap -sV 10.128.157.162
 
 The `-sV` option asks Nmap to probe discovered ports to identify the service and, where possible, its version. I used this because knowing that a port is open is only the first part of understanding the attack surface. Knowing whether it is running SSH, HTTP or SMB helps me decide what kind of enumeration is relevant.
 
-![Nmap version scan showing the four open ports on the target](screenshots/01-nmap-version-scan-four-open-ports.webp)
+![Nmap version scan showing the four open ports on the target](screenshots/01-nmap-version-scan-four-open-ports.png)
 
 ### 4.2 What I found
 
@@ -96,7 +96,7 @@ gobuster dir -u http://10.128.157.162 -w /usr/share/wordlists/dirbuster/director
 
 Gobuster tests words from the list as possible directory or file names and reports paths that the server responds to. The result included `/development` with HTTP status `301`.
 
-![Gobuster finds the exposed development directory](screenshots/02-gobuster-finds-development-directory.webp)
+![Gobuster finds the exposed development directory](screenshots/02-gobuster-finds-development-directory.png)
 
 A `301` response is a redirect, not an error. It told me that the path existed and that the server was redirecting the browser, so I opened the directory to see what was available there.
 
@@ -104,7 +104,7 @@ A `301` response is a redirect, not an error. It told me that the path existed a
 
 The directory opened without asking me to authenticate. Apache displayed an index listing with two text files: `dev.txt` and `j.txt`.
 
-![Directory listing of development showing dev.txt and j.txt](screenshots/03-development-directory-listing-dev-txt-j-txt.webp)
+![Directory listing of development showing dev.txt and j.txt](screenshots/03-development-directory-listing-dev-txt-j-txt.png)
 
 This was a security issue because internal files were stored in a web-accessible location. A directory listing also made it easier to discover the filenames. I opened both files and reviewed the information they contained.
 
@@ -112,7 +112,7 @@ This was a security issue because internal files were stored in a web-accessible
 
 The first file was a developer note/changelog. It mentioned recent SMB configuration and stated that Apache Struts 2.5.12 had been tested on the server.
 
-![Contents of the exposed dev.txt file](screenshots/04-development-dev-txt-contents.webp)
+![Contents of the exposed dev.txt file](screenshots/04-development-dev-txt-contents.png)
 
 The SMB reference gave me a reason to check the SMB service identified by Nmap. The Struts version was also worth noting because older Struts releases have had serious security issues, although I did not demonstrate a Struts exploit in this assessment. I kept that as technology information to investigate in a fuller engagement rather than claiming it was a confirmed vulnerability on this host.
 
@@ -120,7 +120,7 @@ The SMB reference gave me a reason to check the SMB service identified by Nmap. 
 
 The second file contained an internal message from a staff member identified as `K` to another staff member identified as `J`. The message said that `J`'s password had been recovered easily during an audit of `/etc/shadow` and asked the recipient to change it to comply with the organisation's password policy.
 
-![Contents of the exposed j.txt internal message](screenshots/05-development-j-txt-contents.webp)
+![Contents of the exposed j.txt internal message](screenshots/05-development-j-txt-contents.png)
 
 This was more useful than a normal software note because it gave me a specific lead: one of the accounts associated with the host was known to have a weak password. The file did not disclose the password itself, but it showed that sensitive staff communication was publicly readable and suggested a likely authentication weakness. I later correlated the initials in the message with the usernames found through SMB.
 
@@ -140,13 +140,13 @@ enum4linux -a 10.128.157.162
 
 The `-a` option requests a broad set of enumeration checks. I reviewed the output for host details, shares, session permissions, password policy and usernames.
 
-![enum4linux target information and usernames](screenshots/06-enum4linux-target-information-usernames.webp)
+![enum4linux target information and usernames](screenshots/06-enum4linux-target-information-usernames.jpg)
 
 ### 6.2 Check whether an anonymous session is allowed
 
 One of the results showed that the target accepted a null or anonymous SMB session. In this context, a null session means the tool could make an SMB connection without supplying a normal username and password.
 
-![enum4linux confirms that a null or anonymous session is permitted](screenshots/07-enum4linux-null-session-permitted.webp)
+![enum4linux confirms that a null or anonymous session is permitted](screenshots/07-enum4linux-null-session-permitted.png)
 
 This did not mean that every file on the system was available to an unauthenticated user. It meant that the server was willing to provide some SMB information without normal authentication. I continued to check exactly what could be retrieved through that session.
 
@@ -154,11 +154,11 @@ This did not mean that every file on the system was available to an unauthentica
 
 The enumeration included share information and a password-policy lookup.
 
-![enum4linux share enumeration and password-policy lookup](screenshots/08-enum4linux-share-enumeration-password-policy.webp)
+![enum4linux share enumeration and password-policy lookup](screenshots/08-enum4linux-share-enumeration-password-policy.jpg)
 
 The policy information showed a minimum password length of five characters and that complexity requirements were disabled.
 
-![Password policy showing minimum length of five and complexity disabled](screenshots/09-enum4linux-password-policy-five-no-complexity.webp)
+![Password policy showing minimum length of five and complexity disabled](screenshots/09-enum4linux-password-policy-five-no-complexity.jpg)
 
 A short minimum length and no complexity requirement make it easier for users to choose predictable passwords. A strong password policy should encourage longer passwords and block commonly used or compromised passwords. Password complexity rules alone are not enough, but in this case the minimum length of five was particularly weak.
 
@@ -166,11 +166,11 @@ A short minimum length and no complexity requirement make it easier for users to
 
 The tool then performed group and RID enumeration. A Relative Identifier (RID) is the part of a Windows-style security identifier that distinguishes one account or group from another within a security authority. In this lab, enum4linux was able to query the SMB service and resolve local account names through RID cycling.
 
-![enum4linux beginning group and RID-cycling enumeration](screenshots/10-enum4linux-group-rid-cycling.webp)
+![enum4linux beginning group and RID-cycling enumeration](screenshots/10-enum4linux-group-rid-cycling.jpg)
 
 The completed results revealed three local usernames: `kay`, `jan` and `ubuntu`.
 
-![RID cycling reveals kay, jan and ubuntu](screenshots/11-rid-cycling-users-kay-jan-ubuntu.webp)
+![RID cycling reveals kay, jan and ubuntu](screenshots/11-rid-cycling-users-kay-jan-ubuntu.jpg)
 
 The usernames helped me connect the anonymous SMB results with the initials in `j.txt`. The note referred to `K` and `J`, and the enumeration gave me the matching account names `kay` and `jan`. Along with the weak policy information, this made the `jan` account a specific candidate for the next authorised check.
 
@@ -190,7 +190,7 @@ hydra -l jan -P /usr/share/wordlists/rockyou.txt ssh://10.128.157.162
 
 Here, `-l jan` specified the single username and `-P` supplied the password list. The target service was SSH on the target IP. This was a targeted test of the account identified during the earlier enumeration, not a general scan across other hosts.
 
-![Hydra recovers the weak SSH password for jan](screenshots/12-hydra-cracks-jan-ssh-password.webp)
+![Hydra recovers the weak SSH password for jan](screenshots/12-hydra-cracks-jan-ssh-password.jpg)
 
 **My result:** Hydra reported a valid SSH credential for `jan` and recovered the password `armando`. The result confirmed that the weak-password information in the exposed note was actionable.
 
@@ -204,7 +204,7 @@ ssh jan@10.128.157.162
 
 After accepting the host key prompt and authenticating, I had an interactive shell as `jan`. I checked the session and listed the directory contents to confirm that I was working inside the target account.
 
-![SSH login and interactive shell as jan](screenshots/13-ssh-shell-access-as-jan.webp)
+![SSH login and interactive shell as jan](screenshots/13-ssh-shell-access-as-jan.jpg)
 
 This was a significant change from the earlier findings. The web directory and SMB checks disclosed information, but this step provided an authenticated shell. I rated it High because a remote user could obtain a working account using a common wordlist password without needing a software exploit.
 
@@ -228,7 +228,7 @@ ls -la /home/
 
 The permissions on `/home/kay` allowed other local users to read and enter the directory (`drwxr-xr-x`). A home directory can be traversable when users need shared access, but private account files should not be readable by unrelated users.
 
-![SUID check and permissions showing kay's home directory is browsable](screenshots/14-suid-check-kay-home-directory-permissions.webp)
+![SUID check and permissions showing kay's home directory is browsable](screenshots/14-suid-check-kay-home-directory-permissions.png)
 
 ### 8.2 Inspect the files available under kay's home directory
 
@@ -241,7 +241,7 @@ ls -la
 
 The listing showed a backup file named `pass.bak` and a `.ssh` directory. The `.ssh` directory contained the `id_rsa` private-key file.
 
-![kay's home directory listing with pass.bak and the .ssh private-key directory](screenshots/15-kay-home-listing-passbak-and-ssh-key.webp)
+![kay's home directory listing with pass.bak and the .ssh private-key directory](screenshots/15-kay-home-listing-passbak-and-ssh-key.jpg)
 
 The important issue was not only that another user's home directory could be browsed. The private SSH key itself was also readable from the `jan` account. Private keys are authentication material and should be restricted to the account that owns them. The presence of `pass.bak` was another concern because a backup file in the same location may retain sensitive information after it should have been removed.
 
@@ -261,9 +261,9 @@ chmod 600 Kay_rsa
 
 The `600` permission gives the file read and write access to its owner only, with no permissions for the group or other users. SSH checks private-key file permissions and may refuse to use a key if other accounts can read it.
 
-![kay's private SSH key was readable from the jan shell](screenshots/16-kay-private-ssh-key-from-jan-shell.webp)
+![kay's private SSH key was readable from the jan shell](screenshots/16-kay-private-ssh-key-from-jan-shell.png)
 
-![Private key saved locally and permissions restricted with chmod 600](screenshots/17-save-kay-private-key-chmod-600.webp)
+![Private key saved locally and permissions restricted with chmod 600](screenshots/17-save-kay-private-key-chmod-600.jpg)
 
 This demonstrated how a file-permission mistake can let one user obtain another user's authentication material. The key was still protected by a passphrase, so possession of the key file alone was not enough for a successful login.
 
@@ -279,7 +279,7 @@ john kay.txt --wordlist=/usr/share/wordlists/rockyou.txt
 
 `ssh2john` converts supported SSH private-key data into a format that John the Ripper can test. It does not remove the passphrase or decrypt the key automatically. John then tests candidate passphrases from the wordlist against the extracted hash.
 
-![John the Ripper cracks the passphrase protecting kay's SSH private key](screenshots/18-john-cracks-kay-key-passphrase.webp)
+![John the Ripper cracks the passphrase protecting kay's SSH private key](screenshots/18-john-cracks-kay-key-passphrase.png)
 
 The passphrase was recovered successfully. This connected the earlier password-hash exercise with a real step in the capstone: in Task 2 I tested a simple MD5 hash, while here I used the same general idea of testing guesses offline against a protected credential format.
 
@@ -298,7 +298,7 @@ I obtained a shell as `kay`. The `pass.bak` file contained:
 heresareallystrongpasswordthatfollowsthepasswordpolicy$$
 ```
 
-![Confirmed shell access as kay and the contents of pass.bak](screenshots/19-kay-shell-and-passbak-contents.webp)
+![Confirmed shell access as kay and the contents of pass.bak](screenshots/19-kay-shell-and-passbak-contents.jpg)
 
 This provided a second account foothold. I did not need to exploit a software flaw to reach it. The combination of a browsable home directory, a readable private key and a leftover backup password file exposed information that should have been restricted to the account owner.
 

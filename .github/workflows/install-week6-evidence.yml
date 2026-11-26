@@ -1,0 +1,38 @@
+name: Install Week 6 screenshot evidence
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".week6-screenshots-b64.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Restore screenshot files
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 --decode .week6-screenshots-b64.txt > /tmp/week6-evidence.zip
+          unzip -oq /tmp/week6-evidence.zip -d .
+          test "$(find 'WK 6/Task 1/screenshots' -maxdepth 1 -type f | wc -l)" -eq 5
+          test "$(find 'WK 6/Task 2/screenshots' -maxdepth 1 -type f | wc -l)" -eq 2
+          test "$(find 'WK 6/Task 3/screenshots' -maxdepth 1 -type f | wc -l)" -eq 19
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "WK 6/Task 1/screenshots" "WK 6/Task 2/screenshots" "WK 6/Task 3/screenshots"
+          git rm .week6-screenshots-b64.txt .github/workflows/install-week6-evidence.yml
+          git commit -m "Add Week 6 task screenshot evidence"
+          git push origin HEAD:main

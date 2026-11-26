@@ -8,225 +8,334 @@
 
 **Internship:** Ethical Hacking Internship, TechBiz Academy  
 **Author:** Collins Okike  
-**Target:** TryHackMe Basic Pentesting (10.128.157.162)  
-**Methodology:** Reconnaissance, scanning, enumeration and exploitation
+**Target:** TryHackMe Basic Pentesting — `10.128.157.162` (address during my lab session)  
+**Testing machine:** Kali Linux connected to the TryHackMe environment  
+**Overall engagement risk:** High
 
 ## 1. Executive Summary
 
-For the final capstone, I carried out a complete penetration test against the TryHackMe Basic Pentesting machine. The aim was to use the methodology I had practised throughout the internship and document each stage, from the initial scan to the successful account access.
+For my final practical task, I carried out a penetration test against the TryHackMe **Basic Pentesting** machine. I used the process I had practised during the internship: confirming the target, scanning its exposed services, checking the information those services revealed, and then testing whether the weaknesses could be used to obtain access.
 
-The engagement found an exposed /development directory containing internal notes, an anonymous SMB session that revealed usernames and password-policy details, and a weak SSH password for the user jan. After gaining a shell as jan, I found that the home directory for kay was accessible and contained a private SSH key and a leftover backup password file. I recovered the key's passphrase and used it to obtain a second foothold as kay.
+The test showed how several small security mistakes can combine into a serious compromise. I found that the web server exposed a `/development` directory containing internal notes. The notes pointed to two user accounts and mentioned that one account had a weak password. I then used an unauthenticated SMB session to confirm the usernames and retrieve the password policy. That information helped me focus my SSH password test on the `jan` account. After recovering the password and logging in, I found that `kay`'s home directory and private SSH key were readable by another local user. I recovered the key, cracked its passphrase offline and was able to access the `kay` account as well.
 
-The report records five findings. The overall engagement risk was rated **High** because the access-control and credential weaknesses led to working access to two accounts.
+The test resulted in five findings: service/version disclosure, an exposed development directory, anonymous SMB enumeration, a weak SSH password for `jan`, and an exposed private key and backup password file for `kay`. The first three findings provided information or helped identify accounts; the last two resulted in working account access. I rated the overall engagement High because an attacker who followed the same path could gain access to two user accounts through weak credentials and poor file permissions.
 
-## 2. Findings Summary
+No software memory-corruption exploit was needed in this attack chain. The main problems were information exposure, weak authentication and access controls that allowed one account to reach another user's files.
 
-| ID | Finding | Severity | Phase |
-|---|---|---|---|
-| F1 | Open ports and service/OS versions disclosed | Low | Scanning |
-| F2 | Public /development directory leaking internal notes and credential context | Medium | Enumeration |
-| F3 | Valid usernames enumerated through an anonymous/null SMB session | Low | Enumeration |
-| F4 | Weak SSH password for user jan, recovered through a wordlist attack | High | Exploitation |
-| F5 | Exposed SSH private key and backup password file for user kay | High | Exploitation |
+## 2. Scope, target and rules
 
-Severity was based on impact and how directly a finding could be used. Findings that provided working access or credentials were rated High; information that could guide a later attack but did not itself grant access was rated Medium; and information that was informational on its own was rated Low.
+I confirmed the IP address assigned to my TryHackMe Basic Pentesting room and used that address as the scope for the exercise. The test was carried out from my Kali Linux environment connected to TryHackMe.
 
-## 3. Scope and Methodology
-
-| Field | Detail |
+| Item | Detail |
 |---|---|
-| Target | TryHackMe Basic Pentesting room — [tryhackme.com/room/basicpentestingjt](https://tryhackme.com/room/basicpentestingjt) |
-| Target IP | 10.128.157.162 |
-| Attacking machine | Kali Linux connected to TryHackMe |
-| Authorization | TryHackMe lab environment, tested under the room's terms of use |
-| Phases followed | Reconnaissance, Scanning, Enumeration, Exploitation |
+| Target | TryHackMe Basic Pentesting room |
+| Target IP during testing | `10.128.157.162` |
+| Attacking machine | Kali Linux connected to the TryHackMe lab |
+| Scope | The assigned Basic Pentesting target only |
+| Authorisation | Testing carried out in the authorised TryHackMe training environment |
+| Main stages | Reconnaissance, scanning, enumeration and exploitation |
 
-Before running the tools, I confirmed the IP assigned to my room instance and kept the scope to that target. I did not include other hosts on the lab network in the engagement.
+The IP address belongs to the room instance I used during the exercise. TryHackMe may assign a different address when a new instance is started, so the address above is a record of this test and should not be assumed to remain active.
 
-## 4. Methodology, Findings and Evidence
+## 3. Methodology and tools
 
-### 4.1 Reconnaissance
+I kept the stages in order because each result helped decide what to check next.
 
-I confirmed the target IP assigned to the Basic Pentesting room and treated that host as the full scope of the test. This established the baseline for the scanning and enumeration work that followed. No finding was raised during this stage.
-
-### 4.2 Scanning — F1: Open Ports and Service/OS Versions Disclosed (Low)
-
-I ran an Nmap service/version scan against the target:
-
-~~~bash
-nmap -sV 10.128.157.162
-~~~
-
-![Nmap version scan showing four open ports](screenshots/01-nmap-version-scan-four-open-ports.webp)
-
-The scan identified four open ports:
-
-| Port | Service | Version / details |
+| Stage | What I wanted to establish | Tools used |
 |---|---|---|
-| 22/tcp | SSH | OpenSSH 8.2p1 on Ubuntu |
-| 80/tcp | HTTP | Apache httpd 2.4.41 on Ubuntu |
-| 139/tcp | SMB / NetBIOS | Samba smbd 4 |
-| 445/tcp | SMB | Samba smbd 4 |
+| Reconnaissance | Confirm the assigned target and keep the test within scope | TryHackMe room details |
+| Scanning | Identify open ports, services and version information | Nmap |
+| Web enumeration | Check for directories and files that were not linked from the main page | Gobuster and browser |
+| SMB enumeration | Check whether SMB allowed anonymous access and whether it disclosed users or policy information | enum4linux |
+| Credential testing | Check the weak-password lead against the SSH service | Hydra and `rockyou.txt` |
+| Account access and file-permission checks | Verify the first foothold and check whether sensitive files were readable | SSH, `find`, `ls`, `cat` |
+| Offline key analysis | Extract and test the passphrase hash from the private key | ssh2john and John the Ripper |
 
-Nmap's OS fingerprint also identified the host as Linux running an Ubuntu kernel. This mapped the attack surface for the later stages: HTTP for web content, SMB for share and username enumeration, and SSH as the eventual credential-testing target.
+I used the output from each stage to guide the next stage. For example, the Nmap scan showed that HTTP and SMB were available, Gobuster found the development directory on the web server, and a note inside that directory indicated that SMB had been configured. That made SMB enumeration a relevant next step rather than a random scan.
 
-I rated version disclosure Low. The banners did not provide access by themselves, but they narrowed the software versions an attacker could research.
+## 4. Scanning — F1: Open ports and service/version information disclosed (Low)
 
-### 4.3 Enumeration — F2: Public /development Directory (Medium)
+### 4.1 Run the Nmap version scan
 
-Since Apache was running on port 80, I used Gobuster to look for directories that were not linked from the main page:
+I started by checking which services were exposed on the target and what versions they reported:
 
-~~~bash
-gobuster dir -u 10.128.157.162 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
-~~~
+```bash
+nmap -sV 10.128.157.162
+```
 
-Gobuster found /development with an HTTP 301 response.
+The `-sV` option asks Nmap to probe discovered ports to identify the service and, where possible, its version. I used this because knowing that a port is open is only the first part of understanding the attack surface. Knowing whether it is running SSH, HTTP or SMB helps me decide what kind of enumeration is relevant.
 
-![Gobuster output showing the discovered development directory](screenshots/02-gobuster-finds-development-directory.webp)
+![Nmap version scan showing the four open ports on the target](screenshots/01-nmap-version-scan-four-open-ports.webp)
 
-When I browsed to the directory, the server displayed an Apache index listing with two files, dev.txt and j.txt.
+### 4.2 What I found
+
+The scan identified four open TCP ports:
+
+| Port | Service | Version information recorded | Why I checked it further |
+|---:|---|---|---|
+| 22 | SSH | OpenSSH 8.2p1 on Ubuntu | This became the service I tested after finding a weak-password lead. |
+| 80 | HTTP | Apache httpd 2.4.41 on Ubuntu | I used the web server to look for exposed directories and files. |
+| 139 | NetBIOS/SMB | Samba smbd 4 | SMB could reveal host or account information if it was poorly configured. |
+| 445 | SMB | Samba smbd 4 | This was used for the SMB enumeration stage. |
+
+Nmap's OS fingerprint also identified the host as Linux running an Ubuntu kernel. These results gave me three clear paths to investigate: HTTP for web content, SMB for network-share and account information, and SSH for remote login. The scan did not prove that any of these services was vulnerable by itself; it identified what was listening and helped me plan the next checks.
+
+### 4.3 Finding assessment
+
+I recorded this as **F1 — Open ports and service/version information disclosed (Low)**. Exposing a service banner does not automatically give an attacker access, and services need to be discoverable to function. However, version information can help an attacker narrow down which weaknesses to research. This is why I rated it Low rather than treating the scan output as a direct compromise.
+
+## 5. Web enumeration — F2: Public `/development` directory exposes internal notes (Medium)
+
+### 5.1 Look for directories that are not linked from the home page
+
+Because Nmap showed Apache on port 80, I checked for web directories that were not obvious from the main page. I used Gobuster with the DirBuster medium directory list:
+
+```bash
+gobuster dir -u http://10.128.157.162 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+```
+
+Gobuster tests words from the list as possible directory or file names and reports paths that the server responds to. The result included `/development` with HTTP status `301`.
+
+![Gobuster finds the exposed development directory](screenshots/02-gobuster-finds-development-directory.webp)
+
+A `301` response is a redirect, not an error. It told me that the path existed and that the server was redirecting the browser, so I opened the directory to see what was available there.
+
+### 5.2 Review the directory listing
+
+The directory opened without asking me to authenticate. Apache displayed an index listing with two text files: `dev.txt` and `j.txt`.
 
 ![Directory listing of development showing dev.txt and j.txt](screenshots/03-development-directory-listing-dev-txt-j-txt.webp)
 
-The directory did not have access control, so both text files could be downloaded by anyone who could reach the web server.
+This was a security issue because internal files were stored in a web-accessible location. A directory listing also made it easier to discover the filenames. I opened both files and reviewed the information they contained.
 
-The first file, dev.txt, contained an informal developer changelog. It confirmed that SMB had recently been configured and mentioned Apache Struts 2.5.12 as a version tested on the server. I noted the version for further research because older Struts releases have a history of serious vulnerabilities.
+### 5.3 Read `dev.txt`
 
-![Contents of development dev.txt](screenshots/04-development-dev-txt-contents.webp)
+The first file was a developer note/changelog. It mentioned recent SMB configuration and stated that Apache Struts 2.5.12 had been tested on the server.
 
-The second file, j.txt, was an internal message from one staff member identified as “K” to another identified as “J”. It said that J's password had been recovered easily during an audit of /etc/shadow and advised J to change it. The note did not contain the password itself, but it identified an account likely to have a weak password. I rated the disclosure Medium because reading the file did not grant access on its own, but it provided a useful lead for the later attack.
+![Contents of the exposed dev.txt file](screenshots/04-development-dev-txt-contents.webp)
 
-![Contents of development j.txt showing the internal password-related note](screenshots/05-development-j-txt-contents.webp)
+The SMB reference gave me a reason to check the SMB service identified by Nmap. The Struts version was also worth noting because older Struts releases have had serious security issues, although I did not demonstrate a Struts exploit in this assessment. I kept that as technology information to investigate in a fuller engagement rather than claiming it was a confirmed vulnerability on this host.
 
-### 4.4 Enumeration — F3: Usernames Disclosed Through Anonymous SMB (Low)
+### 5.4 Read `j.txt`
 
-The notes in /development indicated that SMB had been configured, so I used enum4linux to enumerate the service:
+The second file contained an internal message from a staff member identified as `K` to another staff member identified as `J`. The message said that `J`'s password had been recovered easily during an audit of `/etc/shadow` and asked the recipient to change it to comply with the organisation's password policy.
 
-~~~bash
+![Contents of the exposed j.txt internal message](screenshots/05-development-j-txt-contents.webp)
+
+This was more useful than a normal software note because it gave me a specific lead: one of the accounts associated with the host was known to have a weak password. The file did not disclose the password itself, but it showed that sensitive staff communication was publicly readable and suggested a likely authentication weakness. I later correlated the initials in the message with the usernames found through SMB.
+
+### 5.5 Finding assessment
+
+I recorded this as **F2 — Public `/development` directory leaking internal notes (Medium)**. The directory did not give me a shell on its own, so I did not rate it High. However, it exposed internal information that directly helped guide the later account attack. Removing the directory from the public web root or protecting it with access controls would have prevented this information from being available to an unauthenticated visitor.
+
+## 6. SMB enumeration — F3: Anonymous session reveals usernames and password policy (Low)
+
+### 6.1 Enumerate the SMB service
+
+The developer note had mentioned SMB, and Nmap had already shown ports 139 and 445 open. I used enum4linux to gather information from the SMB service:
+
+```bash
 enum4linux -a 10.128.157.162
-~~~
+```
 
-The first output showed the target information and the usernames the tool was able to identify.
+The `-a` option requests a broad set of enumeration checks. I reviewed the output for host details, shares, session permissions, password policy and usernames.
 
-![enum4linux output showing target information and discovered usernames](screenshots/06-enum4linux-target-information-usernames.webp)
+![enum4linux target information and usernames](screenshots/06-enum4linux-target-information-usernames.webp)
 
-The SMB service permitted a null/anonymous session, meaning the enumeration could continue without valid credentials.
+### 6.2 Check whether an anonymous session is allowed
 
-![enum4linux confirming that a null or anonymous SMB session was permitted](screenshots/07-enum4linux-null-session-permitted.webp)
+One of the results showed that the target accepted a null or anonymous SMB session. In this context, a null session means the tool could make an SMB connection without supplying a normal username and password.
 
-The tool continued with share enumeration and password-policy checks.
+![enum4linux confirms that a null or anonymous session is permitted](screenshots/07-enum4linux-null-session-permitted.webp)
+
+This did not mean that every file on the system was available to an unauthenticated user. It meant that the server was willing to provide some SMB information without normal authentication. I continued to check exactly what could be retrieved through that session.
+
+### 6.3 Review shares and the password policy
+
+The enumeration included share information and a password-policy lookup.
 
 ![enum4linux share enumeration and password-policy lookup](screenshots/08-enum4linux-share-enumeration-password-policy.webp)
 
-The retrieved policy showed a minimum password length of five characters and no complexity requirement.
+The policy information showed a minimum password length of five characters and that complexity requirements were disabled.
 
-![Retrieved password policy showing a minimum length of five and complexity disabled](screenshots/09-enum4linux-password-policy-five-no-complexity.webp)
+![Password policy showing minimum length of five and complexity disabled](screenshots/09-enum4linux-password-policy-five-no-complexity.webp)
 
-I also followed the group and RID-cycling output to identify local accounts.
+A short minimum length and no complexity requirement make it easier for users to choose predictable passwords. A strong password policy should encourage longer passwords and block commonly used or compromised passwords. Password complexity rules alone are not enough, but in this case the minimum length of five was particularly weak.
+
+### 6.4 Use RID cycling to identify local users
+
+The tool then performed group and RID enumeration. A Relative Identifier (RID) is the part of a Windows-style security identifier that distinguishes one account or group from another within a security authority. In this lab, enum4linux was able to query the SMB service and resolve local account names through RID cycling.
 
 ![enum4linux beginning group and RID-cycling enumeration](screenshots/10-enum4linux-group-rid-cycling.webp)
 
-The RID cycling revealed three local Unix users: kay, jan and ubuntu.
+The completed results revealed three local usernames: `kay`, `jan` and `ubuntu`.
 
-![RID cycling revealing the kay, jan and ubuntu accounts](screenshots/11-rid-cycling-users-kay-jan-ubuntu.webp)
+![RID cycling reveals kay, jan and ubuntu](screenshots/11-rid-cycling-users-kay-jan-ubuntu.webp)
 
-The usernames kay and jan matched the initials used in the exposed j.txt note. The weak password policy and account names gave me a specific lead for the SSH test. I rated the username disclosure Low because it did not grant access by itself, although it helped the later exploitation stage.
+The usernames helped me connect the anonymous SMB results with the initials in `j.txt`. The note referred to `K` and `J`, and the enumeration gave me the matching account names `kay` and `jan`. Along with the weak policy information, this made the `jan` account a specific candidate for the next authorised check.
 
-### 4.5 Exploitation — F4: Weak SSH Password for jan (High)
+### 6.5 Finding assessment
 
-Based on the lead from the internal note and the weak password policy, I ran a targeted wordlist attack against SSH for jan:
+I recorded this as **F3 — Usernames and password-policy information disclosed through anonymous SMB (Low)**. Usernames and policy details are useful to an attacker, but the information alone does not provide an authenticated session. The finding became more important when combined with F2, because the leaked note and the SMB enumeration pointed to the same two accounts and indicated which one had a weak password.
 
-~~~bash
+## 7. Exploitation — F4: Weak SSH password for `jan` (High)
+
+### 7.1 Test the weak-password lead
+
+After correlating the exposed message with the SMB usernames, I tested the `jan` account against SSH using the `rockyou.txt` wordlist. I used Hydra for the online wordlist test:
+
+```bash
 hydra -l jan -P /usr/share/wordlists/rockyou.txt ssh://10.128.157.162
-~~~
+```
 
-Hydra recovered the password armando.
+Here, `-l jan` specified the single username and `-P` supplied the password list. The target service was SSH on the target IP. This was a targeted test of the account identified during the earlier enumeration, not a general scan across other hosts.
 
-![Hydra output showing the recovered SSH password for jan](screenshots/12-hydra-cracks-jan-ssh-password.webp)
+![Hydra recovers the weak SSH password for jan](screenshots/12-hydra-cracks-jan-ssh-password.webp)
 
-I then used the recovered credential to connect over SSH and confirmed an interactive shell as jan:
+**My result:** Hydra reported a valid SSH credential for `jan` and recovered the password `armando`. The result confirmed that the weak-password information in the exposed note was actionable.
 
-~~~bash
+### 7.2 Verify the credential with SSH
+
+I used the recovered credential to connect to the target:
+
+```bash
 ssh jan@10.128.157.162
-ls -la
-~~~
+```
 
-![Confirmed SSH shell access as jan](screenshots/13-ssh-shell-access-as-jan.webp)
+After accepting the host key prompt and authenticating, I had an interactive shell as `jan`. I checked the session and listed the directory contents to confirm that I was working inside the target account.
 
-I rated this finding High because the weak password provided a working account foothold without requiring a custom exploit.
+![SSH login and interactive shell as jan](screenshots/13-ssh-shell-access-as-jan.webp)
 
-### 4.6 Exploitation — F5: Exposed SSH Key and Backup Password File for kay (High)
+This was a significant change from the earlier findings. The web directory and SMB checks disclosed information, but this step provided an authenticated shell. I rated it High because a remote user could obtain a working account using a common wordlist password without needing a software exploit.
 
-After gaining access as jan, I looked for a way to reach the kay account. I first checked for custom SUID binaries and reviewed the permissions on /home:
+## 8. Exploitation — F5: Exposed SSH key and backup password file for `kay` (High)
 
-~~~bash
+### 8.1 Check for privilege-related files and home-directory permissions
+
+Once I had a shell as `jan`, I checked for SUID files that might provide another path to access. I used:
+
+```bash
 find / -perm -4000 2>/dev/null
+```
+
+The `-perm -4000` test looks for files with the SUID permission bit set. The `2>/dev/null` part suppresses permission-denied messages so the output is easier to review. My recorded result showed standard snap-packaged system binaries rather than a custom SUID binary that I could use for this exercise.
+
+I then checked the home directory:
+
+```bash
 ls -la /home/
-~~~
+```
 
-The SUID check returned only standard snap-packaged system binaries. The /home/kay/ directory was readable and executable by other local users.
+The permissions on `/home/kay` allowed other local users to read and enter the directory (`drwxr-xr-x`). A home directory can be traversable when users need shared access, but private account files should not be readable by unrelated users.
 
-![SUID check and kay home-directory permissions](screenshots/14-suid-check-kay-home-directory-permissions.webp)
+![SUID check and permissions showing kay's home directory is browsable](screenshots/14-suid-check-kay-home-directory-permissions.webp)
 
-I listed Kay's home directory and found a file named pass.bak and a browsable .ssh directory containing id_rsa:
+### 8.2 Inspect the files available under kay's home directory
 
-~~~bash
-cd /home/kay && ls -la
-~~~
+I listed the directory as `jan`:
 
-![Kay home directory listing with pass.bak and the SSH directory](screenshots/15-kay-home-listing-passbak-and-ssh-key.webp)
+```bash
+cd /home/kay
+ls -la
+```
 
-The private key was readable from the jan account, even though it should only have been accessible to its owner. I copied the key to my attacking machine for offline use.
+The listing showed a backup file named `pass.bak` and a `.ssh` directory. The `.ssh` directory contained the `id_rsa` private-key file.
 
-![Kay private SSH key read from jan's shell](screenshots/16-kay-private-ssh-key-from-jan-shell.webp)
+![kay's home directory listing with pass.bak and the .ssh private-key directory](screenshots/15-kay-home-listing-passbak-and-ssh-key.webp)
 
-I saved the key locally and corrected its file permissions with chmod 600.
+The important issue was not only that another user's home directory could be browsed. The private SSH key itself was also readable from the `jan` account. Private keys are authentication material and should be restricted to the account that owns them. The presence of `pass.bak` was another concern because a backup file in the same location may retain sensitive information after it should have been removed.
 
-![Private key saved locally with permissions corrected using chmod 600](screenshots/17-save-kay-private-key-chmod-600.webp)
+### 8.3 Read and copy the private key for offline testing
 
-The key required a passphrase, so my first direct login attempt was refused. I extracted a crackable hash using ssh2john and used John the Ripper with the same rockyou.txt wordlist:
+From the `jan` shell, I read the private key file:
 
-~~~bash
+```bash
+cat .ssh/id_rsa
+```
+
+The file contents could be copied to my Kali machine for offline passphrase analysis. I saved the key locally as `Kay_rsa` and corrected its local permissions:
+
+```bash
+chmod 600 Kay_rsa
+```
+
+The `600` permission gives the file read and write access to its owner only, with no permissions for the group or other users. SSH checks private-key file permissions and may refuse to use a key if other accounts can read it.
+
+![kay's private SSH key was readable from the jan shell](screenshots/16-kay-private-ssh-key-from-jan-shell.webp)
+
+![Private key saved locally and permissions restricted with chmod 600](screenshots/17-save-kay-private-key-chmod-600.webp)
+
+This demonstrated how a file-permission mistake can let one user obtain another user's authentication material. The key was still protected by a passphrase, so possession of the key file alone was not enough for a successful login.
+
+### 8.4 Extract and crack the SSH key passphrase hash
+
+I first tried to use the private key to connect as `kay`. SSH requested the key's passphrase, so I could not use the key immediately. Instead, I extracted a password-cracking format from the key with `ssh2john`:
+
+```bash
 ssh -i Kay_rsa kay@10.128.157.162
 ssh2john Kay_rsa > kay.txt
 john kay.txt --wordlist=/usr/share/wordlists/rockyou.txt
-~~~
+```
 
-John recovered the passphrase protecting the key.
+`ssh2john` converts supported SSH private-key data into a format that John the Ripper can test. It does not remove the passphrase or decrypt the key automatically. John then tests candidate passphrases from the wordlist against the extracted hash.
 
-![John the Ripper cracking the passphrase for Kay's private SSH key](screenshots/18-john-cracks-kay-key-passphrase.webp)
+![John the Ripper cracks the passphrase protecting kay's SSH private key](screenshots/18-john-cracks-kay-key-passphrase.webp)
 
-With the passphrase recovered, I logged in as kay and read the leftover backup file:
+The passphrase was recovered successfully. This connected the earlier password-hash exercise with a real step in the capstone: in Task 2 I tested a simple MD5 hash, while here I used the same general idea of testing guesses offline against a protected credential format.
 
-~~~bash
+### 8.5 Log in as kay and inspect the backup file
+
+With the key passphrase recovered, I used the key to log in as `kay` and checked the backup file:
+
+```bash
 ssh -i Kay_rsa kay@10.128.157.162
 cat pass.bak
-~~~
+```
 
-The file contained:
+I obtained a shell as `kay`. The `pass.bak` file contained:
 
-~~~text
+```text
 heresareallystrongpasswordthatfollowsthepasswordpolicy$$
-~~~
+```
 
-![Confirmed shell access as kay and contents of pass.bak](screenshots/19-kay-shell-and-passbak-contents.webp)
+![Confirmed shell access as kay and the contents of pass.bak](screenshots/19-kay-shell-and-passbak-contents.webp)
 
-This gave me a second, independent foothold as kay. I rated the finding High because the exposed home directory, private key and backup password file led to a complete account takeover through file-permission and credential-handling weaknesses.
+This provided a second account foothold. I did not need to exploit a software flaw to reach it. The combination of a browsable home directory, a readable private key and a leftover backup password file exposed information that should have been restricted to the account owner.
 
-## 5. Remediation Recommendations
+### 8.6 Finding assessment
 
-| Finding | Recommendation |
-|---|---|
-| F1 — Version disclosure | Suppress or minimise banner/version information where practical and keep software patched to current, supported versions. |
-| F2 — Exposed /development directory | Remove the directory from the public web root or restrict it behind authentication. Internal notes and credentials should not be stored where the web server can expose them. |
-| F3 — SMB username enumeration | Disable null/anonymous SMB sessions and enforce a stronger password policy with a longer minimum length and complexity requirements. |
-| F4 — Weak SSH password | Prefer key-based SSH authentication and disable password login where practical. Where passwords remain enabled, enforce strong length and complexity requirements and add protections against repeated failed attempts. |
-| F5 — Exposed key and backup password file | Apply owner-only permissions to home directories and private keys, securely remove leftover backup files, and protect private keys with a strong, unique passphrase. |
+I recorded this as **F5 — Exposed SSH private key and backup password file for `kay` (High)**. The private key and backup file were accessible from the `jan` account, and the key's passphrase could be recovered with a wordlist. This resulted in access to the `kay` account. The issue demonstrates why home-directory permissions, private-key permissions and secure handling of backup files need to be checked together.
 
-## 6. Conclusion
+## 9. Findings summary and severity
 
-This engagement followed reconnaissance, scanning, enumeration and exploitation against the Basic Pentesting target and resulted in documented access to two separate accounts, jan and kay.
+I used the impact of each issue and how directly it enabled access to assign the severity ratings below.
 
-The findings were connected. The exposed development notes provided context about weak credentials, anonymous SMB enumeration confirmed the usernames and weak password policy, and the Hydra attack provided the first SSH foothold. The overly permissive home directory then exposed the second user's private key and backup password file, which led to the second foothold.
+| ID | Finding | Severity | Stage | Main impact |
+|---|---|---|---|---|
+| F1 | Open ports and service/version information disclosed | Low | Scanning | Helped identify the exposed services and narrow later checks. |
+| F2 | Public `/development` directory exposed internal notes | Medium | Web enumeration | Disclosed internal information and a lead about a weak account password. |
+| F3 | Anonymous SMB session disclosed usernames and password policy | Low | SMB enumeration | Revealed `kay`, `jan` and `ubuntu`, as well as a weak minimum-length policy. |
+| F4 | Weak SSH password for `jan` | High | Exploitation | Allowed a remote SSH login and an interactive shell as `jan`. |
+| F5 | Exposed SSH private key and backup password file for `kay` | High | Post-access enumeration and exploitation | Allowed access to `kay` after the key passphrase was recovered. |
 
-The main issue across the engagement was sensitive information being left accessible through weak access controls and poor credential handling. The individual remediations above would have stopped the attack chain at more than one point. The overall engagement risk remained High.
+The low-rated issues still mattered because they contributed information that made the later tests more focused. F2 and F3 helped me identify the likely account and understand why a wordlist test could succeed. F4 gave me the first shell, and F5 showed how a file-permission weakness could expose a second account after the first foothold had been gained.
+
+## 10. Remediation recommendations
+
+| Finding | Recommended fix | Why it matters |
+|---|---|---|
+| F1 — Service/version disclosure | Keep exposed services patched and supported. Disable unnecessary services and reduce version details in banners where practical. | This reduces the exposed attack surface and makes it harder to identify outdated software from a quick scan. |
+| F2 — Public `/development` directory | Remove internal development material from the public web root. Disable directory listing and require authentication for any internal content that must remain online. | Internal notes should not be downloadable by unauthenticated visitors. |
+| F3 — Anonymous SMB enumeration | Disable null/anonymous SMB access where it is not required. Restrict share permissions and review what account and policy information can be queried without authentication. Enforce a stronger minimum password length and block common passwords. | Anonymous users should not be able to enumerate account information or retrieve internal password-policy details unnecessarily. |
+| F4 — Weak SSH password | Require long, unique passwords or use SSH public-key authentication. Disable password authentication where operationally possible, and add MFA or other additional controls for remote access. Monitor failed login attempts and apply appropriate rate limiting. | A common wordlist should not be enough to obtain a remote shell. |
+| F5 — Exposed key and backup file | Restrict home directories and `.ssh` directories to their owners. Set private-key permissions to owner-only, protect private keys with strong unique passphrases, and securely remove backup files containing credentials. Review group membership and file ownership regularly. | One user should not be able to read another user's authentication material or password backups. |
+
+I would prioritise F4 and F5 because they resulted in account access. I would also fix F2 and F3 early because they provided the information that made the credential attack easier. Fixing only the final login weaknesses would leave the information-disclosure path available for another attacker to use.
+
+## 11. Conclusion
+
+This capstone brought together the main skills I practised during the internship. I confirmed the target, used Nmap to identify its services, used Gobuster and a browser to find exposed web content, and used enum4linux to understand what the SMB service disclosed. I then tested the weak-password lead with Hydra, confirmed the SSH login as `jan`, and followed the exposed file permissions to obtain the private key and backup file associated with `kay`.
+
+The exercise showed me how an attack can develop through a chain of weaknesses. A public directory disclosed internal notes, anonymous SMB enumeration confirmed the account names, a weak SSH password provided the first foothold, and poor home-directory permissions exposed another user's private key. Each issue made the next step easier. The most important lesson was that security depends on more than patching software: access controls, credential practices and the way internal files are stored can be just as important.
+
+The engagement resulted in two user-account footholds and five documented findings, with an overall risk rating of High. The recommendations focus on removing exposed internal files, restricting anonymous SMB access, strengthening SSH authentication and correcting ownership and permissions on private user data.

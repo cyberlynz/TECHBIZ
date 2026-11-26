@@ -79,7 +79,7 @@ john --format=raw-md5 --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
 
 John identified the hash as Raw-MD5, loaded it and started the wordlist attack. The report recorded a rate of roughly 2,338 candidate passwords per second. John found a match almost immediately and completed the session.
 
-![John the Ripper cracking the sample MD5 hash with rockyou.txt](screenshots/01-john-the-ripper-md5-hash-rockyou.webp)
+![John the Ripper cracking the sample MD5 hash with rockyou.txt](screenshots/01-john-the-ripper-md5-hash-rockyou.jpg)
 
 **My result:** John cracked the hash in under 3 seconds and recovered col12345, which matched the plaintext I used when I created the hash.
 
@@ -91,7 +91,7 @@ John did not reverse the MD5 hash. It hashed each candidate from the wordlist us
 
 I completed the free [Crack the Hash room](https://tryhackme.com/room/crackthehash). The room involved identifying hash types from their length and format, then using the appropriate wordlist attack with Hashcat or John the Ripper. The hashes included unsalted MD5, SHA-1 and SHA-256, a bcrypt hash, and two salted hashes where the salt had to be combined with the hash correctly before Hashcat could process them.
 
-![TryHackMe Crack the Hash room completed](screenshots/02-tryhackme-crack-the-hash-completed.webp)
+![TryHackMe Crack the Hash room completed](screenshots/02-tryhackme-crack-the-hash-completed.png)
 
 ## 7. Hashing vs Encryption
 

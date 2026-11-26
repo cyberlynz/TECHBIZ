@@ -69,7 +69,7 @@ search vsftpd
 
 The search returned `exploit/unix/ftp/vsftpd_234_backdoor`, described as **VSFTPD 2.3.4 Backdoor Command Execution**. The result showed an excellent module rank and listed Linux/Unix command and backdoor command-shell targets.
 
-![Metasploit search results for the vsftpd 2.3.4 backdoor module](screenshots/01-msfconsole-search-vsftpd.webp)
+![Metasploit search results for the vsftpd 2.3.4 backdoor module](screenshots/01-msfconsole-search-vsftpd.jpg)
 
 The version in the module name matched the version running on the target. That match mattered: I should not select an exploit simply because the service name looks similar. I first need to compare the detected product and version with what the module is designed to affect. The search result gave me a candidate module; the next step was to inspect its options before running it.
 
@@ -104,7 +104,7 @@ exploit
 
 Metasploit started a reverse TCP handler on `10.0.0.3:4444`. The FTP banner identified the service as `vsFTPd 2.3.4`; the module reported that the target appeared vulnerable and that the backdoor had been spawned. It then opened Meterpreter session 1, showing the connection from Kali to the target.
 
-![Metasploit options, RHOSTS and LHOST settings, and successful exploit output](screenshots/02-msfconsole-options-rhosts-lhost-exploit.webp)
+![Metasploit options, RHOSTS and LHOST settings, and successful exploit output](screenshots/02-msfconsole-options-rhosts-lhost-exploit.png)
 
 This was the point where I knew the exploit had progressed beyond a version match. A session had actually opened. The handler was listening on Kali, and the target connected back to it. I still needed to confirm what access the session provided, because a session opening does not by itself tell me which user privileges I have.
 
@@ -125,7 +125,7 @@ id
 
 The shell returned `root` for `whoami`. The `id` command returned `uid=0(root) gid=0(root)`, confirming that the session was running with the root account's privileges.
 
-![Target shell showing whoami as root and uid 0 from id](screenshots/03-meterpreter-shell-root-whoami-id.webp)
+![Target shell showing whoami as root and uid 0 from id](screenshots/03-meterpreter-shell-root-whoami-id.png)
 
 This distinction is important. `whoami` tells me the current username, while `id` also shows the numeric user and group identifiers. On Linux, UID `0` is the root account. The result therefore confirmed that this particular vulnerable service gave me root-level command execution without needing a separate privilege-escalation step.
 
@@ -137,7 +137,7 @@ I also completed two TryHackMe exercises that helped me understand how Metasploi
 
 In this room I practised the normal Metasploit sequence: search for a module, load it with `use`, inspect it with `show options`, configure the required values and run it. The room used the MS17-010 EternalBlue vulnerability as its example. I also learned how payload names indicate whether a payload is staged or delivered as a single unit.
 
-![TryHackMe Metasploit Introduction room completed](screenshots/04-tryhackme-metasploit-introduction-completed.webp)
+![TryHackMe Metasploit Introduction room completed](screenshots/04-tryhackme-metasploit-introduction-completed.png)
 
 What helped me most was seeing that the same console workflow can be used for different services and vulnerabilities. The exact module and options change, but the habit of checking the module details before running it stays the same.
 
@@ -145,7 +145,7 @@ What helped me most was seeing that the same console workflow can be used for di
 
 The Blue room gave me more practice with the EternalBlue/SMBv1 attack path on a Windows target. I worked through the process of gaining an initial session, moving to Meterpreter, checking privileges and continuing with post-exploitation tasks. The exercise also covered credential recovery and locating the flags in the lab.
 
-![TryHackMe Blue room completed](screenshots/05-tryhackme-blue-completed.webp)
+![TryHackMe Blue room completed](screenshots/05-tryhackme-blue-completed.jpg)
 
 It helped me understand that exploitation is not the end of a penetration test. After an initial session, a tester still needs to establish what access was gained, what systems or data that access exposes, and what evidence is appropriate to collect. In a real engagement, these actions must remain within the agreed scope.
 

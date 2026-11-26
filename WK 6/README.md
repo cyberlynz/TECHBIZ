@@ -33,22 +33,20 @@ This folder contains the three tasks I completed during the week. Each practical
 
 The Metasploit exercise demonstrated how a vulnerable service could lead to root-level command execution. The password-cracking exercise showed how a weak password stored as a fast hash could be recovered with a common wordlist. The capstone identified multiple weaknesses across exposed services, information disclosure and authentication. The individual task reports contain the supporting evidence and detailed explanations.
 
-## Repository layout
+## Screenshot evidence
 
-```text
-WK 6/
-├── README.md
-├── Task 1/
-│   ├── README.md
-│   └── screenshots/
-├── Task 2/
-│   ├── README.md
-│   └── screenshots/
-├── Task 3/
-│   ├── README.md
-│   └── screenshots/
-└── Screenshots/
-    └── README.md
-```
+I placed the screenshots in each task's `screenshots` folder and embedded them beside the relevant explanations in the task write-ups.
 
-The overview is kept as an index. The screenshots are included in the task documents at the relevant points rather than being added as decoration to this page.
+**[Open the Week 6 screenshot gallery →](Screenshots/README.md)**
+
+---
+
+<p align="center">
+  <a href="../README.md">← Portfolio home</a>
+  &nbsp;·&nbsp;
+  <a href="Task%201/README.md">Task 1</a>
+  &nbsp;·&nbsp;
+  <a href="Task%202/README.md">Task 2</a>
+  &nbsp;·&nbsp;
+  <a href="Task%203/README.md">Task 3</a>
+</p>
